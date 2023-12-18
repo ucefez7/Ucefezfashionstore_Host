@@ -1,0 +1,333 @@
+﻿<%- include("../partials/user-header")%>
+
+<header class="header-area header-style-2 header-height-2">
+    <div class="header-top header-top-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info">
+                        <ul>
+                            <li><i class="fi-rs-smartphone"></i> <a href="#">(+01) - 2345 - 6789</a></li>
+                            <li><i class="fi-rs-marker"></i><a  href="page-contact.html">Our location</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-4">
+                    <div class="text-center">
+                        <div id="news-flash" class="d-inline-block">
+                            <ul>
+                                <!-- <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a></li> -->
+                                <li>Supper Value Deals - Save more with coupons</li>
+                                <!-- <li>Trendy 25silver jewelry, save up 35% off today <a href="shop-grid-right.html">Shop now</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="header-info header-info-right">
+                        <ul>
+                            <li>
+                                <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> English <i class="fi-rs-angle-small-down"></i></a>
+                                <ul class="language-dropdown">
+                                    <li><a href="#"><img src="/userAssets/imgs/theme/flag-fr.png" alt="">Français</a></li>
+                                    <li><a href="#"><img src="/userAssets/imgs/theme/flag-dt.png" alt="">Deutsch</a></li>
+                                    <li><a href="#"><img src="/userAssets/imgs/theme/flag-ru.png" alt="">Pусский</a></li>
+                                </ul>
+                            </li>
+                            <!-- <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
+                            <li><i class="fi-rs-user"></i><a href="/signup">Sign Up</a></li>  -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1">
+                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <main class="main">
+
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row  d-flex align-items-center justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                            <%if (typeof subreddit !== 'undefined') {%>
+                                                <p class="text-center" style="color:red;"><%= subreddit %></p>
+                                            <%} %>
+                                            <h3 class="mb-30">Login</h3>
+                                        </div>
+                                        <form method="post" action="/post-login" id="loginForm" onsubmit="return validateForm()">
+                                            <div class="form-group">
+                                                <input type="text" required="" name="email" placeholder="Your Email" id="email">
+                                                <div id="emailError" class="error-message"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input required="" type="password" name="password" placeholder="Password" id="password">
+                                                <div id="passwordError" class="error-message"></div>
+                                            </div>
+                                            <div class="login_footer form-group">
+                                                <a class="text-muted" href="/forgotpassword">Forgot password?</a>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login" id="loginButton">Log in</button>
+                                            </div>
+                                            <div class="form-group">
+                                               <p>Don't have an account? <span><a href="/signup"> Sign up</a></span></p>
+                                            </div>
+                                            
+                                            <%if (typeof message !== 'undefined') {%>
+                                                <p class="text-center" style="color:rgb(20, 159, 36);"><%= message %></p>
+                                            <%}%>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+    <script>
+        const loginButton = document.getElementById("loginButton");
+        loginButton.addEventListener("click", function (e) {
+            e.preventDefault();
+
+        if (validateForm()) {
+            // Get form values
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+    
+            // Perform client-side validation if needed
+    
+            // Send a request to your server
+            fetch("/post-login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the response from the server
+                if (data.error) {
+                    // Display error using Swal
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: data.error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    // If successful, you can redirect or perform other actions
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: "Login successfull",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // Example: Redirect to the homepage
+                    window.location.href = "/";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle other errors if needed
+            });
+        }
+        });
+
+        function validateForm() {
+            // Reset previous error messages
+            resetErrorMessages();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Validate email
+            const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+            if (!email.match(emailPattern)) {
+                showError('emailError', 'Invalid email address');
+                return false;
+            }
+
+            // Validate password length
+            if (password.length < 6) {
+                showError('passwordError', 'Password must be at least 6 characters');
+                return false;
+            }
+
+            return true; // Placeholder, replace with your actual validation logic
+        }
+
+        // Function to show error message
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+        }
+
+        // Function to reset error messages
+        function resetErrorMessages() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach((element) => {
+                element.textContent = '';
+            });
+        }
+        
+    </script>
+    
+
+    <!-- <script>
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            // Prevent the default form submission
+            e.preventDefault();
+    
+            // Get form values
+            const emailInput = document.querySelector('input[name="email"]');
+            const passwordInput = document.querySelector('input[name="password"]');
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+    
+            // Validate email
+            if (!email) {
+                displayError(emailInput, "Email is required");
+                return;
+            } 
+    
+            // Validate password
+            if (!password) {
+                displayError(passwordInput, "Password is required");
+                return;
+            }
+    
+            if (password.length < 6) {
+                displayError(passwordInput, "Password must be at least 6 characters");
+                return;
+            }
+    
+            // Clear any previous errors
+            clearError(emailInput);
+            clearError(passwordInput);
+    
+            // Send a request to your server
+            fetch("/post-login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the response from the server
+                if (data.error) {
+                    // Display error under the corresponding field
+                    displayError(emailInput, data.error);
+                } else {
+                    // If successful, you can redirect or perform other actions
+                    window.location.href = "/";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle other errors if needed
+            });
+        });
+    
+        // Function to display an error message under the input field
+        function displayError(inputElement, errorMessage) {
+            const errorElement = document.createElement("p");
+            errorElement.classList.add("error-message");
+            errorElement.textContent = errorMessage;
+    
+            // Check if an error message is already displayed
+            const existingError = inputElement.parentNode.querySelector(".error-message");
+            if (existingError) {
+                inputElement.parentNode.removeChild(existingError);
+            }
+    
+            // Append the new error message
+            inputElement.parentNode.appendChild(errorElement);
+        }
+    
+        // Function to clear an error message under the input field
+        function clearError(inputElement) {
+            const existingError = inputElement.parentNode.querySelector(".error-message");
+            if (existingError) {
+                inputElement.parentNode.removeChild(existingError);
+            }
+        }
+    </script> -->
+    
+    
+
+    <!-- Preloader Start -->
+    <!-- <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <h5 class="mb-5">Now Loading</h5>
+                    <div class="loader">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Vendor JS-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="/userAssets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/userAssets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/userAssets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/userAssets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/userAssets/js/plugins/slick.js"></script>
+    <script src="/userAssets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/userAssets/js/plugins/wow.js"></script>
+    <script src="/userAssets/js/plugins/jquery-ui.js"></script>
+    <script src="/userAssets/js/plugins/perfect-scrollbar.js"></script>
+    <script src="/userAssets/js/plugins/magnific-popup.js"></script>
+    <script src="/userAssets/js/plugins/select2.min.js"></script>
+    <script src="/userAssets/js/plugins/waypoints.js"></script>
+    <script src="/userAssets/js/plugins/counterup.js"></script>
+    <script src="/userAssets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/userAssets/js/plugins/images-loaded.js"></script>
+    <script src="/userAssets/js/plugins/isotope.js"></script>
+    <script src="/userAssets/js/plugins/scrollup.js"></script>
+    <script src="/userAssets/js/plugins/jquery.vticker-min.js"></script>
+    <script src="/userAssets/js/plugins/jquery.theia.sticky.js"></script>
+    <!-- Template  JS -->
+    <script src="/userAssets/js/maind134.js?v=3.4"></script>
+
+    <%- include("../partials/user-footer")%>

@@ -1,0 +1,93 @@
+
+<%- include("../partials/admin-header")%>
+
+
+    <main class="main">
+
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                    <div class="padding_eight_all bg-white">
+                                        <div class="heading_s1">
+                                            <h3 class="mb-30 ">Admin Login</h3>
+                                            <h5 class="font-sm" style="color: red">
+                                              <%=locals.subreddit%>
+                                            </h5>
+                                        </div>
+                                        <form action="/admin/adminpost-login" method="post">
+                                            <div class="form-group">
+                                                <input type="text" required="" name="email" placeholder="Your Email">
+                                            </div>
+                                            <div class="form-group">
+                                                <input required="" type="password" name="password" placeholder="Password">
+                                            </div>
+                                            <!-- <div class="login_footer form-group">
+                                                <div class="chek-form">
+                                                    <div class="custome-checkbox">
+                                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
+                                                        <label class="form-check-label" for="exampleCheckbox1"><span>Remember me</span></label>
+                                                    </div>
+                                                </div>
+                                                <a class="text-muted" href="#">Forgot password?</a>
+                                            </div> -->
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Log in</button>
+                                            <!-- </div>
+                                            <div class="form-group">
+                                               <p>Don't have an account? <span><a href="#"> Sign up</a></span></p>
+                                            </div> -->
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <h5 class="mb-5">Now Loading</h5>
+                    <div class="loader">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vendor JS-->
+    <script src="/userAssets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/userAssets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/userAssets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/userAssets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/userAssets/js/plugins/slick.js"></script>
+    <script src="/userAssets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/userAssets/js/plugins/wow.js"></script>
+    <script src="/userAssets/js/plugins/jquery-ui.js"></script>
+    <script src="/userAssets/js/plugins/perfect-scrollbar.js"></script>
+    <script src="/userAssets/js/plugins/magnific-popup.js"></script>
+    <script src="/userAssets/js/plugins/select2.min.js"></script>
+    <script src="/userAssets/js/plugins/waypoints.js"></script>
+    <script src="/userAssets/js/plugins/counterup.js"></script>
+    <script src="/userAssets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/userAssets/js/plugins/images-loaded.js"></script>
+    <script src="/userAssets/js/plugins/isotope.js"></script>
+    <script src="/userAssets/js/plugins/scrollup.js"></script>
+    <script src="/userAssets/js/plugins/jquery.vticker-min.js"></script>
+    <script src="/userAssets/js/plugins/jquery.theia.sticky.js"></script>
+    <!-- Template  JS -->
+    <script src="/userAssets/js/maind134.js?v=3.4"></script>
+
+    <%- include("../partials/admin-footer")%>

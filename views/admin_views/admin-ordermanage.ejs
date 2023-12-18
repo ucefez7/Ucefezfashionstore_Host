@@ -1,0 +1,386 @@
+<%- include("../partials/admin-header")%>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="/" class="brand-wrap">
+                <img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/admin-dash"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/product-list"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/category-list"> <i class="icon material-icons md-stars"></i>
+                        <span class="text">Category</span> </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/user-manage"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/order-list"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+                <!-- <li class="menu-item">
+                    <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Add product</span>
+                    </a>
+                </li> -->
+                <!-- <li class="menu-item">
+                    <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Transactions</span>
+                    </a>
+                </li> -->
+                
+                <!-- <li class="menu-item">
+                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
+                        <span class="text">Reviews</span>
+                    </a>
+                </li> -->
+                
+                <!-- <li class="menu-item">
+                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Statistics</span>
+                    </a>
+                </li> -->
+            </ul>
+            <hr>
+            <ul class="menu-aside">
+                <!-- <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
+                        <span class="text">Settings</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="page-settings-1.html">Setting sample 1</a>
+                        <a href="page-settings-2.html">Setting sample 2</a>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
+                        <span class="text"> Starter page </span>
+                    </a>
+                </li> -->
+            </ul>
+            <br>
+            <br>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="/adminAssets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="/adminAssets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="/adminAssets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="/adminAssets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/adminAssets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="mt-50 mb-50">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                    
+                  <div class="tab-pane " id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Your Orders</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Date</th>
+                                            <th>OrderStatus</th>
+                                            <th>PaymentStatus</th>
+                                            <th>PaymentMethod</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (!orderDetails || orderDetails.length === 0) { %>
+                                            <h6>No orders</h6>
+                                        <% } else { %>
+                                            <% orderDetails.products.forEach((item) => { %>
+                                              
+                                        <tr>
+                                            <td><%= item.productId?.productName %></td>
+                                            <td><%= orderDetails.createdAt.toLocaleDateString() %></td>
+                                            <td><%= orderDetails.orderStatus %></td>
+                                            <td><%= orderDetails.paymentStatus %></td>
+                                            <td><%= orderDetails.paymentMethod %></td>
+                                            <td>₹<%= item.price * item.quantity %> for <%= item.quantity%> item</td>
+                                        </tr>
+                                        
+                                        <% }); %>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                                <h5 class="d-flex justify-content-end">Total Amount: ₹ <%= orderDetails.totalAmount %></h5>
+                                <div class="d-flex justify-content-center">
+                                  <div class="d-flex justify-content-between col-3">
+                                   
+                                      <% if(orderDetails.orderStatus === "Order Placed" ) {%> 
+                                        <a href="#" order-id="<%= orderDetails._id %>" id="dispatchButton" class="btn btn-sm" style="background-color: rgb(8, 132, 185);">Dispatch product</a>
+                                        <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>
+                                        <%} else if(orderDetails.orderStatus === "Shipped") {%> 
+                                          <a href="#" order-id="<%= orderDetails._id %>" id="deliveryButton" class="btn btn-sm" style="background-color: rgb(6, 121, 2);">Deliver product</a>
+                                          <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>
+                                          <%} else if(orderDetails.orderStatus === "Delivered") {%>
+                                            <h5 style="color: rgb(2, 120, 36);">The order is Delivered</h5>
+                                            <%} else if(orderDetails.orderStatus === "Cancelled") {%> 
+                                            <h5 style="color: rgb(177, 29, 29);">The order is Cancelled</h5>
+                                            <%} else if (orderDetails.orderStatus === "Returned") {%> 
+                                                <h5 style="color: rgb(177, 29, 29);">The order is returend</h5>
+                                                <%}%>
+
+                                  </div>
+                              </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+        </section>
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // dispatch order 
+        const dispatchButton = document.getElementById("dispatchButton");
+
+        dispatchButton.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            const orderId = dispatchButton.getAttribute("order-id");
+
+            // Show SweetAlert confirmation dialog
+          Swal.fire({
+            title: 'Dispatch order?',
+            text: 'You are about to dispatch this order!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, dispatch it!'
+          }).then((result)=>{
+            if(result.isConfirmed) {
+                fetch(`/admin/dispatch-order?orderId=${orderId}`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  console.log("Response from server", data);
+      
+                  if (data.message) {
+                    // Reload the page or perform any other action
+                    window.location.reload();
+                  }
+                })
+                .catch(error => {
+                  console.error("Error found while dispatch product", error);
+                });
+            }
+          })
+        })
+    </script>
+
+    <script>
+        // delivery order
+        const deliveryButton = document.getElementById("deliveryButton");
+
+        deliveryButton.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            const orderId = deliveryButton.getAttribute("order-id");
+
+            // Show SweetAlert confirmation dialog
+          Swal.fire({
+            title: 'Deliver order?',
+            text: 'You are about to deliver this order!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, deliver it!'
+          }).then((result)=>{
+            if(result.isConfirmed) {
+                fetch(`/admin/deliver-order?orderId=${orderId}`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  console.log("Response from server", data);
+      
+                  if (data.message) {
+                    // Reload the page or perform any other action
+                    window.location.reload();
+                  }
+                })
+                .catch(error => {
+                  console.error("Error found while dispatch product", error);
+                });
+            }
+          })
+        })
+    </script>
+
+    <script>
+        // cancel order
+        const cancelButton = document.getElementById("cancelButton");
+    
+        cancelButton.addEventListener("click", function (e) {
+        e.preventDefault();
+    
+        const orderId = cancelButton.getAttribute("order-id");
+    
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to cancel this order!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            // User confirmed, send the request
+            fetch(`/admin/cancel-order?orderId=${orderId}`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+                })
+                .then(data => {
+                console.log("Response from server", data);
+    
+                if (data.message) {
+                    // Reload the page or perform any other action
+                    window.location.reload();
+                }
+                })
+                .catch(error => {
+                console.error("Error cancelling product", error);
+                });
+            }
+        });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="/adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/adminAssets/js/vendors/select2.min.js"></script>
+    <script src="/adminAssets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/adminAssets/js/main.js" type="text/javascript"></script>
+</body>
+
+<%- include("../partials/admin-footer")%>
