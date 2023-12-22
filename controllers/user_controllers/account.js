@@ -352,6 +352,190 @@ module.exports.postEditedaddress = async(req,res) => {
 }
 
 
+
+
+
+
+
+// add address
+module.exports.postAddress = async (req, res) => {
+  
+  const userData = await userCollection.findOne({ email: req.user });
+  const userId = userData._id;
+
+  const username = req.body.username;
+  const addressType = req.body.address;
+  const city = req.body.city;
+  const landmark = req.body.landmark;
+  const state = req.body.state;
+  const postcode = req.body.postcode;
+  const phoneNumber = req.body.phoneNumber;
+  const altphone = req.body.altphone;
+
+  try {
+    let userAddress = await addressCollection.findOneAndUpdate({ userId });
+
+    if (!userAddress) {
+      userAddress = new addressCollection({
+        userId,
+        address: [
+          {
+            userName: username,
+            addressType: addressType,
+            city: city,
+            landmark: landmark,
+            state: state,
+            postcode: postcode,
+            phoneNumber: phoneNumber,
+            altphone: altphone,
+          },
+        ],
+      });
+    } else {
+      // If userAddress exists, push the new address to the array
+      userAddress.address.push({
+        userName: username,
+        addressType: addressType,
+        city: city,
+        landmark: landmark,
+        state: state,
+        postcode: postcode,
+        phoneNumber: phoneNumber,
+        altphone: altphone,
+      });
+    }
+
+    await userAddress.save();
+    res.status(200).json({ message: "Address added successfully" });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(500).json({ error: "Unable to insert" });
+  }
+};
+
+
+// render edit address $ pass data 
+module.exports.editAddress = async(req,res) => {
+  try{
+    const loggedIn = req.cookies.loggedIn;
+    const username = req.cookies.username;
+    const objectId = req.params.objectId;
+    const addressId = req.params.addressId;
+
+    const addressDetails = await addressCollection.findOne(
+      { _id: objectId, "address._id": addressId },
+      { "address.$": 1 }
+    );
+    // console.log(addressDetails);
+
+    res.render("user-editaddress", { loggedIn, username, addressDetails })
+  } catch(error) {
+    console.error("Error:", error);
+  }
+}
+
+// save edited address
+module.exports.postEditedaddress = async(req,res) => {
+  try{
+    const addressId = req.body.addressId;
+    const userName = req.body.userName;
+    const addressType = req.body.addressType;
+    const city = req.body.city;
+    const landmark = req.body.landmark;
+    const state = req.body.state;
+    const postcode = req.body.postcode;
+    const phoneNumber = req.body.phoneNumber;
+    const altphone = req.body.altphone;
+
+    const updatedAddress = await addressCollection.findOneAndUpdate(
+      { "address._id": addressId },
+      {$set: {
+        "address.$.userName": userName,
+        "address.$.addressType": addressType,
+        "address.$.city": city,
+        "address.$.landmark": landmark,
+        "address.$.state": state,
+        "address.$.postcode": postcode,
+        "address.$.phoneNumber": phoneNumber,
+        "address.$.altphone": altphone,
+      },
+    },
+    {new: true});
+    res.status(200).json({message: "Address updated successfully"});
+  } catch(error){
+    console.error("Error:", error);
+  }
+}
+
+
+
+
+
+
+
+
+const { ObjectId } = require('mongoose').mongo;
+
+// ...
+
+module.exports.deleteAddress = async (req, res) => {
+  try {
+    const addressId = req.params.addressId;
+    const userId = req.user; // Assuming req.user contains the user's email or ID
+
+    console.log('Deleting address for userId:', userId, 'and addressId:', addressId);
+    console.log("success anneda");
+
+    const updatedUser = await addressCollection.findOneAndUpdate(
+      { _id: new ObjectId(userId) }, // Use ObjectId directly
+      { $pull: { address: { _id: addressId } } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ message: "Address deleted successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Unable to delete address" });
+  }
+};
+
+
+
+
+// delete address safe
+// module.exports.deleteAddress = async (req, res) => {
+//   try {
+//     const addressId = req.params.addressId;
+//     const userId = req.user; // Assuming req.user contains the user's email or ID
+
+
+//     console.log('Deleting address for userId:', userId, 'and addressId:', addressId);
+//     console.log("success anneda")
+    
+//     const updatedUser = await addressCollection.findOneAndUpdate(
+//       { userId },
+//       { $pull: { address: { _id: addressId } } },
+//       { new: true }
+//     );
+
+//     if (!updatedUser) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     res.status(200).json({ message: "Address deleted successfully" });
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).json({ error: "Unable to delete address" });
+//   }
+// };
+
+
+
+
 // render order details
 module.exports.getOrderdetails = async(req,res) => {
   try{

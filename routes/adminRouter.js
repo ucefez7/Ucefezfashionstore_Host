@@ -35,7 +35,7 @@ adminRouter.get("/category-list", adminMiddleware.verifyadmin, categoryControll.
 adminRouter.post("/add-category", adminMiddleware.verifyadmin, categoryControll.postCategory)
 adminRouter.get("/edit-category/:categoryId", adminMiddleware.verifyadmin, categoryControll.editCategory)
 adminRouter.post("/postEdit-category/:categoryId", adminMiddleware.verifyadmin, categoryControll.updateCategory)
-adminRouter.get("/delete-category/:categoryId", adminMiddleware.verifyadmin, categoryControll.deleteCategory)
+// adminRouter.get("/delete-category/:categoryId", adminMiddleware.verifyadmin, categoryControll.deleteCategory)
 adminRouter.get("/block-category/:categoryId", adminMiddleware.verifyadmin, categoryControll.blockCategory)
 adminRouter.get("/unblock-category/:categoryId", adminMiddleware.verifyadmin, categoryControll.unblockCategory)
 
@@ -61,5 +61,10 @@ adminRouter.get("/order-manage/:orderId", adminMiddleware.verifyadmin, ordermana
 adminRouter.post("/dispatch-order", adminMiddleware.verifyadmin, ordermanageControll.dispatchOrder)
 adminRouter.post("/deliver-order", adminMiddleware.verifyadmin, ordermanageControll.deliverOrder)
 adminRouter.post("/cancel-order", adminMiddleware.verifyadmin, ordermanageControll.cancelOrder)
+
+
+
+
+
 
 module.exports=adminRouter;

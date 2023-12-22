@@ -142,36 +142,6 @@ module.exports.manageQuantity = async(req,res) => {
 
 
 // subtotal 
-// module.exports.subtotal = async (req, res) => {
-//   try {
-//     const userData = await userCollection.findOne({ email: req.user });
-//     const userId = userData._id;
-//     const cart = await cartCollection.findOne({ userId: userId });
-
-//     let subtotal = 0;
-//     let isStockAvailable = true;
-
-//     // Iterate through products and calculate subtotal
-//     for (const productItem of cart.products) {
-//       const product = await productCollection.findById(productItem.productId);
-
-//       // Check if the quantity is less than or equal to the product stock
-//       if (productItem.quantity > product.productStock) {
-//         isStockAvailable = false;
-//         break; // No need to check further, one product is out of stock
-//       }
-
-//       subtotal += product.sellingPrice * productItem.quantity;
-//     }
-
-//     // Return the subtotal and stock availability as JSON
-//     res.json({ success: true, subtotal, isStockAvailable });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ success: false, error: "Internal Server Error" });
-//   }
-// };
-
 module.exports.subtotal = async (req, res) => {
   try {
     const userData = await userCollection.findOne({ email: req.user });

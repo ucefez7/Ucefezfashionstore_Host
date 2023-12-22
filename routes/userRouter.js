@@ -63,6 +63,7 @@ userRouter.post("/post-editedaddress", userMiddleware.verifyUser, userMiddleware
 userRouter.get("/order-details/:orderId", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getOrderdetails)
 userRouter.post("/cancel-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.cancelOrder)
 userRouter.post("/return-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.returnOrder)
+userRouter.get("/delete-address/:objectId/:addressId",userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.deleteAddress);
 
 
 
