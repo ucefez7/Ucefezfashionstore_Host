@@ -39,6 +39,8 @@ module.exports.dispatchOrder = async(req,res) => {
   }
 }
 
+
+
 module.exports.deliverOrder = async(req,res) => {
   try{
     const orderId = req.query.orderId
@@ -53,6 +55,8 @@ module.exports.deliverOrder = async(req,res) => {
   }
 }
 
+
+
 module.exports.cancelOrder = async(req,res) => {
   try{
     const orderId = req.query.orderId;
@@ -60,21 +64,17 @@ module.exports.cancelOrder = async(req,res) => {
     const productIds = orderData.products.map((product) => product.productId);
     const productData = await productCollection.find({_id: { $in: productIds }});
 
-    // Iterate over each product in productData
+
     for(const product of productData) {
-      // Find the corresponding order product
       const orderProduct = orderData.products.find((orderProduct) => 
         orderProduct.productId.equals(product._id)
       );
 
-      // Update productStock based on the order quantity
       product.productStock += orderProduct.quantity;
 
-      // Save the updated product
       await product.save();
     }
 
-    // save the order status
     orderData.orderStatus = "Cancelled";
     await orderData.save();
 

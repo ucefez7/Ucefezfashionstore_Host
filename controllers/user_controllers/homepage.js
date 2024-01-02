@@ -11,7 +11,7 @@ module.exports.getUserRoute = async (req, res) => {
       const productdata = await productCollection.find();
       const userData = await userCollection.findOne({ email: req.user });
       const unblockedProducts = productdata.filter(product => product.productStatus !== 'Block');
-      res.render("userIndex", { loggedIn, username, productdata: unblockedProducts });
+      res.render("userIndex", { loggedIn,userData, username, productdata: unblockedProducts });
   } catch (error) {
       console.error(error);
   }

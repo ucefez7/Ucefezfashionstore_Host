@@ -537,7 +537,7 @@
                                                                 <% order.products.reverse().forEach((product) => { %>
                                                         <tbody>
                                                             <tr>
-                                                                <td><%= product.productId.productName %></td>
+                                                                <td><%= product.productId?.productName %></td>
                                                                 <td><%= order.createdAt.toLocaleDateString() %></td>
                                                                 <td><%= order.orderStatus %></td>
                                                                 <td>₹<%= product.price * product.quantity %> for <%= product.quantity%> item</td>

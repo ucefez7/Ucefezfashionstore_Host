@@ -129,8 +129,7 @@ module.exports.manageQuantity = async(req,res) => {
       }
     }
     if(cart) {
-      // const subtotal = cart.products.sellingPrice * cart.quantity
-      // console.log(cart)
+      
       res.json({success: true})
     }else{
       res.json({success: false, error: "Item not found in the cart"})
@@ -151,20 +150,20 @@ module.exports.subtotal = async (req, res) => {
     let subtotal = 0;
     let isStockAvailable = true;
 
-    // Iterate through products and calculate subtotal
+    
     for (const productItem of cart.products) {
       const product = await productCollection.findById(productItem.productId);
 
-      // Check if the quantity is less than or equal to the product stock
+      
       if (productItem.quantity > product.productStock) {
         isStockAvailable = false;
       } else {
-        // Calculate subtotal only if the product is in stock
+        
         subtotal += product.sellingPrice * productItem.quantity;
       }
     }
 
-    // Return the subtotal and stock availability as JSON
+    
     res.json({ success: true, subtotal, isStockAvailable });
   } catch (error) {
     console.error(error);

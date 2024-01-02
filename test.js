@@ -1,6 +1,4 @@
-let arr=[1,4,2,3,4,5,5]
-var val=4
-let output=arr.filter((value)=>{
-    return value != val
-})
-console.log(output)
+let a=123
+let b=a.toString().split("")
+let c= 
+console.log(b)

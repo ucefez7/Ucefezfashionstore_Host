@@ -4,6 +4,7 @@ const cartCollection = require("../../models/cart");
 const addressCollection = require("../../models/address");
 const orderCollection = require("../../models/order");
 const nodemailer = require('nodemailer');
+const mongoose = require('mongoose');
 
 
 // render account page
@@ -474,20 +475,20 @@ module.exports.postEditedaddress = async(req,res) => {
 
 
 
-const { ObjectId } = require('mongoose').mongo;
-
-// ...
+//delete address
+const { ObjectId } = require('mongoose');
 
 module.exports.deleteAddress = async (req, res) => {
   try {
-    const addressId = req.params.addressId;
-    const userId = req.user; // Assuming req.user contains the user's email or ID
+    const addressId = mongoose.Types.ObjectId(req.params.addressId);
+    // const addressId = req.params.addressId;
+    const userId = req.user; 
 
     console.log('Deleting address for userId:', userId, 'and addressId:', addressId);
-    console.log("success anneda");
+  
 
     const updatedUser = await addressCollection.findOneAndUpdate(
-      { _id: new ObjectId(userId) }, // Use ObjectId directly
+      { _id: new ObjectId(userId) }, 
       { $pull: { address: { _id: addressId } } },
       { new: true }
     );
@@ -506,34 +507,6 @@ module.exports.deleteAddress = async (req, res) => {
 
 
 
-// delete address safe
-// module.exports.deleteAddress = async (req, res) => {
-//   try {
-//     const addressId = req.params.addressId;
-//     const userId = req.user; // Assuming req.user contains the user's email or ID
-
-
-//     console.log('Deleting address for userId:', userId, 'and addressId:', addressId);
-//     console.log("success anneda")
-    
-//     const updatedUser = await addressCollection.findOneAndUpdate(
-//       { userId },
-//       { $pull: { address: { _id: addressId } } },
-//       { new: true }
-//     );
-
-//     if (!updatedUser) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     res.status(200).json({ message: "Address deleted successfully" });
-//   } catch (error) {
-//     console.error("Error:", error);
-//     res.status(500).json({ error: "Unable to delete address" });
-//   }
-// };
-
-
 
 
 // render order details
@@ -541,15 +514,20 @@ module.exports.getOrderdetails = async(req,res) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
+    const product = req.cookies.product;
     const userData = await userCollection.findOne({email: req.user})
     userId = userData._id;
     const Idorder = req.params.orderId
     const orderDetails = await orderCollection.findById({_id: Idorder}).populate('products.productId');
-    res.render("user-orderDetails",{ loggedIn, username, orderDetails })
+    res.render("user-orderDetails",{ loggedIn, username, orderDetails, product })
   } catch(error) {
     console.error("Error: ", error)
   }
 }
+
+
+
+
 
 // cancel order
 module.exports.cancelOrder = async(req,res) => {
@@ -584,6 +562,11 @@ module.exports.cancelOrder = async(req,res) => {
     res.status(500).json({error: "Error found while cancelling product"});
   }
 }
+
+
+
+
+
 
 // return order
 module.exports.returnOrder = async(req,res) => {

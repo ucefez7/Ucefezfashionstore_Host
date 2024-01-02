@@ -36,18 +36,18 @@ module.exports.postProduct = async (req, res) => {
   try {
     if (req.files) {
       const productImg = req.files;
-      let arr = [];
+      let croppedImages = [];
 
       for (const element of productImg) {
         const filePath = `uploads/cropperd_${element.originalname}`;
         const cropped = await sharp(element.path)
           .resize({ width: 300, height: 300, fit: 'cover' })
           .toFile(filePath);
-        arr.push({ path: filePath });
+          croppedImages.push({ path: filePath });
         console.log(filePath);
       }
 
-      const imageIds = arr.map((productImg) => productImg.path);
+      const imageIds = croppedImages.map((productImg) => productImg.path);
       console.log("IMAGE ID" + imageIds);
 
       await productCollection.create({
@@ -123,7 +123,7 @@ module.exports.updateProduct = async (req, res) => {
     } = req.body;
 
     const newproductImg = req.files;
-    const arr = [];
+    const croppedImages = [];
 
     // Existing images
     const existingImages = existingProduct.productImg;
@@ -135,12 +135,12 @@ module.exports.updateProduct = async (req, res) => {
         const cropped = await sharp(element.path)
           .resize({ width: 300, height: 300, fit: 'cover' })
           .toFile(filePath);
-        arr.push(filePath);
+          croppedImages.push(filePath);
       }
     }
 
     // Combine existing and new image paths
-    const updatedProductImg = [...existingImages, ...arr];
+    const updatedProductImg = [...existingImages, ...croppedImages];
 
     const updatedData = {
       productName,
