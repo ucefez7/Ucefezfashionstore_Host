@@ -55,7 +55,7 @@
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
+                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -100,7 +100,7 @@
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
                 <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
+                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-categori-wrap d-none d-lg-block">
@@ -258,7 +258,7 @@
                                         </div>
                                         <div class="shopping-cart-title">
                                             <h4><a href="shop-product-right.html">Plain Striola Shirts</a></h4>
-                                            <h3><span>1 × </span>$800.00</h3>
+                                            <h3><span>1 × </span>₹800.00</h3>
                                         </div>
                                         <div class="shopping-cart-delete">
                                             <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -270,7 +270,7 @@
                                         </div>
                                         <div class="shopping-cart-title">
                                             <h4><a href="shop-product-right.html">Macbook Pro 2022</a></h4>
-                                            <h3><span>1 × </span>$3500.00</h3>
+                                            <h3><span>1 × </span>₹3500.00</h3>
                                         </div>
                                         <div class="shopping-cart-delete">
                                             <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -279,7 +279,7 @@
                                 </ul>
                                 <div class="shopping-cart-footer">
                                     <div class="shopping-cart-total">
-                                        <h4>Total <span>$383.00</span></h4>
+                                        <h4>Total <span>₹383.00</span></h4>
                                     </div>
                                     <div class="shopping-cart-button">
                                         <a href="shop-cart.html">View cart</a>
@@ -305,7 +305,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
+                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -343,9 +343,9 @@
                     <!-- mobile menu start -->
                     <nav>
                         <ul class="mobile-menu">
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="index.html">Home</a>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
                                 <ul class="dropdown">
-                                    <li><a href="index.html">Home 1</a></li>
+                                    <li><a href="/">Home 1</a></li>
                                     <li><a href="index-2.html">Home 2</a></li>
                                     <li><a href="index-3.html">Home 3</a></li>
                                     <li><a href="index-4.html">Home 4</a></li>
@@ -477,6 +477,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th>Order ID</th>
                                             <th>Product</th>
                                             <th>Date</th>
                                             <th>OrderStatus</th>
@@ -492,6 +493,7 @@
                                             <% orderDetails.products.forEach((item) => { %>
                                               
                                         <tr>
+                                            <td>orderId_<%= orderDetails.orderId %></td>
                                             <td><%= item.productId.productName %></td>
                                             <td><%= orderDetails.createdAt.toLocaleDateString() %></td>
                                             <td><%= orderDetails.orderStatus %></td>
@@ -540,7 +542,7 @@
                                 <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
                             </div>
                             <div class="col my-4 my-md-0 des">
-                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first shopping.</strong></h5>
+                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>₹25 coupon for first shopping.</strong></h5>
                             </div>
                         </div>
                     </div>
@@ -561,7 +563,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
                             <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
+                                <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
@@ -678,7 +680,7 @@
           }).then((result) => {
             if (result.isConfirmed) {
               // User confirmed, send the request
-              fetch(`/cancel-order?orderId=${orderId}`, {
+              fetch(`/cancel-order?orderId=₹{orderId}`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -686,7 +688,7 @@
               })
                 .then(response => {
                   if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ₹{response.status}`);
                   }
                   return response.json();
                 })
@@ -727,7 +729,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
             // User confirmed, send the request
-            fetch(`/return-order?orderId=${orderId}`, {
+            fetch(`/return-order?orderId=₹{orderId}`, {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -735,7 +737,7 @@
             })
                 .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ₹{response.status}`);
                 }
                 return response.json();
                 })
@@ -781,16 +783,3 @@
 </body>
 
 <%- include("../partials/user-footer")%>
-
-
-
-
-
-
-
-
-
-
-
-
-
