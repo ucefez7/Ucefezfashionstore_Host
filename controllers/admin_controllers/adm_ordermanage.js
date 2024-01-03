@@ -13,6 +13,9 @@ module.exports.getOrderlist = async(req,res) => {
   }
 }
 
+
+
+
 // render order details page
 module.exports.getOrdermanage = async(req,res) => {
   try{

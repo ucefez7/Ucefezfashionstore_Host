@@ -601,13 +601,13 @@ submitButton.addEventListener("click", function(e){
     })
     .then(data => {
         if (data.message) {
-            //   swal.fire({
-            //       position: 'top-center',
-            //       icon: 'success',
-            //       title: data.message,   
-            //       showConfirmButton: false,
-            //       timer: 1500
-            //   });
+              swal.fire({
+                  position: 'top-center',
+                  icon: 'success',
+                  title: data.message,   
+                  showConfirmButton: false,
+                  timer: 1500
+              });
         } 
         myForm.submit();
         window.location.href = '/account';
