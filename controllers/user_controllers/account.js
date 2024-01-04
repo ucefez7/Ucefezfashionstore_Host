@@ -353,8 +353,6 @@ module.exports.postEditedaddress = async(req,res) => {
   }
 }
 
-
-
 //delete address try
 module.exports.deleteAddress = async(req,res)=>{
   try {
@@ -441,6 +439,51 @@ module.exports.cancelOrder = async(req,res) => {
 }
 
 
+// cancel single order try
+module.exports.cancelSingleOrder = async (req, res) => {
+  try {
+    const userData = await userCollection.findOne({ email: req.user });
+    const userId = userData._id;
+
+    console.log("single cancellation success")
+    const orderId = req.query.orderId;
+    const productId = req.query.productId;
+    console.log(orderId, productId);
+    const orderData = await orderCollection.findById(orderId);
+    const product = orderData.products.find((item) =>
+      item.productId.equals(productId)
+    );
+    const productAmount = product.orderPrice;
+    console.log("productAmount: ", productAmount);
+
+    // updating status
+    const updateStatus = { $set: { "products.$.status": "Cancelled" } };
+    const updatedOrder = await orderCollection.findOneAndUpdate(
+      { _id: orderId, "products.productId": productId },
+      updateStatus,
+      { new: true }
+    );
+
+    orderData.payableAmount -= productAmount;
+    await orderData.save();
+
+    // updating stock
+    for (const orderProduct of orderData.products) {
+      const product = await productCollection.findById(orderProduct.productId);
+      product.productStock += orderProduct.quantity;
+      await product.save();
+    }
+    res.status(200).json({ message: "The order is cancelled" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).json({ error: "Error found while cancelling product" });
+  }
+};
+
+
+   
+
+
 
 
 
@@ -478,3 +521,33 @@ module.exports.returnOrder = async(req,res) => {
     res.status(500).json({error: "Error found while returning product"});
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

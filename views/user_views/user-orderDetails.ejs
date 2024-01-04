@@ -51,11 +51,13 @@
             </div>
         </div>
     </div>
-    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+    <div class="header-middle header-middle mt-30 d-none d-lg-block">
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                    <a href="/">
+                        <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                    </a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -100,7 +102,7 @@
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
                 <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                    <a href="index.html"><img src="/userAssets/imgs/theme/Brand.jpg" alt="logo"></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-categori-wrap d-none d-lg-block">
@@ -258,7 +260,7 @@
                                         </div>
                                         <div class="shopping-cart-title">
                                             <h4><a href="shop-product-right.html">Plain Striola Shirts</a></h4>
-                                            <h3><span>1 × </span>₹800.00</h3>
+                                            <h3><span>1 × </span>$800.00</h3>
                                         </div>
                                         <div class="shopping-cart-delete">
                                             <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -270,7 +272,7 @@
                                         </div>
                                         <div class="shopping-cart-title">
                                             <h4><a href="shop-product-right.html">Macbook Pro 2022</a></h4>
-                                            <h3><span>1 × </span>₹3500.00</h3>
+                                            <h3><span>1 × </span>$3500.00</h3>
                                         </div>
                                         <div class="shopping-cart-delete">
                                             <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -279,7 +281,7 @@
                                 </ul>
                                 <div class="shopping-cart-footer">
                                     <div class="shopping-cart-total">
-                                        <h4>Total <span>₹383.00</span></h4>
+                                        <h4>Total <span>$383.00</span></h4>
                                     </div>
                                     <div class="shopping-cart-button">
                                         <a href="shop-cart.html">View cart</a>
@@ -305,7 +307,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                    <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -343,9 +345,9 @@
                     <!-- mobile menu start -->
                     <nav>
                         <ul class="mobile-menu">
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="index.html">Home</a>
                                 <ul class="dropdown">
-                                    <li><a href="/">Home 1</a></li>
+                                    <li><a href="index.html">Home 1</a></li>
                                     <li><a href="index-2.html">Home 2</a></li>
                                     <li><a href="index-3.html">Home 3</a></li>
                                     <li><a href="index-4.html">Home 4</a></li>
@@ -477,51 +479,101 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Order ID</th>
+                                            <th>Photo</th>
                                             <th>Product</th>
                                             <th>Date</th>
-                                            <th>OrderStatus</th>
-                                            <th>PaymentStatus</th>
-                                            <th>PaymentMethod</th>
+                                            <th>Product Status</th>
+                                            <th>Payment Method</th>
                                             <th>Total</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <% if (!orderDetails || orderDetails.length === 0) { %>
-                                            <h6>No orders</h6>
+                                            <h6 class="text-center" style="font-size: large;">No orders</h6>
                                         <% } else { %>
                                             <% orderDetails.products.forEach((item) => { %>
                                               
                                         <tr>
-                                            <td>orderId_<%= orderDetails.orderId %></td>
+                                            <td><img src="/<%= item.productId.productImg[0] %>" class="img-sm " alt="Item" height="68" width="68"></td>
                                             <td><%= item.productId.productName %></td>
                                             <td><%= orderDetails.createdAt.toLocaleDateString() %></td>
-                                            <td><%= orderDetails.orderStatus %></td>
-                                            <td><%= orderDetails.paymentStatus %></td>
+                                            <td><%= item.status %></td>
                                             <td><%= orderDetails.paymentMethod %></td>
                                             <td>₹<%= item.price * item.quantity %> for <%= item.quantity%> item</td>
+                                            <td>
+                                               
+                                               
+                                                <% if (item.status === "Order Placed" || item.status === "Shipped") { %>
+                                                    <a href="#" class="cancelProduct-Btn btn btn-sm" product-id="<%= item.productId._id %>" order-id="<%= orderDetails._id %>" onclick="confirmCancellation(event)" id="cancelProductBtn" class="btn btn-sm">Cancel</a>
+
+                                                <% } else if (item.status === "Cancelled") { %>
+                                                    <h6 style="color: red;">Cancelled</h6>
+                                                <% } else if (item.status === "Delivered") {%>
+                                                    <h6 style="color: rgb(7, 157, 32);">Delivered</h6>
+                                                <%} %>
+                                            </td>
                                         </tr>
-                                        
                                         <% }); %>
-                                    <% } %>
                                     </tbody>
                                 </table>
-                                <h5 class="d-flex justify-content-end">Total Amount: ₹ <%= orderDetails.totalAmount %></h5>
+
+                                <div class="container">
+                                    <div class="row justify-content-end">
+                                      <div class="col-lg-12">
+                                        <table class="table">
+                                          <tr>
+                                            <td>Total Amount:</td>
+                                            <td class="d-flex justify-content-end">
+                                              <% if (orderDetails.payableAmount) { %>
+                                                ₹ <%= orderDetails.payableAmount.toFixed(0) %>
+                                              <% } else { %>
+                                                ₹ <%= orderDetails.totalAmount.toFixed(0) %>
+                                              <% } %>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>Payment Status:</td>
+                                            <td class="d-flex justify-content-end">
+                                              <span style="color: rgb(12, 62, 101); font-size: medium;"><%= orderDetails.paymentStatus %></span>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>Order Status:</td>
+                                            <td class="d-flex justify-content-end">
+                                              <span style="color: rgb(12, 62, 101); font-size: medium;"><%= orderDetails.orderStatus %></span>
+                                            </td>
+                                          </tr>
+                                         
+                                        </table>
+                                      </div>
+                                    </div>
+                                </div>
+                                  
                                 <div class="d-flex justify-content-center">
                                   <div class="d-flex justify-content-between col-3">
                                    
-                                      <% if(orderDetails.orderStatus === "Order Placed" || orderDetails.orderStatus === "Shipped") {%> 
+                                    <% if(orderDetails.orderStatus === "Order Placed" || orderDetails.orderStatus === "Shipped") {%> 
                                         <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(180, 36, 36);">Cancel Order</a>
-                                        <%} else if(orderDetails.orderStatus === "Delivered") {%> 
-                                          <a href="#" order-id="<%= orderDetails._id %>" id="returnButton" class="btn btn-sm" style="background-color: rgb(180, 36, 36);">Return</a>
-                                          <%} else if(orderDetails.orderStatus === "Cancelled") {%> 
+                                        <%} else if(orderDetails.orderStatus === "Delivered") {%>
+                                            
+                                            <% if (orderDetails.expiryDate && new Date(orderDetails.expiryDate) >= new Date()) { %>
+                                                <a href="#" order-id="<%= orderDetails._id %>" id="returnButton" class="btn btn-sm" style="background-color: rgb(180, 36, 36);">Return</a>
+                                            <% } else { %>
+                                                <h5 class="mt-10" style="color: rgb(177, 29, 29);">Delivered</h5>
+                                            <% } %>
+t
+                                        <%} else if(orderDetails.orderStatus === "Cancelled") {%> 
                                             <h5 style="color: rgb(177, 29, 29);">The order is Cancelled</h5>
-                                            <%} else if (orderDetails.orderStatus === "Returned") {%> 
-                                                <h5 style="color: rgb(177, 29, 29);">The order is returned</h5>
-                                                <%}%>
-                                                <a href="/" class="btn btn-sm">Continue Shopping</a> 
+                                        <%} else if (orderDetails.orderStatus === "Returned") {%> 
+                                            <h5 style="color: rgb(177, 29, 29);">The order is returned</h5>
+                                        <%}%>
+                                            <a href="/" class="btn btn-sm">Continue Shopping</a> 
                                   </div>
-                              </div>  
+                                </div>  
+                              
+                              <% } %>
+
                             </div>
                         </div>
                     </div>
@@ -531,117 +583,7 @@
             </div>
         </section>
     </main>
-    <!-- <footer class="main">
-        <section class="newsletter p-30 text-white wow fadeIn animated">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-7 mb-md-3 mb-lg-0">
-                        <div class="row align-items-center">
-                            <div class="col flex-horizontal-center">
-                                <img class="icon-email" src="/userAssets/imgs/theme/icons/icon-email.svg" alt="">
-                                <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
-                            </div>
-                            <div class="col my-4 my-md-0 des">
-                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>₹25 coupon for first shopping.</strong></h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                       
-                        <form class="form-subcriber d-flex wow fadeIn animated">
-                            <input type="email" class="form-control bg-white font-small" placeholder="Enter your email">
-                            <button class="btn bg-dark text-white" type="submit">Subscribe</button>
-                        </form>
-                       
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section-padding footer-mid">
-            <div class="container pt-15 pb-20">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="widget-about font-md mb-md-5 mb-lg-0">
-                            <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
-                            </div>
-                            <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
-                            <p class="wow fadeIn animated">
-                                <strong>Address: </strong>562 Wellington Road, Street 32, San Francisco
-                            </p>
-                            <p class="wow fadeIn animated">
-                                <strong>Phone: </strong>+01 2222 365 /(+91) 01 2345 6789
-                            </p>
-                            <p class="wow fadeIn animated">
-                                <strong>Hours: </strong>10:00 - 18:00, Mon - Sat
-                            </p>
-                            <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
-                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                                <a href="#"><img src="/userAssets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
-                                <a href="#"><img src="/userAssets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
-                                <a href="#"><img src="/userAssets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
-                                <a href="#"><img src="/userAssets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
-                                <a href="#"><img src="/userAssets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3">
-                        <h5 class="widget-title wow fadeIn animated">About</h5>
-                        <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Support Center</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2  col-md-3">
-                        <h5 class="widget-title wow fadeIn animated">My Account</h5>
-                        <ul class="footer-list wow fadeIn animated">
-                            <li><a href="#">Sign In</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">My Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
-                            <li><a href="#">Order</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4">
-                        <h5 class="widget-title wow fadeIn animated">Install App</h5>
-                        <div class="row">
-                            <div class="col-md-8 col-lg-12">
-                                <p class="wow fadeIn animated">From App Store or Google Play</p>
-                                <div class="download-app wow fadeIn animated">
-                                    <a href="#" class="hover-up mb-sm-4 mb-lg-0"><img class="active" src="/userAssets/imgs/theme/app-store.jpg" alt=""></a>
-                                    <a href="#" class="hover-up"><img src="/userAssets/imgs/theme/google-play.jpg" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
-                                <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
-                                <img class="wow fadeIn animated" src="/userAssets/imgs/theme/payment-method.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="container pb-20 wow fadeIn animated">
-            <div class="row">
-                <div class="col-12 mb-20">
-                    <div class="footer-bottom"></div>
-                </div>
-                <div class="col-lg-6">
-                    <p class="float-md-left font-sm text-muted mb-0">&copy; 2022, <strong class="text-brand">Evara</strong> - HTML Ecommerce Template </p>
-                </div>
-                <div class="col-lg-6">
-                    <p class="text-lg-end text-start font-sm text-muted mb-0">
-                        Designed by <a href="http://alithemes.com/" target="_blank">Alithemes.com</a>. All rights reserved
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer> -->
+    
    
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
@@ -662,51 +604,130 @@
     <script>
         // cancel order
         const cancelButton = document.getElementById("cancelButton");
-      
+    
         cancelButton.addEventListener("click", function (e) {
-          e.preventDefault();
-      
-          const orderId = cancelButton.getAttribute("order-id");
-      
-          // Show SweetAlert confirmation dialog
-          Swal.fire({
-            title: 'Are you sure?',
-            text: 'You are about to cancel this order!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, cancel it!'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // User confirmed, send the request
-              fetch(`/cancel-order?orderId=₹{orderId}`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
+            e.preventDefault();
+    
+            const orderId = cancelButton.getAttribute("order-id");
+    
+            // Show SweetAlert with input for reason
+            Swal.fire({
+                title: 'Cancel Order',
+                input: 'select',
+                inputOptions: {
+                    'Cancel Reason: bad_product': 'Bad Product',
+                    'Cancel Reason: price_decreased': 'Price Decreased',
+                    'Cancel Reason: quality_issues': 'Quality Issues'
                 },
-              })
-                .then(response => {
-                  if (!response.ok) {
-                    throw new Error(`HTTP error! status: ₹{response.status}`);
-                  }
-                  return response.json();
-                })
-                .then(data => {
-                  console.log("Response from server", data);
-      
-                  if (data.message) {
-                    // Reload the page or perform any other action
-                    window.location.reload();
-                  }
-                })
-                .catch(error => {
-                  console.error("Error cancelling product", error);
-                });
-            }
-          });
+                inputPlaceholder: 'Select a reason',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Cancel Order'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const selectedReason = result.value;
+    
+                    // Check if a reason is selected
+                    if (selectedReason) {
+                        // Send the request with the selected reason
+                        fetch(`/cancel-order?orderId=${orderId}&reason=${selectedReason}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log("Response from server", data);
+    
+                                if (data.message) {
+                                    // Reload the page or perform any other action
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error cancelling product", error);
+                            });
+                    } else {
+                        // User did not select a reason, show an error message or handle it accordingly
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Please select a cancel reason!',
+                        });
+                    }
+                }
+            });
         });
     </script>
+
+<script>
+    // Function to handle the SweetAlert confirmation
+    function confirmCancellation(productId, orderId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to cancel this product.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cancelProduct(productId, orderId);
+            }
+        });
+    }
+
+    // Function to handle the cancellation logic
+    function cancelProduct(productId, orderId) {
+        // Perform the cancellation logic using fetch or any other method
+        fetch(`/cancelSingle-order?orderId=${orderId}&productId=${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Response from server", data);
+
+            if (data.message) {
+                // Reload the page or perform any other action
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Cancel single product
+    const cancelProductBtns = document.querySelectorAll(".cancelProduct-Btn");
+
+    cancelProductBtns.forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const productId = button.getAttribute("product-id");
+            const orderId = button.getAttribute("order-id");
+
+            // Show SweetAlert confirmation
+            confirmCancellation(productId, orderId);
+        });
+    });
+</script>
 
     <script>
         // return order
@@ -716,48 +737,103 @@
         e.preventDefault();
     
         const orderId = returnButton.getAttribute("order-id");
-    
-        // Show SweetAlert confirmation dialog
+            
         Swal.fire({
-            title: 'Are you sure?',
-            text: 'You are about to return this order!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, return it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-            // User confirmed, send the request
-            fetch(`/return-order?orderId=₹{orderId}`, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
+                title: 'Cancel Order',
+                input: 'select',
+                inputOptions: {
+                    'Return Reason: bad_product': 'Bad Product',
+                    'Return Reason: price_decreased': 'Price Decreased',
+                    'Return Reason: quality_issues': 'Quality Issues'
                 },
-            })
-                .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ₹{response.status}`);
-                }
-                return response.json();
-                })
-                .then(data => {
-                console.log("Response from server", data);
+                inputPlaceholder: 'Select a reason',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Return Order'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const selectedReason = result.value;
     
-                if (data.message) {
-                    // Reload the page or perform any other action
-                    window.location.reload();
+                    // Check if a reason is selected
+                    if (selectedReason) {
+                        // Send the request with the selected reason
+                        fetch(`/return-order?orderId=${orderId}&reason=${selectedReason}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log("Response from server", data);
+    
+                                if (data.message) {
+                                    // Reload the page or perform any other action
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error returning product", error);
+                            });
+                    } else {
+                        // User did not select a reason, show an error message or handle it accordingly
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Please select a return reason!',
+                        });
+                    }
                 }
-                })
-                .catch(error => {
-                console.error("Error returning product", error);
-                });
-            }
-        });
+            });
+            
+        // Show SweetAlert confirmation dialog
+        // Swal.fire({
+        //     title: 'Are you sure?',
+        //     text: 'You are about to return this order!',
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#d33',
+        //     cancelButtonColor: '#3085d6',
+        //     confirmButtonText: 'Yes, return it!'
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //     // User confirmed, send the request
+        //     fetch(`/return-order?orderId=${orderId}`, {
+        //         method: 'POST',
+        //         headers: {
+        //         'Content-Type': 'application/json',
+        //         },
+        //     })
+        //         .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error(`HTTP error! status: ${response.status}`);
+        //         }
+        //         return response.json();
+        //         })
+        //         .then(data => {
+        //         console.log("Response from server", data);
+    
+        //         if (data.message) {
+        //             // Reload the page or perform any other action
+        //             window.location.reload();
+        //         }
+        //         })
+        //         .catch(error => {
+        //         console.error("Error returning product", error);
+        //         });
+        //     }
+        // });
         });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
 
     <script src="/userAssets/js/vendor/modernizr-3.6.0.min.js"></script>
     <script src="/userAssets/js/vendor/jquery-3.6.0.min.js"></script>

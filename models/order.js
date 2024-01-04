@@ -17,9 +17,17 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      orderPrice: {
+        type: Number,
+        required: true,
+      },
       quantity: {
         type: Number,
         required: true,
+      },
+      status: {
+        type: String,
+        default: "Order Placed",
       },
     },
   ],
