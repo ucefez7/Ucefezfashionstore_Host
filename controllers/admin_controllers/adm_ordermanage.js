@@ -3,15 +3,52 @@ const orderCollection = require("../../models/order");
 const userCollection = require("../../models/user_schema");
 const productCollection = require("../../models/product");
 
-// render order manage page
-module.exports.getOrderlist = async(req,res) => {
-  try{
-    const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
-    res.render("admin-orderlist",{ orderDetails})
-  }catch (error) {
-    console.error("Error:", error)
+// // render order manage page og
+// module.exports.getOrderlist = async(req,res) => {
+//   try{
+//     const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
+//     res.render("admin-orderlist",{ orderDetails})
+//   }catch (error) {
+//     console.error("Error:", error)
+//   }
+// }
+
+
+
+
+// render order manage page try
+module.exports.getOrderlist = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 5; // You can adjust the page size as needed
+    const skip = (page - 1) * pageSize;
+
+    const orderDetails = await orderCollection
+      .find()
+      .populate('products.productId')
+      .populate('userId')
+      .skip(skip)
+      .limit(pageSize)
+      .exec();
+
+    const totalCount = await orderCollection.countDocuments();
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    res.render("admin-orderlist", {
+      orderDetails,
+      currentPage: page,
+      totalPages,
+    });
+  } catch (error) {
+    console.error("Error:", error);
   }
-}
+};
+
+
+
+
+
+
 
 // render order details page
 module.exports.getOrdermanage = async(req,res) => {
