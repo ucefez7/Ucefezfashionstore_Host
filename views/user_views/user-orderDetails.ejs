@@ -479,6 +479,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th>Order ID</th>   
                                             <th>Photo</th>
                                             <th>Product</th>
                                             <th>Date</th>
@@ -495,6 +496,7 @@
                                             <% orderDetails.products.forEach((item) => { %>
                                               
                                         <tr>
+                                            <td>orderID_<%= order._id %></td>
                                             <td><img src="/<%= item.productId.productImg[0] %>" class="img-sm " alt="Item" height="68" width="68"></td>
                                             <td><%= item.productId.productName %></td>
                                             <td><%= orderDetails.createdAt.toLocaleDateString() %></td>

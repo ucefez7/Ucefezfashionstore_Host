@@ -395,6 +395,7 @@ module.exports.getOrderdetails = async (req, res) => {
       res.render("user-orderDetails", {
         loggedIn,
         username,
+        order: orderDetails,
         orderDetails,
         currentDate,
       });
