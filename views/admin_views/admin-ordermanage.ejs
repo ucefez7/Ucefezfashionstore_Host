@@ -155,34 +155,46 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Date</th>
-                                            <th>OrderStatus</th>
-                                            <th>PaymentStatus</th>
-                                            <th>PaymentMethod</th>
-                                            <th>Total</th>
-                                        </tr>
+                                      <tr>
+                                        <th>Product</th>
+                                        <th>Date</th>
+                                        <th>ProductStatus</th>
+                                        <th>PaymentStatus</th>
+                                        <th>PaymentMethod</th>
+                                        <th>Total</th>
+                                        
+                                      </tr>
                                     </thead>
                                     <tbody>
-                                        <% if (!orderDetails || orderDetails.length === 0) { %>
-                                            <h6>No orders</h6>
-                                        <% } else { %>
-                                            <% orderDetails.products.forEach((item) => { %>
-                                              
-                                        <tr>
-                                            <td><%= item.productId?.productName %></td>
+                                      <% if (!orderDetails || orderDetails.length === 0) { %>
+                                        <h6>No orders</h6>
+                                      <% } else { %>
+                                        <% orderDetails.products.forEach((item) => { %>
+                                          <tr>
+                                            <td><%= item.productId.productName %></td>
                                             <td><%= orderDetails.createdAt.toLocaleDateString() %></td>
-                                            <td><%= orderDetails.orderStatus %></td>
-                                            <td><%= orderDetails.paymentStatus %></td>
+                                            <td><%= item.status %></td>
+                                            <td>
+                                                <!-- <%= orderDetails.paymentStatus %> -->
+                                            
+                                                <% if(item.status === "Order Placed" || item.status === "Shipped" || item.status === "Delivered") {%> 
+                                                    <p><%= orderDetails.paymentStatus %></p>
+                                                         <%} else if(item.status === "Cancelled") {%> 
+                                                 <p>Product Cancelled</p>
+                                                         <%} else if (item.status === "Returned") {%> 
+                                                             <p>Product Returned</p>
+                                                             <%}%>
+                                                            
+                                                            </td>
                                             <td><%= orderDetails.paymentMethod %></td>
                                             <td>₹<%= item.price * item.quantity %> for <%= item.quantity%> item</td>
-                                        </tr>
-                                        
+                                           
+                                          </tr>
                                         <% }); %>
-                                    <% } %>
+                                      <% } %>
                                     </tbody>
-                                </table>
+                                  </table>
+                                  
                                 <h5 class="d-flex justify-content-end">Total Amount: ₹ <%= orderDetails.totalAmount %></h5>
                                 <div class="d-flex justify-content-center">
                                   <div class="d-flex justify-content-between col-3">

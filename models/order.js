@@ -17,10 +17,10 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      orderPrice: {
-        type: Number,
-        required: true,
-      },
+      // orderPrice: {
+      //   type: Number,
+      //   required: true,
+      // },
       quantity: {
         type: Number,
         required: true,
@@ -34,6 +34,9 @@ const orderSchema = new mongoose.Schema({
   totalAmount: {
     type: Number,
     required: true,
+  },
+  payableAmount: {
+    type: Number,
   },
   orderStatus: {
     type: String,
@@ -58,6 +61,12 @@ const orderSchema = new mongoose.Schema({
   },
   returnReason: {
     type: String,
+  },
+  deliveryDate: {
+    type: Date,
+  },
+  expiryDate: {
+    type: Date,
   },
 },
 {timestamps: true}

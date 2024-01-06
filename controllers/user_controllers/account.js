@@ -4,7 +4,6 @@ const cartCollection = require("../../models/cart");
 const addressCollection = require("../../models/address");
 const orderCollection = require("../../models/order");
 const nodemailer = require('nodemailer');
-const mongoose = require('mongoose');
 
 
 // render account page
@@ -168,24 +167,24 @@ module.exports.newSendotp = async (req,res) => {
     console.log("GeneratedOTP: ", generatedOTP);
 
       // Create a Transporter
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        secure: false,
-        requireTLS: true,
-        auth: {
-          user: process.env.NODEMAILER_EMAIL,
-          pass: process.env.NODEMAILER_PASSWORD,
-        },
-      }); 
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: "lakshmans218@gmail.com",
+        pass: "ueha hqfq nnxr oqcc",
+      },
+    }); 
 
       //  Compose and Send an Email
-      const mailOptions = {
-        from: `"Ucefez Fashion Store" <${process.env.EMAIL_USER}>`,
-        to: email,
-        subject: 'Account verification mail',
-        text: `Your OTP for verification is: ${generatedOTP}`,
-      };
+    const mailOptions = {
+      from: 'lakshmans218@gmail.com',
+      to: email,
+      subject: 'Account verification mail',
+      text: `Your OTP for verification is: ${generatedOTP}`,
+    };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -240,7 +239,6 @@ module.exports.addAddress = async(req,res) => {
     console.error("error: ", error)
   }
 }
-
 
 
 // add address
@@ -380,72 +378,87 @@ module.exports.deleteAddress = async(req,res)=>{
 
 
 
-
-
-
-
 // render order details
-module.exports.getOrderdetails = async(req,res) => {
-  try{
+module.exports.getOrderdetails = async (req, res) => {
+  try {
     const loggedIn = req.cookies.loggedIn;
-    const orderId = req.cookies.orderId;
-    const username = req.cookies.username;
-    const product = req.cookies.product;
-    const userData = await userCollection.findOne({email: req.user})
+    const userData = await userCollection.findOne({ email: req.user });
+    const username = userData.username;
     userId = userData._id;
-    const Idorder = req.params.orderId
-    const orderDetails = await orderCollection.findById({_id: Idorder}).populate('products.productId');
-    res.render("user-orderDetails",{ loggedIn, username, orderDetails, product, orderId })
-  } catch(error) {
-    console.error("Error: ", error)
+    const currentDate = Date.now();
+    const Idorder = req.params.orderId;
+    
+    if (Idorder) {
+      const orderDetails = await orderCollection
+        .findById({ _id: Idorder })
+        .populate("products.productId");
+      res.render("user-orderDetails", {
+        loggedIn,
+        username,
+        orderDetails,
+        currentDate,
+      });
+    } else {
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.error("Error: ", error);
   }
-}
-
-
-
+};
 
 // cancel order
-module.exports.cancelOrder = async(req,res) => {
-  try{
-    const orderId = req.query.orderId;
-    const orderData = await orderCollection.findById(orderId)
-    const productIds = orderData.products.map((product) => product.productId);
-    const productData = await productCollection.find({ _id: { $in: productIds } });
+module.exports.cancelOrder = async (req, res) => {
+  try {
+    const userData = await userCollection.findOne({ email: req.user });
+    const userId = userData._id;
 
-    // Iterate over each product in productData
+    const orderId = req.query.orderId;
+    const cancelReason = req.query.reason;
+
+    const orderData = await orderCollection.findById(orderId);
+    const productIds = orderData.products.map((product) => product.productId);
+    const productData = await productCollection.find({
+      _id: { $in: productIds },
+    });
+
+    const totalProductAmount = orderData.products
+      .filter((product) => product.status !== "Cancelled")
+      .reduce((total, product) => total + product.orderPrice, 0);
+ 
+      
+    // updating stock
     for (const product of productData) {
-      // Find the corresponding order product
       const orderProduct = orderData.products.find((orderProduct) =>
         orderProduct.productId.equals(product._id)
       );
-
-      // Update productStock based on the order quantity
       product.productStock += orderProduct.quantity;
-
-      // Save the updated product
       await product.save();
     }
 
-    // save the order status
-    orderData.orderStatus = "Cancelled";
+    orderData.products.forEach((product) => {
+      product.status = "Cancelled";
+    });
     await orderData.save();
 
-    res.status(200).json({message: "The order is cancelled"})
-    
-  } catch(error){
-    console.error("Error: ", error)
-    res.status(500).json({error: "Error found while cancelling product"});
+    // updating status
+    orderData.orderStatus = "Cancelled";
+    orderData.cancelReason = cancelReason;
+    orderData.payableAmount -= totalProductAmount;
+    await orderData.save();
+
+    res.status(200).json({ message: "The order is cancelled" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).json({ error: "Error found while cancelling product" });
   }
-}
+};
 
-
-// cancel single order try
+// cancel single order
 module.exports.cancelSingleOrder = async (req, res) => {
   try {
     const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
 
-    console.log("single cancellation success")
     const orderId = req.query.orderId;
     const productId = req.query.productId;
     console.log(orderId, productId);
@@ -481,73 +494,53 @@ module.exports.cancelSingleOrder = async (req, res) => {
 };
 
 
-   
-
-
-
-
 
 
 // return order
-module.exports.returnOrder = async(req,res) => {
-  try{
-    const orderId = req.query.orderId;
-    const orderData = await orderCollection.findById(orderId)
-    const productIds = orderData.products.map((product) => product.productId);
-    const productData = await productCollection.find({ _id: { $in: productIds } });
+module.exports.returnOrder = async (req, res) => {
+  try {
+    const userData = await userCollection.findOne({ email: req.user });
+    const userId = userData._id;
 
-    // Iterate over each product in productData
+    const orderId = req.query.orderId;
+    const returnReason = req.query.reason;
+    const orderData = await orderCollection.findById(orderId);
+    const deliveryDate = orderData.deliveryDate;
+    const productIds = orderData.products.map((product) => product.productId);
+    const productData = await productCollection.find({
+      _id: { $in: productIds },
+    });
+
+    const totalProductAmount = orderData.products
+      .filter((product) => product.status !== "Cancelled")
+      .reduce((total, product) => total + product.orderPrice, 0);
+
     for (const product of productData) {
-      // Find the corresponding order product
       const orderProduct = orderData.products.find((orderProduct) =>
         orderProduct.productId.equals(product._id)
       );
-
-      // Update productStock based on the order quantity
       product.productStock += orderProduct.quantity;
-
-      // Save the updated product
       await product.save();
     }
 
-    // save the order status
-    orderData.orderStatus = "Returned";
+    orderData.products.forEach((product) => {
+      if (product.status == "Delivered") {
+        product.status = "Returned";
+      }
+    });
+
     await orderData.save();
 
-    res.status(200).json({message: "The order is Returned"})
-    
-  } catch(error){
-    console.error("Error: ", error)
-    res.status(500).json({error: "Error found while returning product"});
+    // save the order status
+    orderData.orderStatus = "Returned";
+    orderData.paymentStatus = "Success";
+    orderData.returnReason = returnReason;
+    await orderData.save();
+
+
+    res.status(200).json({ message: "The order is Returned" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).json({ error: "Error found while returning product" });
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};

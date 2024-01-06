@@ -182,7 +182,7 @@
                                     <th scope="col">User name</th>
                                     <!-- <th scope="col">Email</th> -->
                                     <th scope="col">Total Amount</th>
-                                    <th scope="col">Status</th>
+                                   
                                     <th scope="col">Date</th>
                                     <th scope="col" class="text-center"> Action </th>
                                 </tr>
@@ -198,7 +198,7 @@
                                     <td><b><%= order.userId?.username %></b></td>
                                     <!-- <td><template class="_cf_email_" data-cfemail="aec3cfdcd8c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</template></td> -->
                                     <td>₹<%= order.totalAmount %></td>
-                                    <td><span class=""><%= order.orderStatus %></span></td>
+                                    
                                     <td><%= order.createdAt.toLocaleDateString()%></td>
                                     <td class="text-center">
                                         <a href="/admin/order-manage/<%= order._id %>" class="btn btn-sm rounded font-sm">View Details</a>

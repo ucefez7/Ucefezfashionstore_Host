@@ -13,9 +13,6 @@ module.exports.getOrderlist = async(req,res) => {
   }
 }
 
-
-
-
 // render order details page
 module.exports.getOrdermanage = async(req,res) => {
   try{
@@ -28,63 +25,107 @@ module.exports.getOrdermanage = async(req,res) => {
 }
 
 
-module.exports.dispatchOrder = async(req,res) => {
-  try{
-    const orderId = req.query.orderId
-    const orderData = await orderCollection.findById(orderId)
+
+// dispatch order
+module.exports.dispatchOrder = async (req, res) => {
+  try {
+    const orderId = req.query.orderId;
+    const orderData = await orderCollection.findById(orderId);
+
+    if (orderData.orderStatus !== "Order Placed") {
+      return res.status(400).json({ error: "Order has already been shipped or cancelled" });
+    }
+
+    // Update the status of each product in the order
+    for (const product of orderData.products) {
+      if (product.status === "Order Placed") {
+        product.status = "Shipped";
+
+        
+      }
+    }
 
     orderData.orderStatus = "Shipped";
     await orderData.save();
 
-    res.status(200).json({message: "The order is shipped"})
-  }catch(error){
-    console.error("Error:", error)
+    res.status(200).json({ message: "The order is shipped" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
-
-
-module.exports.deliverOrder = async(req,res) => {
-  try{
-    const orderId = req.query.orderId
-    const orderData = await orderCollection.findById(orderId)
-
-    orderData.orderStatus = "Delivered";
-    await orderData.save();
-
-    res.status(200).json({message: "The order is delivered"})
-  }catch(error){
-    console.error("Error:", error)
-  }
-}
-
-
-
-module.exports.cancelOrder = async(req,res) => {
-  try{
+// deliver order
+module.exports.deliverOrder = async (req, res) => {
+  try {
     const orderId = req.query.orderId;
     const orderData = await orderCollection.findById(orderId);
-    const productIds = orderData.products.map((product) => product.productId);
-    const productData = await productCollection.find({_id: { $in: productIds }});
 
+    // Update the status of each product in the order
+    for (const product of orderData.products) {
+      if (product.status === "Shipped") {
+        product.status = "Delivered";
 
-    for(const product of productData) {
-      const orderProduct = orderData.products.find((orderProduct) => 
-        orderProduct.productId.equals(product._id)
-      );
-
-      product.productStock += orderProduct.quantity;
-
-      await product.save();
+      }
     }
+    orderData.orderStatus = "Delivered";
+    orderData.paymentStatus = "Success";
+    orderData.deliveryDate = Date.now();
 
-    orderData.orderStatus = "Cancelled";
+    const expiryDate = new Date(orderData.deliveryDate);
+    expiryDate.setDate(expiryDate.getDate() + 2);
+
+    orderData.expiryDate = expiryDate;
+
     await orderData.save();
 
-    res.status(200).json({message: "The order is cancelled"})
-    
-  } catch(error){
-    console.error("Error:", error)
-    res.status(500).json({error: "Error found while cancelling product"});
+    res.status(200).json({ message: "The order is delivered" });
+  } catch (error) {
+    console.error("Error:", error);
   }
-}
+};
+
+
+
+
+
+
+
+// Update cancelOrder controller
+module.exports.cancelOrder = async (req, res) => {
+  try {
+    const orderId = req.query.orderId;
+    const productId = req.query.productId;
+    const orderData = await orderCollection.findById(orderId);
+
+    // Find the corresponding product in the order
+    const productInOrder = orderData.products.find(
+      (product) => product.productId.equals(productId)
+    );
+
+    if (productInOrder) {
+      // Update productStock based on the order quantity
+      const product = await productCollection.findById(productId);
+      product.productStock += productInOrder.quantity;
+      await product.save();
+
+      // Remove the product from the order
+      orderData.products = orderData.products.filter(
+        (product) => !product.productId.equals(productId)
+      );
+
+      // Save the updated order
+      await orderData.save();
+
+      res.status(200).json({ message: "The product is cancelled" });
+    } else {
+      res.status(404).json({ error: "Product not found in the order" });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+

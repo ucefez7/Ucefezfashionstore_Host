@@ -422,7 +422,7 @@
                                                             <tr>
                                                                 <td><%= product.productId?.productName %></td>
                                                                 <td><%= order.createdAt.toLocaleDateString() %></td>
-                                                                <td><%= order.orderStatus %></td>
+                                                                <td><%= product.status %></td>
                                                                 <td>₹<%= product.price * product.quantity %> for <%= product.quantity%> item</td>
                                                                 <td><a href="/order-details/<%= order._id %>" class="btn-small d-block">View</a></td>
                                                             </tr>
