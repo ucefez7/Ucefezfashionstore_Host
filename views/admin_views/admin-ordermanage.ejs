@@ -171,7 +171,7 @@
                                       <% } else { %>
                                         <% orderDetails.products.forEach((item) => { %>
                                           <tr>
-                                            <td><%= item.productId.productName %></td>
+                                            <td><%= item.productId?.productName %></td>
                                             <td><%= orderDetails.createdAt.toLocaleDateString() %></td>
                                             <td><%= item.status %></td>
                                             <td>
