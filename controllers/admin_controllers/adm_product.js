@@ -6,16 +6,41 @@ const sharp = require('sharp')
 const categoryCollection = require("../../models/category");
 const productCollection = require("../../models/product");
 
+const mongoosePaginate = require('mongoose-paginate-v2');
 
-// render product list page
-module.exports.getProductList = async(req,res) => {
+module.exports.getProductList = async (req, res) => {
   try {
-    const productdata = await productCollection.find()
-    res.render("admin-productlist", {productdata});
+    const page = parseInt(req.query.page) || 1; // Get the page from the query parameters
+    const pageSize = 5; // Set the number of items per page
+
+    const options = {
+      page,
+      limit: pageSize,
+    };
+
+    // Use the paginate function provided by mongoose-paginate-v2
+    const result = await productCollection.paginate({}, options);
+
+    res.render('admin-productlist', {
+      productdata: result.docs,
+      currentPage: page,
+      totalPages: result.totalPages,
+    });
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+// // render product list page
+// module.exports.getProductList = async(req,res) => {
+//   try {
+//     const productdata = await productCollection.find()
+//     res.render("admin-productlist", {productdata});
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
 
 // render add product page
 module.exports.getAddProduct = async(req,res) => {
