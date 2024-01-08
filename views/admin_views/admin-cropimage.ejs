@@ -186,38 +186,29 @@
         </div>
     </div>
     <main class="main">
-        <div class="page-header breadcrumb-wrap">
-            <div class="container">
-                <div class="breadcrumb">
-                    <a href="/admin/admin-dash" rel="nofollow">Home</a>
-                    <span></span> Pages
-                    <span></span> Account
-                </div>
-            </div>
-        </div>
-        <!DOCTYPE html>
-
+        
+        <% if(productdata && productdata.productImg.length > 0){ %>
+            
   
 
         <body style="margin-left: 100px; margin-right: 124px;">
-            <button id="cropButton" class="btn btn-success" style="display: none;">Crop Selected Image</button>
+            <button id="cropButton" class="btn btn-success" style="display: none;" >Crop Selected Image</button>
         
             <!-- Add a container div to wrap the main image -->
-            <div id="imageContainer" style="background-color: #c4f79c;">
+            <div id="imageContainer" style="display: none; background-color: #c4f79c;">
                 <!-- Main image for cropping -->
                 <img id="mainImage" style="max-width: 100%; color: #eaffa0;" />
             </div>
-            
-            <% if(productdata){ %>
+           
               
-
             <div class="slider-nav-thumbnails">
-                <%   productdata.productImg.forEach(imageUrl => { %>
+                <%   productdata.productImg.forEach((imageUrl, index) => { %>
+               
                 <!-- Small images for selection -->
-                <img class="smallImage img-fluid" src="/<%= imageUrl  %>" style="height: 156px;" loading="lazy"/>
+                <img class="smallImage img-fluid" src="/<%= imageUrl  %>" style="height: 156px;" loading="lazy" data-product-id="<%= productdata._id %>" data-image-index="<%= index %>"/>
                 <%  })%>
                 <!-- Add more small images as needed -->
-            </div>
+            </div> 
             
             <% }else{ %>
             <div class="slider-nav-thumbnails">
@@ -226,24 +217,23 @@
 
             <% } %> 
             <br />
+        </body>
   
     
   
     <!-- Include Cropper.js script -->
-    <script src="/adminAssets/js/vendor/jquery-3.6.0.min.js"></script>
-
     <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
     <script>
+        var productId,imageIndex;
       document.addEventListener('DOMContentLoaded', function () {
-        console.log('Crop button clicked');
         var mainImage = document.getElementById('mainImage');
         var smallImages = document.querySelectorAll('.smallImage');
         var imageContainer = document.getElementById('imageContainer');
             var cropButton = document.getElementById('cropButton');
   
         var cropper;
+        
   
-        // Event listener for selecting a small image
         smallImages.forEach(function (smallImage) {
           smallImage.addEventListener('click', function (e) {
             // Destroy the existing cropper instance, if any
@@ -253,6 +243,12 @@
             }
   
             mainImage.src = e.target.src;
+
+            productId = smallImage.getAttribute('data-product-id');
+            imageIndex = smallImage.getAttribute('data-image-index');
+
+            // Log the values to the console (you can use them as needed)
+            
   
             // Initialize Cropper.js
             cropper = new Cropper(mainImage, {
@@ -287,31 +283,45 @@
               // Disable wheel zoom when mouse is outside the image
               cropper.setOptions({ zoomOnWheel: false });
             });
+            
           });
         });
   
         cropButton.addEventListener('click', function () {
-          // Check if Cropper is initialized
+            var smallImageElement = document.querySelector('.smallImage');      
           if (cropper) {
-            // Get the cropped data URL
             var croppedDataURL = cropper.getCroppedCanvas().toDataURL();
   
-            // Log the cropped data URL to the console
             console.log('Cropped Data URL:', croppedDataURL);
   
-            // Send the cropped data to the server using AJAX or any preferred method
-            // Example: Use fetch API to send the data to the server
             fetch('/admin/croppedimage', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ croppedImage: croppedDataURL }),
+              body: JSON.stringify({ croppedImage: croppedDataURL ,productId , imageIndex}),
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-              console.log(data);
-              // Handle the response from the server as needed
+                console.log("success", data);
+                Swal.fire({
+            icon: 'success',
+            title: 'Image Cropped Successfully!',
+            showConfirmButton: false,
+            timer: 1500  
+        });
+        setTimeout(() => {
+                        window.location.reload();
+                        
+                    }, 1500);
+
+
+
             })
             .catch(error => console.error(error));
           } else {
@@ -320,7 +330,7 @@
         });
       });
     </script>
-  </body>
+  
 
         
         <section class="pt-50 pb-100">
@@ -353,7 +363,8 @@
     </main>
     
     <!-- Vendor JS-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="/adminAssets/js/vendor/modernizr-3.6.0.min.js"></script>
     <script src="/adminAssets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="/adminAssets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
@@ -379,4 +390,4 @@
 
 
 </html>
-<%- include("../partials/user-footer")%>
+<%- include("../partials/user-footer")%> 

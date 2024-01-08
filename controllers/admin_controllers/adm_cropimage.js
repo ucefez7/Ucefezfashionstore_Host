@@ -1,49 +1,34 @@
 const mongoose = require("mongoose");
-const multer = require("multer");
 const sharp = require("sharp");
 const productCollection = require("../../models/product");
 
-module.exports.cropimage = async (req, res) => {
-  try {
+module.exports.cropimage = async(req,res) =>{
     const productId = req.params.productId;
     const productdata = await productCollection.findOne({ _id: productId });
-    console.log(productdata);
-    res.render("admin-cropimage", { productdata });
+    res.render("admin-cropimage", {productdata});
+} 
+module.exports.PostCrop = async(req,res)=>{
+    try {
+   const { croppedImage, productId, imageIndex } = req.body;
+   const base64Data = croppedImage.replace(/^data:image\/png;base64,/, "");
+   const buffer = Buffer.from(base64Data, "base64");
+
+   const resizedImageBuffer = await sharp(buffer)
+     .resize({ width: 300, height: 300, fit: "cover" })
+     .toBuffer();
+
+   const filename = `cropped_${Date.now()}_${imageIndex}.png`;
+   const filePath = `uploads/${filename}`;
+   await sharp(resizedImageBuffer).toFile(filePath);
+   const updateQuery = {
+     $set: {
+       [`productImg.${imageIndex}`]: filePath,
+     },
+   };
+   await productCollection.findByIdAndUpdate(productId, updateQuery);
+    res.status(200).json({ message: "Image Cropped Successfully." });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-module.exports.PostCrop = async (req, res) => {
-  try {
-    const { croppedImage } = req.body;
-
-    // Replace the "data:image/png;base64," prefix with an empty string
-    const base64Data = croppedImage.replace(/^data:image\/png;base64,/, "");
-
-    console.log("Base64 data extracted");
-
-    // Generate a unique filename using the current timestamp
-    const filename = `cropped_${Date.now()}.png`;
-    console.log("Filename generated:", filename);
-
-    // Save the cropped image
-    // Assuming you have a folder named "uploads" to save the cropped images
-    const filePath = `uploads/${filename}`;
-    await sharp(Buffer.from(base64Data, "base64"))
-      .toFile(filePath);
-
-    // Update the product data in the database with the new image path
-    const productId = req.params.productId;
-    await productCollection.findByIdAndUpdate(productId, {
-      $set: { productImg: [filePath] },
-    });
-
-    // Respond with success
-    res.status(200).json({ message: "Cropped image received successfully.", filePath });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
+    console.log(error)
+    next(error)
+}
+}
