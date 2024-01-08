@@ -14,6 +14,7 @@ const categoryControll = require("../controllers/admin_controllers/adm_category"
 const productControll = require("../controllers/admin_controllers/adm_product")
 const usermanageControll = require("../controllers/admin_controllers/adm_usermanage")
 const ordermanageControll = require("../controllers/admin_controllers/adm_ordermanage")
+const cropImage = require("../controllers/admin_controllers/adm_cropimage")
 
 adminRouter.use("/public/uploads",express.static('public/uploads'));
 adminRouter.use("/uploads",express.static('uploads'));
@@ -49,6 +50,10 @@ adminRouter.post("/postEdit-product/:productId", uploads.array("productImg"), ad
 adminRouter.get("/block-product/:productId", adminMiddleware.verifyadmin, productControll.blockProduct)
 adminRouter.get("/unblock-product/:productId", adminMiddleware.verifyadmin, productControll.unblockProduct)
 adminRouter.get("/delete-image", adminMiddleware.verifyadmin, productControll.deleteImage)
+
+//crop images
+adminRouter.get("/crop/:productId", adminMiddleware.verifyadmin, cropImage.cropimage);
+adminRouter.post("/croppedimage",adminMiddleware.verifyadmin, cropImage.PostCrop);
 
 // Manage User
 adminRouter.get("/user-manage",adminMiddleware.verifyadmin, usermanageControll.getUsers)

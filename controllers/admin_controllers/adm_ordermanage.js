@@ -16,8 +16,8 @@ const productCollection = require("../../models/product");
 
 
 
-// render order manage page try
-module.exports.getOrderlist = async (req, res) => {
+// render order manage page pagination done
+module.exports.getOrderlist = async (req, res,next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = 5; // You can adjust the page size as needed
@@ -41,6 +41,7 @@ module.exports.getOrderlist = async (req, res) => {
     });
   } catch (error) {
     console.error("Error:", error);
+    next(error);
   }
 };
 
@@ -51,20 +52,21 @@ module.exports.getOrderlist = async (req, res) => {
 
 
 // render order details page
-module.exports.getOrdermanage = async(req,res) => {
+module.exports.getOrdermanage = async(req,res,next) => {
   try{
     const orderId = req.params.orderId
     const orderDetails = await orderCollection.findById({_id: orderId}).populate('products.productId').populate('userId');;
     res.render("admin-ordermanage",{ orderDetails })
   }catch (error) {
     console.error("Error:", error)
+    next(error);
   }
 }
 
 
 
 // dispatch order
-module.exports.dispatchOrder = async (req, res) => {
+module.exports.dispatchOrder = async (req, res,next) => {
   try {
     const orderId = req.query.orderId;
     const orderData = await orderCollection.findById(orderId);
@@ -88,12 +90,13 @@ module.exports.dispatchOrder = async (req, res) => {
     res.status(200).json({ message: "The order is shipped" });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 
 // deliver order
-module.exports.deliverOrder = async (req, res) => {
+module.exports.deliverOrder = async (req, res,next) => {
   try {
     const orderId = req.query.orderId;
     const orderData = await orderCollection.findById(orderId);
@@ -119,6 +122,7 @@ module.exports.deliverOrder = async (req, res) => {
     res.status(200).json({ message: "The order is delivered" });
   } catch (error) {
     console.error("Error:", error);
+    next(error);
   }
 };
 
@@ -129,7 +133,7 @@ module.exports.deliverOrder = async (req, res) => {
 
 
 // Update cancelOrder controller
-module.exports.cancelOrder = async (req, res) => {
+module.exports.cancelOrder = async (req, res,next) => {
   try {
     const orderId = req.query.orderId;
     const productId = req.query.productId;
@@ -160,6 +164,7 @@ module.exports.cancelOrder = async (req, res) => {
     }
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    // res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 };

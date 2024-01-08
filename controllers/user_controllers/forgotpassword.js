@@ -54,7 +54,7 @@ const verifyOTP = (otpInput, generatedOTP) => {
   
 };
 
-module.exports.postforget = async (req, res) => {
+module.exports.postforget = async (req, res,next) => {
   try {
     const email = req.body.email;
     const newPassword = req.body.password;
@@ -80,12 +80,15 @@ module.exports.postforget = async (req, res) => {
                 }
       
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 };
 
 
 
-module.exports.postreset= async(req,res)=>{
+module.exports.postreset= async(req,res,next)=>{
   try {
 
     email=req.body.email;
@@ -113,6 +116,7 @@ module.exports.postreset= async(req,res)=>{
     
   } catch (error) {
     console.log(error)
+    next(error);
   }
 
 }

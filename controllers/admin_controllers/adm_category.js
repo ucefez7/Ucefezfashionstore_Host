@@ -7,18 +7,19 @@ const productCollection = require("../../models/product");
 
 
 // render category page with data
-module.exports.getCategory = async (req, res) => {
+module.exports.getCategory = async (req, res, next) => {
   try {
       const categories = await categoryCollection.find();
       res.render("admin-categorylist", { categories });
   } catch (error) {
       console.error(error);
+      next(error);
   }
 };
 
 
 // adding catagory data
-module.exports.postCategory = async (req, res) => {
+module.exports.postCategory = async (req, res, next) => {
   try {
     const catgName = req.body.catgName;
     const categorydata = await categoryCollection.findOne({ catgName: catgName });
@@ -35,7 +36,8 @@ module.exports.postCategory = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    next(error);
+    // res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
 
@@ -47,7 +49,7 @@ module.exports.editCategory = async (req,res) => {
 }
 
 // update category
-module.exports.updateCategory = async(req,res) => {
+module.exports.updateCategory = async(req,res,next) => {
   try {
     const categoryId = req.params.categoryId;
     // console.log(categoryId)
@@ -59,6 +61,7 @@ module.exports.updateCategory = async(req,res) => {
     res.redirect("/admin/category-list")
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
@@ -81,7 +84,7 @@ module.exports.updateCategory = async(req,res) => {
 
 
 // block category
-module.exports.blockCategory = async (req,res) => {
+module.exports.blockCategory = async (req,res,next) => {
   try {
     Idcategory = req.params.categoryId
     console.log(Idcategory)
@@ -90,12 +93,13 @@ module.exports.blockCategory = async (req,res) => {
     res.redirect('/admin/category-list')
   } catch (error) {
     console.error(error)
+    next(error);
   }
 }
 
 
 // unblock category
-module.exports.unblockCategory = async (req,res) => {
+module.exports.unblockCategory = async (req,res,next) => {
   try {
     Idcategory = req.params.categoryId
     const newStatus = await categoryCollection.findById({_id: Idcategory})
@@ -103,5 +107,6 @@ module.exports.unblockCategory = async (req,res) => {
     res.redirect('/admin/category-list')
   } catch (error) {
     console.error(error)
+    next(error);
   }
 }

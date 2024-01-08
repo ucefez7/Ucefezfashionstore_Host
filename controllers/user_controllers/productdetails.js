@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const secretkey = process.env.JWT_SECRET_KEY
 
 // render product detail page
-module.exports.productDetails = async(req,res) => {
+module.exports.productDetails = async(req,res,next) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
@@ -15,5 +15,6 @@ module.exports.productDetails = async(req,res) => {
     res.render("user-productdetails", {loggedIn, username, productdata})
   } catch(error) {
     console.error(error)
+    next(error);
   }
 }

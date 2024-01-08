@@ -1,0 +1,382 @@
+<%- include("../partials/user-header")%>
+<head>
+    
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+    <style>
+        .slider-nav-thumbnails {
+            display: flex;
+            justify-content: center;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body>
+  <header class="header-area header-style-5">
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1">
+                    <a href="/admin/admin-dash"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</header>
+    <div class="mobile-header-active mobile-header-wrapper-style">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="/admin/admin-dash"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="#">
+                        <input type="text" placeholder="Search for items…">
+                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    </form>
+                </div>
+                <div class="mobile-menu-wrap mobile-header-border">
+                    <div class="main-categori-wrap mobile-header-border">
+                        <a class="categori-button-active-2" href="#">
+                            <span class="fi-rs-apps"></span> Browse Categories
+                        </a>
+                        <div class="categori-dropdown-wrap categori-dropdown-active-small">
+                            <ul>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a></li>
+                                <li> <a href="shop-grid-right.html"><i class="evara-font-smartphone"></i> Cellphones</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-desktop"></i>Computer & Office</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-cpu"></i>Consumer Electronics</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-home"></i>Home & Garden</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-high-heels"></i>Shoes</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-teddy-bear"></i>Mother & Kids</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-kite"></i>Outdoor fun</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- mobile menu start -->
+                    <nav>
+                        <ul class="mobile-menu">
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="index.html">Home</a>
+                                <ul class="dropdown">
+                                    <li><a href="index.html">Home 1</a></li>
+                                    <li><a href="index-2.html">Home 2</a></li>
+                                    <li><a href="index-3.html">Home 3</a></li>
+                                    <li><a href="index-4.html">Home 4</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="shop-grid-right.html">shop</a>
+                                <ul class="dropdown">
+                                    <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
+                                    <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
+                                    <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
+                                    <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
+                                    <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product</a>
+                                        <ul class="dropdown">
+                                            <li><a href="shop-product-right.html">Product – Right Sidebar</a></li>
+                                            <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
+                                            <li><a href="shop-product-full.html">Product – No sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-filter.html">Shop – Filter</a></li>
+                                    <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
+                                    <li><a href="shop-cart.html">Shop – Cart</a></li>
+                                    <li><a href="shop-checkout.html">Shop – Checkout</a></li>
+                                    <li><a href="shop-compare.html">Shop – Compare</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega menu</a>
+                                <ul class="dropdown">
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Women's Fashion</a>
+                                        <ul class="dropdown">
+                                            <li><a href="shop-product-right.html">Dresses</a></li>
+                                            <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
+                                            <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
+                                            <li><a href="shop-product-right.html">Women's Sets</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Men's Fashion</a>
+                                        <ul class="dropdown">
+                                            <li><a href="shop-product-right.html">Jackets</a></li>
+                                            <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
+                                            <li><a href="shop-product-right.html">Genuine Leather</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Technology</a>
+                                        <ul class="dropdown">
+                                            <li><a href="shop-product-right.html">Gaming Laptops</a></li>
+                                            <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
+                                            <li><a href="shop-product-right.html">Tablets</a></li>
+                                            <li><a href="shop-product-right.html">Laptop Accessories</a></li>
+                                            <li><a href="shop-product-right.html">Tablet Accessories</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
+                                <ul class="dropdown">
+                                    <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
+                                    <li><a href="blog-category-list.html">Blog Category List</a></li>
+                                    <li><a href="blog-category-big.html">Blog Category Big</a></li>
+                                    <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product Layout</a>
+                                        <ul class="dropdown">
+                                            <li><a href="blog-post-left.html">Left Sidebar</a></li>
+                                            <li><a href="blog-post-right.html">Right Sidebar</a></li>
+                                            <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="page-about.html">About Us</a></li>
+                                    <li><a href="page-contact.html">Contact</a></li>
+                                    <li><a href="page-account.html">My Account</a></li>
+                                    <li><a href="page-login-register.html">login/register</a></li>
+                                    <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
+                                    <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
+                                    <li><a href="page-terms.html">Terms of Service</a></li>
+                                    <li><a href="page-404.html">404 Page</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Language</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">English</a></li>
+                                    <li><a href="#">French</a></li>
+                                    <li><a href="#">German</a></li>
+                                    <li><a href="#">Spanish</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap mobile-header-border">
+                    <div class="single-mobile-header-info mt-30">
+                        <a  href="page-contact.html"> Our location </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="page-login-register.html">Log In / Sign Up </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="#">(+01) - 2345 - 6789 </a>
+                    </div>
+                </div>
+                <div class="mobile-social-icon">
+                    <h5 class="mb-15 text-grey-4">Follow Us</h5>
+                    <a href="#"><img src="/adminAssets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                    <a href="#"><img src="/adminAssets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                    <a href="#"><img src="/adminAssets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                    <a href="#"><img src="/adminAssets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                    <a href="#"><img src="/adminAssets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/admin/admin-dash" rel="nofollow">Home</a>
+                    <span></span> Pages
+                    <span></span> Account
+                </div>
+            </div>
+        </div>
+        <!DOCTYPE html>
+
+  
+
+        <body style="margin-left: 100px; margin-right: 124px;">
+            <button id="cropButton" class="btn btn-success" style="display: none;">Crop Selected Image</button>
+        
+            <!-- Add a container div to wrap the main image -->
+            <div id="imageContainer" style="background-color: #c4f79c;">
+                <!-- Main image for cropping -->
+                <img id="mainImage" style="max-width: 100%; color: #eaffa0;" />
+            </div>
+            
+            <% if(productdata){ %>
+              
+
+            <div class="slider-nav-thumbnails">
+                <%   productdata.productImg.forEach(imageUrl => { %>
+                <!-- Small images for selection -->
+                <img class="smallImage img-fluid" src="/<%= imageUrl  %>" style="height: 156px;" loading="lazy"/>
+                <%  })%>
+                <!-- Add more small images as needed -->
+            </div>
+            
+            <% }else{ %>
+            <div class="slider-nav-thumbnails">
+                
+            </div>
+
+            <% } %> 
+            <br />
+  
+    
+  
+    <!-- Include Cropper.js script -->
+    <script src="/adminAssets/js/vendor/jquery-3.6.0.min.js"></script>
+
+    <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log('Crop button clicked');
+        var mainImage = document.getElementById('mainImage');
+        var smallImages = document.querySelectorAll('.smallImage');
+        var imageContainer = document.getElementById('imageContainer');
+            var cropButton = document.getElementById('cropButton');
+  
+        var cropper;
+  
+        // Event listener for selecting a small image
+        smallImages.forEach(function (smallImage) {
+          smallImage.addEventListener('click', function (e) {
+            // Destroy the existing cropper instance, if any
+            imageContainer.style.display = 'block';
+            if (cropper) {
+              cropper.destroy();
+            }
+  
+            mainImage.src = e.target.src;
+  
+            // Initialize Cropper.js
+            cropper = new Cropper(mainImage, {
+              aspectRatio: 1, // Set your desired aspect ratio
+              viewMode: 1,
+              background: false, // Remove background
+              modal: false, // Allow scrolling
+              autoCropArea: 1, // Set the entire image as the crop area
+              zoomable: true, // Enable zooming
+              wheelZoomRatio: 0.1, // Adjust the speed of zooming
+              cropBoxResizable: true, // Allow resizing the crop box
+              cropBoxResizableWidth: 200, // Set the initial width of the crop box
+              autoCrop: true, // Enable auto cropping
+              centered: true, // Center the crop box
+              autoCropArea: 0.8, // Set the initial size of the crop box
+              movable: false, // Disable moving the image within the crop box
+              guides: false, // Disable guides
+              highlight: false, // Disable highlight
+            });
+  
+            // Show the "Crop Selected Image" button when an image is selected
+            cropButton.style.display = 'block';
+  
+            // Add event listener for mouse enter on Cropper container
+            cropper.container.addEventListener('mouseenter', function () {
+              // Enable wheel zoom when mouse is inside the image
+              cropper.setOptions({ zoomOnWheel: true });
+            });
+  
+            // Add event listener for mouse leave on Cropper container
+            cropper.container.addEventListener('mouseleave', function () {
+              // Disable wheel zoom when mouse is outside the image
+              cropper.setOptions({ zoomOnWheel: false });
+            });
+          });
+        });
+  
+        cropButton.addEventListener('click', function () {
+          // Check if Cropper is initialized
+          if (cropper) {
+            // Get the cropped data URL
+            var croppedDataURL = cropper.getCroppedCanvas().toDataURL();
+  
+            // Log the cropped data URL to the console
+            console.log('Cropped Data URL:', croppedDataURL);
+  
+            // Send the cropped data to the server using AJAX or any preferred method
+            // Example: Use fetch API to send the data to the server
+            fetch('/admin/croppedimage', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ croppedImage: croppedDataURL }),
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              // Handle the response from the server as needed
+            })
+            .catch(error => console.error(error));
+          } else {
+            console.error('Cropper not initialized');
+          }
+        });
+      });
+    </script>
+  </body>
+
+        
+        <section class="pt-50 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead>
+                                  
+                              </thead>
+                              <tbody>
+                                  
+                              </tbody>
+                          </table>
+                        
+                          <div class="d-flex justify-content-center">
+                            
+                        </div>  
+
+                        
+                        
+
+
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Vendor JS-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/adminAssets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/adminAssets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/adminAssets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/adminAssets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/adminAssets/js/plugins/slick.js"></script>
+    <script src="/adminAssets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/adminAssets/js/plugins/wow.js"></script>
+    <script src="/adminAssets/js/plugins/jquery-ui.js"></script>
+    <script src="/adminAssets/js/plugins/perfect-scrollbar.js"></script>
+    <script src="/adminAssets/js/plugins/magnific-popup.js"></script>
+    <script src="/adminAssets/js/plugins/select2.min.js"></script>
+    <script src="/adminAssets/js/plugins/waypoints.js"></script>
+    <script src="/adminAssets/js/plugins/counterup.js"></script>
+    <script src="/adminAssets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/adminAssets/js/plugins/images-loaded.js"></script>
+    <script src="/adminAssets/js/plugins/isotope.js"></script>
+    <script src="/adminAssets/js/plugins/scrollup.js"></script>
+    <script src="/adminAssets/js/plugins/jquery.vticker-min.js"></script>
+    <script src="/adminAssets/js/plugins/jquery.theia.sticky.js"></script>
+    <!-- Template  JS -->
+    <script src="/adminAssets/js/maind134.js?v=3.4"></script>
+</body>
+
+
+</html>
+<%- include("../partials/user-footer")%>

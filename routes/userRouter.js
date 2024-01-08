@@ -14,6 +14,7 @@ const cartControll = require("../controllers/user_controllers/cartdetails");
 const checkoutControll = require("../controllers/user_controllers/checkout");
 const accountControll = require("../controllers/user_controllers/account");
 const forgotpasswordControll = require("../controllers/user_controllers/forgotpassword")
+const userError = require("../middlewares/error_handling")
 
 
 // homepage 
@@ -62,7 +63,6 @@ userRouter.get("/edit-address/:objectId/:addressId", userMiddleware.verifyUser, 
 userRouter.post("/post-editedaddress", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.postEditedaddress)
 userRouter.get("/order-details/:orderId", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getOrderdetails)
 userRouter.post("/cancel-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.cancelOrder)
-
 userRouter.post("/cancelSingle-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.cancelSingleOrder)
 
 userRouter.post("/return-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.returnOrder)
@@ -76,7 +76,9 @@ userRouter.get("/forgotpassword", forgotpasswordControll.userForgotpassword );
 userRouter.post("/post-sentotp", forgotpasswordControll.postforget);
 userRouter.post("/post-forgetpassword", forgotpasswordControll.postreset);
 
-
+//error handling
+userRouter.use(userError.errorHandler);
+userRouter.get('/*',userError.errorHandler2)
 
 
 module.exports = userRouter;

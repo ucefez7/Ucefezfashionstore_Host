@@ -45,7 +45,7 @@ function generateOTP() {
 
 
 // sending otp 
-module.exports.getSendOtp = async (req,res) => {
+module.exports.getSendOtp = async (req,res,next) => {
   try {
     const phoneNumber = req.query.phoneNumber;
     const existingUser = await userCollection.findOne({
@@ -100,11 +100,12 @@ module.exports.getSendOtp = async (req,res) => {
   }
   } catch (error) {
     console.error(error)
+    next(error);
   }
 } 
 
 // verify otp
-module.exports.postVerifyOtp = async (req, res) => {
+module.exports.postVerifyOtp = async (req, res,next) => {
   try {
     const userEnteredOTP = req.query.otpInput;
 
@@ -118,7 +119,8 @@ module.exports.postVerifyOtp = async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 }
 

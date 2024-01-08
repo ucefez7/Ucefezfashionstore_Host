@@ -4,7 +4,7 @@ const productCollection = require("../../models/product");
 
 
 //  getting homepage 
-module.exports.getUserRoute = async (req, res) => {
+module.exports.getUserRoute = async (req, res,next) => {
   try {
       const loggedIn = req.cookies.loggedIn;
       const username = req.cookies.username; 
@@ -14,6 +14,7 @@ module.exports.getUserRoute = async (req, res) => {
       res.render("userIndex", { loggedIn,userData, username, productdata: unblockedProducts });
   } catch (error) {
       console.error(error);
+      next(error);
   }
 };
 

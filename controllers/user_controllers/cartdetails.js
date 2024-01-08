@@ -8,7 +8,7 @@ const { default: mongoose } = require("mongoose");
 const secretkey = process.env.JWT_SECRET_KEY
 
 // render cart page
-module.exports.getCart = async (req, res) => {
+module.exports.getCart = async (req, res,next) => {
   try {
     
     const userData = await userCollection.findOne({ email: req.user });
@@ -23,7 +23,8 @@ module.exports.getCart = async (req, res) => {
     
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    // res.status(500).send('Internal Server Error');
+    next(error);
   }
 };  
 
@@ -80,7 +81,7 @@ module.exports.addCart = async(req,res) => {
 
 
 // delete a product from cart
-module.exports.deleteCart = async (req, res) => {
+module.exports.deleteCart = async (req, res,next) => {
   try {
     const productId = req.query.productId;
     const userData = await userCollection.findOne({ email: req.user });
@@ -103,7 +104,8 @@ module.exports.deleteCart = async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    // res.status(500).send('Internal Server Error');
+    next(error);
   }
 };
 
@@ -113,7 +115,7 @@ module.exports.deleteCart = async (req, res) => {
 
 
 
-module.exports.manageQuantity = async(req,res) => {
+module.exports.manageQuantity = async(req,res,next) => {
   try {
     const {productId,newQuantity} = req.query;
     const userData = await userCollection.findOne({ email: req.user });
@@ -136,12 +138,13 @@ module.exports.manageQuantity = async(req,res) => {
     }
   } catch(error){
     console.error(error)
+    next(error);
   }
 }
 
 
 // subtotal 
-module.exports.subtotal = async (req, res) => {
+module.exports.subtotal = async (req, res, next) => {
   try {
     const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
@@ -167,6 +170,7 @@ module.exports.subtotal = async (req, res) => {
     res.json({ success: true, subtotal, isStockAvailable });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Internal Server Error" });
+    // res.status(500).json({ success: false, error: "Internal Server Error" });
+    next(error);
   }
 };

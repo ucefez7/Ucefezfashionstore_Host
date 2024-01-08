@@ -29,8 +29,9 @@ app.use(session({
   saveUninitialized:false,
 }));
 
-app.use("/",userRouter);
 app.use("/admin",adminRouter);
+app.use("/",userRouter);
+
 
 
 const PORT = process.env.PORT || 3000;

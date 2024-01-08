@@ -8,7 +8,7 @@ const productCollection = require("../../models/product");
 
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-module.exports.getProductList = async (req, res) => {
+module.exports.getProductList = async (req, res,next) => {
   try {
     const page = parseInt(req.query.page) || 1; // Get the page from the query parameters
     const pageSize = 5; // Set the number of items per page
@@ -28,6 +28,7 @@ module.exports.getProductList = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    next(error);
   }
 };
 
@@ -43,7 +44,7 @@ module.exports.getProductList = async (req, res) => {
 
 
 // render add product page
-module.exports.getAddProduct = async(req,res) => {
+module.exports.getAddProduct = async(req,res,next) => {
   try {
     const categorydata = await categoryCollection.find();
     const categories = Array.isArray(categorydata)
@@ -52,12 +53,13 @@ module.exports.getAddProduct = async(req,res) => {
     res.render("admin-addproduct", {categories});
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
 
 // adding product
-module.exports.postProduct = async (req, res) => {
+module.exports.postProduct = async (req, res,next) => {
   try {
     if (req.files) {
       const productImg = req.files;
@@ -96,12 +98,13 @@ module.exports.postProduct = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    next(error);
   }
 };
 
 
 // delete a product
-module.exports.deleteProduct = async(req,res) => {
+module.exports.deleteProduct = async(req,res,next) => {
   try{
     const productId = req.params.productId;
     console.log(productId)
@@ -113,11 +116,12 @@ module.exports.deleteProduct = async(req,res) => {
     }
   } catch(error) {
     console.error(error);
+    next(error);
   }
 }
 
 // render product edit page
-module.exports.editProduct = async(req,res) => {
+module.exports.editProduct = async(req,res,next) => {
   try{
     const product = req.params.productId;
     const productdata = await productCollection.findOne({_id:product})
@@ -125,6 +129,7 @@ module.exports.editProduct = async(req,res) => {
     res.render("admin-editproduct", {productdata, categorydata})
   } catch (error) {
     console.log(error);
+    next(error);
   }
 }
 
@@ -192,19 +197,20 @@ module.exports.updateProduct = async (req, res) => {
 
 
 // block product
-module.exports.blockProduct = async (req,res) => {
+module.exports.blockProduct = async (req,res,next) => {
   try {
     Idproduct = req.params.productId
     const newStatus = await productCollection.findById({_id: Idproduct})
     const updatedStatus = await productCollection.updateOne({_id: Idproduct}, {$set: {productStatus: "Block"}})
     res.redirect('/admin/product-list')
   } catch (error) {
-    console.error(error)
+    console.error(error);
+    next(error);
   }
 }
 
 // Unblock product
-module.exports.unblockProduct = async (req,res) => {
+module.exports.unblockProduct = async (req,res,next) => {
   try {
     Idproduct = req.params.productId
     const newStatus = await productCollection.findById({_id: Idproduct})
@@ -212,28 +218,22 @@ module.exports.unblockProduct = async (req,res) => {
     res.redirect('/admin/product-list')
   } catch (error) {
     console.error(error)
+    next(error);
   }
 }
 
 
 // delete image
-module.exports.deleteImage = async (req, res) => {
+module.exports.deleteImage = async (req, res,next) => {
   try {
     const productId = req.query.productId;
     const imagepath = req.query.image;
 
     console.log('Deleting Image:', imagepath);
 
-    // Log the current product data before the deletion
-    // const productBeforeDeletion = await productCollection.findOne({ _id: productId });
-    // console.log('Product Before Deletion:', productBeforeDeletion);
-
-    // Update the document to pull the image
     await productCollection.updateOne({ _id: productId }, { $pull: { productImg: imagepath } });
 
-    // Log the updated product data after the deletion
-    // const productAfterDeletion = await productCollection.findOne({ _id: productId });
-    // console.log('Product After Deletion:', productAfterDeletion);
+    
 
     // Render the view with the updated product data
     const productdata = await productCollection.findOne({ _id: productId });
@@ -241,6 +241,7 @@ module.exports.deleteImage = async (req, res) => {
     res.render("admin-editproduct", { productdata, categorydata });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    // res.status(500).send('Internal Server Error');
+    next(error);
   }
 };

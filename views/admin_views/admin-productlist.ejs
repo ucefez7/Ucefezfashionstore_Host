@@ -265,6 +265,9 @@
                                     <%} else if (product.productStatus === 'Block') {%> 
                                         <a href="#" data-action="/admin/unblock-product/<%= product._id %>" class="btn btn-danger block-unblock-btn" style="background-color: #b61300; color: #fff;">List</a>
                                     <%} %>
+                                    <a href="/admin/crop/<%= product._id %>" data-action="/admin/crop/<%= product._id %>" class="btn btn-sm btn-danger font-sm rounded" style="background-color: rgb(36, 129, 175); color: white;">
+                                        Crop
+                                    </a>
                                 </td>
                             </tr>
                         <% }) %>

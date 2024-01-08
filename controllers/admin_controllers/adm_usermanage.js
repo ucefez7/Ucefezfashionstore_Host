@@ -6,17 +6,18 @@ const userCollection = require("../../models/user_schema")
 
 
 // user manage page
-module.exports.getUsers = async(req,res) => {
+module.exports.getUsers = async(req,res,next) => {
   try {
     const usercollection = await userCollection.find()
     res.render("admin-usermanage", {usercollection})
   } catch(error) {
     console.error(error)
+    next(error);
   }
 }
 
 // block user
-module.exports.blockUser = async(req,res) => {
+module.exports.blockUser = async(req,res,next) => {
   try {
     const Iduser = req.params.userId
     const newStatus = await userCollection.findById({_id:Iduser})
@@ -24,11 +25,12 @@ module.exports.blockUser = async(req,res) => {
     res.redirect("/admin/user-manage") 
   } catch (error) {
     console.error(error)
+    next(error);
   }
 }
 
 // unblock user
-module.exports.unblockUser = async(req,res) => {
+module.exports.unblockUser = async(req,res,next) => {
   try {
     const Iduser = req.params.userId
     const newStatus = await userCollection.findById({_id:Iduser})
@@ -36,5 +38,6 @@ module.exports.unblockUser = async(req,res) => {
     res.redirect("/admin/user-manage") 
   } catch (error) {
     console.error(error)
+    next(error);
   }
 }

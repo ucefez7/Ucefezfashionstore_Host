@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 
 
 // render account page
-module.exports.getUserAccount = async(req,res) => {
+module.exports.getUserAccount = async(req,res,next) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
@@ -22,11 +22,12 @@ module.exports.getUserAccount = async(req,res) => {
 
   } catch(error){
     console.error("error: ", error)
+    next(error);
   }
 }
 
 //  render user edit details page
-module.exports.getUsereditdetails = async(req,res) => {
+module.exports.getUsereditdetails = async(req,res,next) => {
   try {
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
@@ -34,25 +35,14 @@ module.exports.getUsereditdetails = async(req,res) => {
     res.render("user-edituserdetails",{ loggedIn,username,userData })
   } catch(error){
     console.error("Error:", error)
+    next(error);
   }
 }
 
-// saving user updated details
-// module.exports.getUsereditdetails = async (req, res) => {
-//   try {
-//     const loggedIn = req.cookies.loggedIn;
-//     const username = req.cookies.username;
-//     const userData = await userCollection.findOne({ email: req.user });
-//     res.render("user-edituserdetails", { loggedIn, username, userData });
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
-// };
 
 // saving user updated details
 module.exports.postUserupdateddetails = async (req, res) => {
   const username = req.body.username;
-  // const email = req.body.email;
   const phoneNumber = req.body.phoneNumber;
 
   const userData = await userCollection.findOne({ email: req.user });
@@ -62,7 +52,7 @@ module.exports.postUserupdateddetails = async (req, res) => {
     const existingUser = await userCollection.findOne({
       $and: [
         { phoneNumber: phoneNumber },
-        { _id: { $ne: userId } }, // Exclude the current user's ID
+        { _id: { $ne: userId } },
       ],
     });
 
@@ -90,18 +80,19 @@ module.exports.postUserupdateddetails = async (req, res) => {
 
 
 // render change password page
-module.exports.getChangepswd = async(req,res) => {
+module.exports.getChangepswd = async(req,res,next) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
     res.render("user-changepswd", { loggedIn,username })
   } catch(error){
     console.error("Error:", error)
+    next(error);
   }
 }
 
 // save changed password
-module.exports.postChangedswd = async (req, res) => {
+module.exports.postChangedswd = async (req, res,next) => {
   try {
     const oldpassword = req.body.oldpassword;
     const newpassword = req.body.newpassword;
@@ -127,18 +118,20 @@ module.exports.postChangedswd = async (req, res) => {
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ success: false, error: "Internal Server Error" });
+    // res.status(500).json({ success: false, error: "Internal Server Error" });
+    next(error);
   }
 };
 
 // render change email page
-module.exports.getChangeEmail = async(req,res) => {
+module.exports.getChangeEmail = async(req,res,next) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
     res.render("user-changeemail", { loggedIn,username })
   } catch(error){
     console.error("Error:", error)
+    next(error);
   }
 }
 
@@ -150,7 +143,7 @@ function generateOTP() {
 
 
 // send otp
-module.exports.newSendotp = async (req,res) => {
+module.exports.newSendotp = async (req,res,next) => {
   try {
     
     const existingUser = await userCollection.findOne(
@@ -198,11 +191,12 @@ module.exports.newSendotp = async (req,res) => {
   }
   } catch (error) {
     console.error(error)
+    next(error);
   }
 } 
 
 // verify otp
-module.exports.newVerifyotp = async (req, res) => {
+module.exports.newVerifyotp = async (req, res,next) => {
   try {
     const userEnteredOTP = req.query.otpInput;
     const newemail = req.query.email;
@@ -225,18 +219,20 @@ module.exports.newVerifyotp = async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 }
 
 // render add address form page
-module.exports.addAddress = async(req,res) => {
+module.exports.addAddress = async(req,res,next) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
     res.render("user-address",{ loggedIn,username })
   } catch(error){
     console.error("error: ", error)
+    next(error);
   }
 }
 
@@ -299,7 +295,7 @@ module.exports.postAddress = async (req, res) => {
 
 
 // render edit address $ pass data 
-module.exports.editAddress = async(req,res) => {
+module.exports.editAddress = async(req,res,next) => {
   try{
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
@@ -315,11 +311,12 @@ module.exports.editAddress = async(req,res) => {
     res.render("user-editaddress", { loggedIn, username, addressDetails })
   } catch(error) {
     console.error("Error:", error);
+    next(error);
   }
 }
 
 // save edited address
-module.exports.postEditedaddress = async(req,res) => {
+module.exports.postEditedaddress = async(req,res,next) => {
   try{
     const addressId = req.body.addressId;
     const userName = req.body.userName;
@@ -348,11 +345,12 @@ module.exports.postEditedaddress = async(req,res) => {
     res.status(200).json({message: "Address updated successfully"});
   } catch(error){
     console.error("Error:", error);
+    next(error);
   }
 }
 
 //delete address try
-module.exports.deleteAddress = async(req,res)=>{
+module.exports.deleteAddress = async(req,res,next)=>{
   try {
     const addressId = req.params.addressId;
     console.log(addressId)
@@ -372,6 +370,7 @@ module.exports.deleteAddress = async(req,res)=>{
   } catch (error) {
     
     console.error("Error: ", error)
+    next(error);
   }
 }
 
@@ -379,7 +378,7 @@ module.exports.deleteAddress = async(req,res)=>{
 
 
 // render order details
-module.exports.getOrderdetails = async (req, res) => {
+module.exports.getOrderdetails = async (req, res,next) => {
   try {
     const loggedIn = req.cookies.loggedIn;
     const userData = await userCollection.findOne({ email: req.user });
@@ -404,6 +403,7 @@ module.exports.getOrderdetails = async (req, res) => {
     }
   } catch (error) {
     console.error("Error: ", error);
+    next(error);
   }
 };
 

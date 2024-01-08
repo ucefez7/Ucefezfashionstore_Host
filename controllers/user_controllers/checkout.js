@@ -29,6 +29,7 @@ module.exports.getCheckout = async (req, res) => {
     res.render("user-checkout", { loggedIn, username, cartDetails, subtotal, addressDetails });
   } catch (error) {
     console.error(error);
+    next(error);
   }
 };
 
@@ -50,7 +51,8 @@ module.exports.grandtotal = async (req, res) => {
     res.json({ success: true, subtotal });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Internal server error" });
+    // res.status(500).json({ success: false, error: "Internal server error" });
+    next(error);
   }
 };
 
@@ -123,5 +125,6 @@ module.exports.getPlaceOrder = async(req,res) => {
     res.render("user-orderplaced",{loggedIn,username})
   }catch(error){
     console.error("error: ", error)
+    next(error);
   }
 }

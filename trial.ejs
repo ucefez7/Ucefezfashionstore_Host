@@ -5,3 +5,10 @@
          <%} else if (item.status === "Returned") {%> 
              <p>Returned</p>
              <%}%>
+
+
+             <% orderDetails.products.forEach((item) => { %>
+                <%} else if(item.status === "Cancelled") {%> 
+                    <p>Product Cancelled</p>
+                            <%}
+                <% }); %>
