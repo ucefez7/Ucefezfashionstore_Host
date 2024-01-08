@@ -1,14 +1,17 @@
-<% if(item.status === "Order Placed" || item.status === "Shipped" || item.status === "Delivered") {%> 
-    <p><%= orderDetails.paymentStatus %></p>
-         <%} else if(item.status === "Cancelled") {%> 
- <p>Cancelled</p>
-         <%} else if (item.status === "Returned") {%> 
-             <p>Returned</p>
-             <%}%>
+<%} else if(orderDetails.orderStatus === "Shipped") {%> 
+    <!-- Check if any item in the order is not canceled -->
+    <% const allItemsCanceled = orderDetails.products.every(item => item.status === 'Cancelled'); %>
+  
+    <!-- If all items are canceled, display a message; otherwise, show the dispatch and cancel buttons -->
+    <% if (allItemsCanceled) { %>
+      <h5 style="color: rgb(177, 29, 29);">All items in the order are canceled</h5>
+    <% } else { %>
+      <a href="#" order-id="<%= orderDetails._id %>" id="dispatchButton" class="btn btn-sm" style="background-color: rgb(8, 132, 185);">Dispatch product</a>
+      <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>
+    <% } %>
 
 
-             <% orderDetails.products.forEach((item) => { %>
-                <%} else if(item.status === "Cancelled") {%> 
-                    <p>Product Cancelled</p>
-                            <%}
-                <% }); %>
+
+    <%} else if(orderDetails.orderStatus === "Shipped") {%> 
+        <a href="#" order-id="<%= orderDetails._id %>" id="deliveryButton" class="btn btn-sm" style="background-color: rgb(6, 121, 2);">Deliver product</a>
+        <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>

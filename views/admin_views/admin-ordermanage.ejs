@@ -199,12 +199,35 @@
                                 <div class="d-flex justify-content-center">
                                   <div class="d-flex justify-content-between col-3">
                                    
-                                      <% if(orderDetails.orderStatus === "Order Placed" ) {%> 
-                                        <a href="#" order-id="<%= orderDetails._id %>" id="dispatchButton" class="btn btn-sm" style="background-color: rgb(8, 132, 185);">Dispatch product</a>
-                                        <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>
-                                        <%} else if(orderDetails.orderStatus === "Shipped") {%> 
-                                          <a href="#" order-id="<%= orderDetails._id %>" id="deliveryButton" class="btn btn-sm" style="background-color: rgb(6, 121, 2);">Deliver product</a>
+
+
+
+
+                                    <% if(orderDetails.orderStatus === "Order Placed" ) { %>
+                                        <!-- Check if any item in the order is not canceled -->
+                                        <% const allItemsCanceled = orderDetails.products.every(item => item.status === 'Cancelled'); %>
+                                      
+                                        <!-- If all items are canceled, display a message; otherwise, show the dispatch and cancel buttons -->
+                                        <% if (allItemsCanceled) { %>
+                                          <h5 style="color: rgb(177, 29, 29);">All items in the order are canceled</h5>
+                                        <% } else { %>
+                                          <a href="#" order-id="<%= orderDetails._id %>" id="dispatchButton" class="btn btn-sm" style="background-color: rgb(8, 132, 185);">Dispatch product</a>
                                           <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>
+                                        <% } %>
+
+
+
+
+                                        <%} else if(orderDetails.orderStatus === "Shipped") {%> 
+                                            <% const allItemsCanceled = orderDetails.products.every(item => item.status === 'Cancelled'); %>
+                                            <% if (allItemsCanceled) { %>
+                                                <h5 style="color: rgb(177, 29, 29);">All items in the order are canceled</h5>
+                                              <% } else { %>
+                                                <a href="#" order-id="<%= orderDetails._id %>" id="deliveryButton" class="btn btn-sm" style="background-color: rgb(6, 121, 2);">Deliver product</a>
+                                                <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(185, 8, 14);">Cancel product</a>
+                                              <% } %>
+
+                                          
                                           <%} else if(orderDetails.orderStatus === "Delivered") {%>
                                             <h5 style="color: rgb(2, 120, 36);">The order is Delivered</h5>
                                             <%} else if(orderDetails.orderStatus === "Cancelled") {%> 
