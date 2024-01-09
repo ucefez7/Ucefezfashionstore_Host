@@ -14,7 +14,7 @@
         <nav>
             <ul class="menu-aside">
 
-                <li class="menu-item active">
+                <li class="menu-item">
                     <a class="menu-link" href="/admin/admin-dash"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
@@ -32,7 +32,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin/user-manage"> <i class="icon material-icons md-person"></i>
+                    <a class="menu-link active" href="/admin/user-manage"> <i class="icon material-icons md-person"></i>
                         <span class="text">Users</span>
                     </a>
                 </li>
@@ -194,8 +194,14 @@
                                       <% } %>
                                     </tbody>
                                   </table>
+                                    <% const allItemsCanceled = orderDetails.products.every(item => item.status === 'Cancelled'); %>
                                   
+                                    <!-- If all items are canceled, display a message; otherwise, show the dispatch and cancel buttons -->
+                                    <% if (allItemsCanceled) { %>
+                                        <p></p>
+                                        <% } else { %>
                                 <h5 class="d-flex justify-content-end">Total Amount: ₹ <%= orderDetails.totalAmount %></h5>
+                                <% } %>
                                 <div class="d-flex justify-content-center">
                                   <div class="d-flex justify-content-between col-3">
                                    

@@ -139,13 +139,11 @@ module.exports.cancelOrder = async (req, res,next) => {
     const productId = req.query.productId;
     const orderData = await orderCollection.findById(orderId);
 
-    // Find the corresponding product in the order
     const productInOrder = orderData.products.find(
       (product) => product.productId.equals(productId)
     );
 
     if (productInOrder) {
-      // Update productStock based on the order quantity
       const product = await productCollection.findById(productId);
       product.productStock += productInOrder.quantity;
       await product.save();

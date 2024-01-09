@@ -43,7 +43,7 @@ module.exports.getProductList = async (req, res,next) => {
 // }
 
 
-// render add product page
+// render add product page og
 module.exports.getAddProduct = async(req,res,next) => {
   try {
     const categorydata = await categoryCollection.find();
@@ -56,6 +56,9 @@ module.exports.getAddProduct = async(req,res,next) => {
     next(error);
   }
 }
+
+
+
 
 
 // adding product

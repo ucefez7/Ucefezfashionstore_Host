@@ -14,14 +14,14 @@
         <nav>
             <ul class="menu-aside">
 
-                <li class="menu-item active">
+                <li class="menu-item">
                     <a class="menu-link" href="/admin/admin-dash"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
 
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin/product-list"> <i class="icon material-icons md-shopping_bag"></i>
+                    <a class="menu-link active" href="/admin/product-list"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
                 </li>
@@ -96,22 +96,7 @@
             </li> -->
         </ul>
         <hr>
-        <!-- <ul class="menu-aside">
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                    <span class="text">Settings</span>
-                </a>
-                <div class="submenu">
-                    <a href="page-settings-1.html">Setting sample 1</a>
-                    <a href="page-settings-2.html">Setting sample 2</a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                    <span class="text"> Starter page </span>
-                </a>
-            </li>
-        </ul> -->
+      
         <br>
         <br>
     </nav>
@@ -288,34 +273,7 @@
             </div>
         </form>
 
-        <!-- <script>
-            // Function to handle file input change event
-            function previewImages() {
-                const preview = document.getElementById("imagePreview");
-                const fileInput = document.getElementById("productImg");
-                const files = fileInput.files;
         
-                preview.innerHTML = "";
-        
-                for (const file of files) {
-                    const reader = new FileReader();
-        
-                    reader.onload = function (e) {
-                        const img = document.createElement("img");
-                        img.src = e.target.result;
-                        img.className = "img-thumbnail mr-2";
-                        img.style.maxWidth = "270px"; // Set the width of the preview image
-                        img.style.height = "200px"; // Set the height of the preview image
-                        preview.appendChild(img);
-                    };
-        
-                    reader.readAsDataURL(file);
-                }
-            }
-        
-            // Attach the previewImages function to the file input change event
-            document.getElementById("productImg").addEventListener("change", previewImages);
-        </script> -->
 
         <script>
           //preview image
