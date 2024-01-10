@@ -41,6 +41,13 @@ const productSchema = new mongoose.Schema ({
     require: true,
     type: String,
   },
+  offerStart: Date,
+  offerEnd: Date,
+  discountPercent: Number,
+  discountStatus: {
+    type: String,
+    default: "Active",
+  },
 });
 
 productSchema.plugin(mongoosePaginate);

@@ -51,13 +51,13 @@ module.exports.adminPostLogin = async(req,res) => {
   }
 }
 
-module.exports.getAdminDashboard = async(req,res) => {
-  try {
-    res.render("admin-dashboard")
-  } catch (error) {
-    console.error(error)
-  }
-}
+// module.exports.getAdminDashboard = async(req,res) => {
+//   try {
+//     res.render("admin-dashboard")
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
 
 // logout
 module.exports.getLogout = async (req,res) => {
