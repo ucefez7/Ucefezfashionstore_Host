@@ -649,35 +649,24 @@
                             <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                             <div class="payment_method">
                                 <div class="mb-25">
-                                    <h5>Payment</h5>
+                                    <h5>Choose Payment:</h5>
                                 </div>
                                 <div class="payment_option">
-                                    <!-- <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" checked="">
-                                        <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
-                                        <div class="form-group collapse in" id="bankTranfer">
-                                            <p class="text-muted mt-5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
-                                        </div>
-                                    </div>
-                                    <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios4" checked="">
-                                        <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Check Payment</label>
-                                        <div class="form-group collapse in" id="checkPayment">
-                                            <p class="text-muted mt-5">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode. </p>
-                                        </div>
-                                    </div>
-                                    <div class="custome-radio">
-                                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" checked="">
-                                        <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Paypal</label>
-                                        <div class="form-group collapse in" id="paypal">
-                                            <p class="text-muted mt-5">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
-                                        </div>
-                                    </div> -->
+
+                                   
                                     
                                 </div>
-                                <a href="#" class="btn btn-md btn-fill-out btn-block" id="cashOnDeliveryBtn">Cash on delivery</a>
+                                <div class="d-flex space-between justify-content-center" style="gap: 30px;">
+                                    <a href="#" class="btn btn-md btn-fill-out btn-block" id="cashOnDeliveryBtn">Cash on delivery</a>
+                                    
+                                    <a href="#" class="btn btn-md btn-fill-out btn-block" id="walletPayBtn">Pay from wallet</a>
+
+                                    <button class="btn btn-md btn-fill-out btn-block" id="razorpayButton">Pay with Razorpay</button>
+                                </div>
+                                
+                                <!-- <a href="#" class="btn btn-fill-out btn-block mt-30">Place Order</a> -->
                             </div>
-                            <!-- <a href="#" class="btn btn-fill-out btn-block mt-30">Place Order</a> -->
+                            
                         </div>
                     </div>
                 </div>
@@ -817,7 +806,7 @@
     </script>
 
 
-    <script>
+    <!-- <script>
         // placeor order 
         const cashOnDeliveryBtn = document.getElementById("cashOnDeliveryBtn");
 
@@ -827,10 +816,14 @@
             const selectedCheckboxes = document.querySelectorAll('input[name="selectedAddresses"]:checked');
 
             if (selectedCheckboxes.length === 0) {
-                alert('Please select an address');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please select an address',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 return; 
             }   
-
             const selectedAddresses = Array.from(selectedCheckboxes).map(checkbox => checkbox.id.split('_')[1]);
 
             fetch(`/cashOnDelivery?selectedAddresses=${selectedAddresses.join(",")}`, {
@@ -869,10 +862,167 @@
                 window.location.href = '/cart'
             });
         });
-    </script>
+    </script> -->
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const totalAmountElement = document.getElementById('total_amount'); // Assuming this is the element displaying the total amount
+        const cashOnDeliveryBtn = document.getElementById("cashOnDeliveryBtn");
+        const razorpayButton = document.getElementById("razorpayButton");
+        const walletPayBtn = document.getElementById("walletPayBtn");
+
+      
+        cashOnDeliveryBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const selectedCheckboxes = document.querySelectorAll('input[name="selectedAddresses"]:checked');
+
+            if (selectedCheckboxes.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please select an address',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return; 
+            }   
+
+            const selectedAddresses = Array.from(selectedCheckboxes).map(checkbox => checkbox.id.split('_')[1]);
+            
+            fetch(`/cashOnDelivery?selectedAddresses=${selectedAddresses.join(",")}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+            })
+            .then((response)=>{
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data)=>{
+            if (data.message) {
+                swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            window.location.href = '/order-placed'
+            }
+        })
+            .catch(error => {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Failed to place order',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                console.error("Error:", error);
+                window.location.href = '/cart'
+            });
+        });
+
+
+
+
+        razorpayButton.addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            const selectedCheckboxes = document.querySelectorAll('input[name="selectedAddresses"]:checked');
+
+            if (selectedCheckboxes.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please select an address',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return; 
+            }   
+
+            const selectedAddresses = Array.from(selectedCheckboxes).map(checkbox => checkbox.id);
+         
+            fetch(`/razorpay`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ selectedAddresses: selectedAddresses })
+            })
+            .then((response)=>{
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data)=>{
+                if (data.success) {
+                    const order = data.order;
+                    const orderId = data.orderId;
+                    const amount = data.totalAmount;
+                    const addressId = data.addressId;
+                    console.log(order,orderId,amount,addressId);
+
+                    var options = {
+                        key: "rzp_test_ifkViQIOfX6sak",
+                        amount: Number(amount)*100,
+                        currency: "INR",
+                        name: "UCEFEZ FASHION",
+                        description: "Test Transaction",
+                        image: "",
+                        order_id: orderId,
+                        handler: function (response) {
+                            // window.location.href = '/order-placed'
+                                // window.location.href = `/razorpayorder-placed?amount=${amount}&addressId=${addressId}`
+                                window.location.href = `/razorpayorder-placed?amount=${amount}&addressId=${addressId}`
+                                 
+                        },
+                        prefill: {
+                            // name: 'UCEFEZ FASHION STORE',
+                            email: 'yousafalieamonu@gmail.com',
+                            contact: '7763974738',
+                        },
+                        notes: {
+                            address: "Razorpay Corporate Office",
+                        },
+                        theme: {
+                            // color: "#3399cc",
+                            color:"#479B6A ",
+                        },
+                    };
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                    rzp1.on('payment.failed', function (response){
+                        alert(response.error.description);
+                    });
+                } 
+               
+            })
+            .catch(error => {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Failed to process the payment",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                console.error("Error:", error);
+            });
+        });
+
+
+
+    });
+</script>
     <!-- Preloader Start -->
-    <div id="preloader-active">
+    <!-- <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="text-center">
@@ -885,7 +1035,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Vendor JS-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 

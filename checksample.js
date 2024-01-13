@@ -6,13 +6,11 @@ const { subtotal } = require("./cartdetails");
 const orderCollection = require("../../models/order");
 
 const Razorpay = require("razorpay")
-const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
-
+const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY}= process.env
 const instance = new Razorpay({
   key_id: RAZORPAY_ID_KEY,
   key_secret: RAZORPAY_SECRET_KEY,
-});
-
+})
 
 // render checkout
 module.exports.getCheckout = async (req, res) => {
@@ -124,137 +122,6 @@ module.exports.cashOnDelivery = async (req, res) => {
     res.status(500).render('error');
   }
 };
-
-
-module.exports.razorpayOrder = async (req, res) => {
-  try {
-    const userData = await userCollection.findOne({ email: req.user });
-    const userId = userData._id;
-    const addressId = req.body.selectedAddresses;
-
-    // Extract ObjectId from the addressId string
-    const extractedAddressId = String(addressId).split('_')[1];
-
-    const address = await addressCollection.findOne(
-      { userId: userId, "address._id": extractedAddressId },
-      { "address.$": 1 }
-    );
-
-    const cartDetails = await cartCollection
-      .findOne({ userId: userId })
-      .populate("products.productId");
-
-    // Check if productStock is sufficient for each product in the cart
-    const stockCheck = cartDetails.products.every((productItem) => {
-      return productItem.productId.productStock >= productItem.quantity;
-    });
-
-    const statusCheck = cartDetails.products.every((productItem) => {
-      return productItem.productId.productStatus !== "Block";
-    });
-
-    if (!stockCheck || !statusCheck) {
-      return res.redirect("/cart");
-    }
-
-    // Calculate total amount
-    let totalAmount = 0;
-    cartDetails.products.forEach((productItem) => {
-      let product = productItem.productId;
-      totalAmount += product.sellingPrice * productItem.quantity;
-    });
-
-    // Create Razorpay order
-    var options = {
-      amount: totalAmount * 100,
-      currency: "INR",
-      receipt: "order_rcptid_11",
-    };
-
-    console.log("Options:", options);
-
-    instance.orders.create(options, function (err, order) {
-      if (err) {
-        console.error("Razorpay error:", err);
-        return res
-          .status(500)
-          .json({ success: false, message: "Error creating order" });
-      }
-      console.log("Razorpay Order:", order);
-      console.log("Total Amount:", totalAmount);
-      res.status(200).json({
-        success: true,
-        message: "order placed",
-        totalAmount: totalAmount.toFixed(2),
-        addressId: extractedAddressId,
-        order: order,
-        orderId: order.id,
-      });
-    });
-  } catch (error) {
-    console.log("Error:", error);
-    res.status(500).render("error");
-  }
-};
-
-
-
-
-module.exports.razorpayOrderPlaced = async (req, res) => {
-  try {
-    const loggedIn = req.cookies.loggedIn;
-    const userData = await userCollection.findOne({ email: req.user });
-    const userId = userData._id;
-    const username = userData.username;
-    let totalAmount = 0;
-    const addressId = req.query.addressId;
-    const address = await addressCollection.findOne(
-      { userId: userId, "address._id": addressId },
-      { "address.$": 1 }
-    );
-    const cartDetails = await cartCollection
-      .findOne({ userId: userId })
-      .populate("products.productId");
-
-    let orderProducts = await Promise.all(
-      cartDetails.products.map(async (productItem) => {
-        let product = await productCollection.findById(productItem.productId);
-        totalAmount += product.sellingPrice * productItem.quantity;
-
-        return {
-          productId: productItem.productId,
-          price: product.sellingPrice,
-          quantity: productItem.quantity,
-          orderPrice: (product.sellingPrice * productItem.quantity).toFixed(2),
-        };
-      })
-    );
-
-    const paymentMethod = "Online payment";
-    const paymentStatus = "Success";
-
-    // Create the order with the totalAmount based on selling prices
-    const userOrder = await orderCollection.create({
-      userId,
-      products: orderProducts,
-      orderDate: new Date(),
-      totalAmount,
-      payableAmount: totalAmount,
-      paymentMethod,
-      paymentStatus,
-      address,
-    });
-
-    // Delete products from cart
-    await cartCollection.findOneAndDelete({ userId: userId });
-
-    return res.render("user-orderplaced", { loggedIn, username });
-  } catch (error) {
-    console.log("Error:", error);
-    return res.status(500).render("error");
-  }
-};
-
 
 
 // render place order

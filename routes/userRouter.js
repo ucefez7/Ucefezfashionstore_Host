@@ -47,6 +47,12 @@ userRouter.get("/get-grandtotal", userMiddleware.verifyUser, userMiddleware.chec
 userRouter.post("/cashOnDelivery", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.cashOnDelivery)
 userRouter.get("/order-placed", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.getPlaceOrder)
 
+//Razorpay
+userRouter.post("/razorpay", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.razorpayOrder)
+userRouter.get("/razorpayorder-placed", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.razorpayOrderPlaced)
+
+
+
 // account
 userRouter.get("/account", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getUserAccount)
 userRouter.get("/get-usereditdetails", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getUsereditdetails)

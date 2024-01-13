@@ -1,113 +1,205 @@
-const mongoose = require("mongoose")
-const orderCollection = require("../../models/order");
-const userCollection = require("../../models/user_schema");
-const productCollection = require("../../models/product");
-
-// render order manage page
-module.exports.getOrderlist = async(req,res) => {
-  try{
-    const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
-    res.render("admin-orderlist",{ orderDetails})
-  }catch (error) {
-    console.error("Error:", error)
-  }
-}
-
-// render order details page
-module.exports.getOrdermanage = async(req,res) => {
-  try{
-    const orderId = req.params.orderId
-    const orderDetails = await orderCollection.findById({_id: orderId}).populate('products.productId').populate('userId');;
-    res.render("admin-ordermanage",{ orderDetails })
-  }catch (error) {
-    console.error("Error:", error)
-  }
-}
-
-
-module.exports.dispatchOrder = async (req, res) => {
+module.exports.razorpayOrderPlaced = async (req, res) => {
   try {
-    const orderId = req.query.orderId;
-    const productId = req.query.productId;
-    const orderData = await orderCollection.findById(orderId);
+    await offerController.deactivateExpiredOffers();
+    const loggedIn = req.cookies.loggedIn;
+    const userData = await userCollection.findOne({ email: req.user });
+    const userId = userData._id;
+    const username = userData.username;
+    let totalAmount = 0;
+    const addressId = req.query.addressId;
+    const couponCode = req.query.couponCode;
+    console.log("couponCode in success", couponCode);
+    const address = await addressCollection.findOne(
+      { userId: userId, "address._id": addressId },
+      { "address.$": 1 }
+    );
+    const cartDetails = await cartCollection
+      .findOne({ userId: userId })
+      .populate("products.productId");
+    const productOffers = await productCollection.find({
+      discountStatus: "Active",
+    });
 
-    // Find the corresponding product in the order
-    const productInOrder = orderData.products.find(
-      (product) => product.productId.equals(productId)
+    let orderProducts = await Promise.all(
+      cartDetails.products.map(async (productItem) => {
+        let product = await productCollection.findById(productItem.productId);
+        totalAmount += product.sellingPrice * productItem.quantity;
+
+        return {
+          productId: productItem.productId,
+          price: product.sellingPrice,
+          quantity: productItem.quantity,
+        };
+      })
     );
 
-    if (productInOrder) {
-      // Update the status of the product
-      productInOrder.status = "Shipped";
-      await orderData.save();
+    if (couponCode) {
+      console.log("here");
+      const usedCoupon = await couponCollection.findOne({
+        couponCode: couponCode,
+      });
+      if (usedCoupon) {
+        console.log("inside here");
 
-      res.status(200).json({ message: "The product is shipped" });
+        const paymentMethod = "Online payment";
+        const paymentStatus = "Success";
+
+        const couponAmount = parseFloat(usedCoupon.discountAmount);
+        console.log("couponAmount", couponAmount);
+        totalAmount = Math.max(totalAmount - couponAmount, 0);
+        console.log("total amount minus couponamont", totalAmount);
+
+        let divideAmount = 0;
+        let orderProducts = [];
+
+        // Calculate the total amount of products
+        for (const productItem of cartDetails.products) {
+          const product = await productCollection.findById(
+            productItem.productId
+          );
+          let productTotalPrice = product.sellingPrice * productItem.quantity;
+
+          // Check if the product has a discount offer
+          const matchingOffer = productOffers.find(
+            (offer) => offer.productName === product.productName
+          );
+
+          if (matchingOffer) {
+            const discountedAmount =
+              (productItem.quantity *
+                (product.sellingPrice * matchingOffer.discountPercent)) /
+              100;
+
+            // Ensure that both product.sellingPrice and matchingOffer.discountPercent are valid numbers
+            if (
+              !isNaN(product.sellingPrice) &&
+              !isNaN(matchingOffer.discountPercent) &&
+              !isNaN(discountedAmount)
+            ) {
+              productTotalPrice -= discountedAmount;
+              totalAmount -= discountedAmount;
+              console.log("discountedAmount is", discountedAmount);
+            }
+          }
+
+          // Update productStock
+          product.productStock -= productItem.quantity;
+          await product.save();
+
+          divideAmount += product.sellingPrice * productItem.quantity;
+
+          orderProducts.push({
+            productId: productItem.productId,
+            price: product.sellingPrice,
+            quantity: productItem.quantity,
+            orderPrice: isNaN(productTotalPrice)
+              ? "0.00"
+              : productTotalPrice.toFixed(2),
+          });
+        }
+
+        // Calculate the split coupon amount for each product
+        const splitedCouponAmount = couponAmount / divideAmount;
+
+        // Apply the split coupon amount to each product
+        orderProducts = orderProducts.map((product) => {
+          const splitedDiscount =
+            splitedCouponAmount * product.price * product.quantity;
+          product.orderPrice = (
+            parseFloat(product.orderPrice) - splitedDiscount
+          ).toFixed(2);
+          return product;
+        });
+
+        // Create the order with the adjusted totalAmount
+        const userOrder = await orderCollection.create({
+          userId,
+          products: orderProducts,
+          orderDate: new Date(),
+          totalAmount,
+          payableAmount: totalAmount,
+          paymentMethod,
+          paymentStatus,
+          address,
+        });
+
+        // Delete products from cart
+        await cartCollection.findOneAndDelete({ userId: userId });
+
+        usedCoupon.redeemedUser.push(userId);
+        await usedCoupon.save();
+
+        return res.render("user-orderplaced", { loggedIn, username });
+      }
     } else {
-      res.status(404).json({ error: "Product not found in the order" });
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
+      console.log("paying without coupon");
 
-module.exports.deliverOrder = async (req, res) => {
-  try {
-    const orderId = req.query.orderId;
-    const productId = req.query.productId;
-    const orderData = await orderCollection.findById(orderId);
+      const paymentMethod = "Online payment";
+      const paymentStatus = "Success";
+      totalAmount = 0;
 
-    // Find the corresponding product in the order
-    const productInOrder = orderData.products.find(
-      (product) => product.productId.equals(productId)
-    );
+      let orderProducts = await Promise.all(
+        cartDetails.products.map(async (productItem) => {
+          let product = await productCollection.findById(productItem.productId);
+          let productTotalPrice = product.sellingPrice * productItem.quantity;
+          totalAmount += product.sellingPrice * productItem.quantity;
 
-    if (productInOrder) {
-      // Update the status of the product
-      productInOrder.status = "Delivered";
-      await orderData.save();
+          // Check if the product has a discount offer
+          const matchingOffer = productOffers.find(
+            (offer) => offer.productName === product.productName
+          );
 
-      res.status(200).json({ message: "The product is delivered" });
-    } else {
-      res.status(404).json({ error: "Product not found in the order" });
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
+          if (matchingOffer) {
+            const discountedAmount =
+              (productItem.quantity *
+                (product.sellingPrice * matchingOffer.discountPercent)) /
+              100;
 
-module.exports.cancelOrder = async (req, res) => {
-  try {
-    const orderId = req.query.orderId;
-    const productId = req.query.productId;
-    const orderData = await orderCollection.findById(orderId);
+            // Ensure that both product.sellingPrice and matchingOffer.discountPercent are valid numbers
+            if (
+              !isNaN(product.sellingPrice) &&
+              !isNaN(matchingOffer.discountPercent) &&
+              !isNaN(discountedAmount)
+            ) {
+              totalAmount -= discountedAmount
+              productTotalPrice -= discountedAmount;
+              console.log("discountedAmount is", discountedAmount);
+            }
+          }
 
-    // Find the corresponding product in the order
-    const productInOrder = orderData.products.find(
-      (product) => product.productId.equals(productId)
-    );
+          // Update productStock
+          product.productStock -= productItem.quantity;
+          await product.save();
 
-    if (productInOrder) {
-      // Update productStock based on the order quantity
-      const product = await productCollection.findById(productId);
-      product.productStock += productInOrder.quantity;
-      await product.save();
-
-      // Remove the product from the order
-      orderData.products = orderData.products.filter(
-        (product) => !product.productId.equals(productId)
+          return {
+            productId: productItem.productId,
+            price: product.sellingPrice,
+            quantity: productItem.quantity,
+            orderPrice: isNaN(productTotalPrice)
+              ? "0.00"
+              : productTotalPrice.toFixed(2),
+          };
+        })
       );
 
-      // Save the updated order
-      await orderData.save();
+      const userOrder = await orderCollection.create({
+        userId,
+        products: orderProducts,
+        orderDate: new Date(),
+        totalAmount: totalAmount.toFixed(2),
+        payableAmount: totalAmount,
+        paymentMethod,
+        paymentStatus,
+        address,
+      });
 
-      res.status(200).json({ message: "The product is cancelled" });
-    } else {
-      res.status(404).json({ error: "Product not found in the order" });
+      // Delete products from cart
+      await cartCollection.findOneAndDelete({ userId: userId });
+
+      return res.render("user-orderplaced", { loggedIn, username });
     }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log("Error:", error);
+    return res.status(500).render("error");
   }
 };
