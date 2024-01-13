@@ -74,12 +74,6 @@ module.exports.addCart = async(req,res) => {
 }
 
 
-
-
-
-
-
-
 // delete a product from cart
 module.exports.deleteCart = async (req, res,next) => {
   try {
