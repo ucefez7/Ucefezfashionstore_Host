@@ -3,17 +3,46 @@ const orderCollection = require("../../models/order");
 const userCollection = require("../../models/user_schema");
 const productCollection = require("../../models/product");
 
-// // render order manage page og
-// module.exports.getOrderlist = async(req,res) => {
-//   try{
-//     const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
-//     res.render("admin-orderlist",{ orderDetails})
-//   }catch (error) {
-//     console.error("Error:", error)
-//   }
+
+
+// const shortid = require('shortid');
+
+// function generateRandomOrderId() {
+//     return '' + shortid.generate();
 // }
 
+// module.exports.getOrderlist = async (req, res, next) => {
+//     try {
+//         const page = parseInt(req.query.page) || 1;
+//         const pageSize = 5;
+//         const skip = (page - 1) * pageSize;
 
+//         const orderDetails = await orderCollection
+//             .find()
+//             .populate('products.productId')
+//             .populate('userId')
+//             .skip(skip)
+//             .limit(pageSize)
+//             .exec();
+
+//         // Generate custom order ID for display
+//         orderDetails.forEach(order => {
+//             order.customOrderId = generateRandomOrderId();
+//         });
+
+//         const totalCount = await orderCollection.countDocuments();
+//         const totalPages = Math.ceil(totalCount / pageSize);
+
+//         res.render("admin-orderlist", {
+//             orderDetails,
+//             currentPage: page,
+//             totalPages,
+//         });
+//     } catch (error) {
+//         console.error("Error:", error);
+//         next(error);
+//     }
+// };
 
 
 // render order manage page pagination done
@@ -46,11 +75,6 @@ module.exports.getOrderlist = async (req, res,next) => {
 };
 
 
-
-
-
-
-
 // render order details page
 module.exports.getOrdermanage = async(req,res,next) => {
   try{
@@ -62,7 +86,6 @@ module.exports.getOrdermanage = async(req,res,next) => {
     next(error);
   }
 }
-
 
 
 // dispatch order

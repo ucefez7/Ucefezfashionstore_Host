@@ -436,8 +436,28 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>
+                                            </div>  
                                         </div>
+
+                                        <div class="pagination-area mt-15 mb-50">
+                                            <nav aria-label="Page navigation example">
+                                              <ul class="pagination justify-content-start">
+                                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                                  <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                                  </li>
+                                                <% } %>
+                                                <% if (currentPage < totalPages) { %>
+                                                  <li class="page-item">
+                                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">
+                                                      <i class="material-icons md-chevron_right"></i>
+                                                    </a>
+                                                  </li>
+                                                <% } %>
+                                              </ul>
+                                            </nav>
+                                          </div>
+
                                     </div>
 
 
@@ -477,10 +497,104 @@
       <div class="col-lg-6">
         <div class="card mb-3 mb-lg-0">
           <div class="card-header">
+
+
             <h5 class="mb-0">Address</h5>
-            <a href="/get-address">+ add a new one</a>
+            <a href="#" id="openAddAddressModal">+ add a new one</a>
           </div>
-  
+  <!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.href = '/account'">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <main class="main">
+                    <section class="mt-50 mb-50">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-6">
+                              <div class="mb-25">
+                               <h6>Add your address </h6>
+            </div>
+            <form method="post" id="myForm">
+                <div class="ship_detail">
+                    <div id="collapseAddress" class="different_address">
+                        <div class="form-group">
+                            <input type="text" required="" name="username" id="username" placeholder="Name *">
+                            <div id="usernameError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="address" required="" placeholder="Address *">
+                            <div id="addressError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input required="" type="text" name="city" placeholder="City *">
+                            <div id="cityError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input required="" type="text" name="landmark" placeholder="Landmark *">
+                            <div id="landmarkError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input required="" type="text" name="state" placeholder="State *">
+                            <div id="stateError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input required="" type="text" name="postcode" placeholder="Postcode  *">
+                            <div id="postcodeError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input required="" type="number" name="phoneNumber" placeholder="Phone Number  *">
+                            <div id="phoneNumberError" class="error"></div>
+                        </div>
+                        <div class="form-group">
+                            <input required="" type="number" name="altphone" placeholder="Alternative Phone Number  *">
+                            <div id="altphoneError" class="error"></div>
+                        </div>
+                        <div>
+                            <button type="submit" id="submitButton">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <div id="preloader-active">
+                    <div class="preloader d-flex align-items-center justify-content-center">
+                        <div class="preloader-inner position-relative">
+                            <div class="text-center">
+                                <h5 class="mb-5">Now Loading</h5>
+                                <div class="loader">
+                                    <div class="bar bar1"></div>
+                                    <div class="bar bar2"></div>
+                                    <div class="bar bar3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+<!-- ... (other scripts) -->
+            
+
+
+
+
+
+
           <% if (!addressDetails || addressDetails.length === 0) { %>
             <h6 style="text-align: center;">Add your address</h6>
           <% } else { %>
@@ -505,6 +619,114 @@
       </div>
     </div>
   </div>
+
+
+
+
+  
+  <script>
+    // Open the modal when the link/button is clicked
+    document.getElementById('openAddAddressModal').addEventListener('click', function() {
+        $('#addAddressModal').modal('show');
+    });
+
+    $('#addAddressModal').on('hidden.bs.modal', function () {
+        window.location.href = '/account';
+    });
+
+    // Your existing script here
+</script>
+  <script>
+    // adding address
+
+const validateForm = () => {
+  const fields = ['username', 'address', 'city', 'landmark', 'state', 'postcode', 'phoneNumber', 'altphone'];
+  let isValid = true;
+
+  fields.forEach(field => {
+      const inputElement = document.querySelector(`input[name="${field}"]`);
+      const value = inputElement.value.trim();
+      const errorElement = document.getElementById(`${field}Error`);
+
+      if (value === '') {
+          isValid = false;
+          errorElement.textContent = `${field.charAt(0).toUpperCase() + field.slice(1)} cannot be empty`;
+      } else if ((field === 'phoneNumber' || field === 'altphone') && !/^\d{10}$/.test(value)) {
+          isValid = false;
+          errorElement.textContent = `${field.charAt(0).toUpperCase() + field.slice(1)} must be exactly 10 digits`;
+      } else {
+          errorElement.textContent = ''; // Clear error message
+      }
+  });
+
+  return isValid;
+};
+
+const submitButton = document.getElementById("submitButton");
+
+submitButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (!validateForm()) {
+      return; // Do not proceed if the form is not valid
+  }
+
+  const username = document.querySelector('input[name="username"]').value;
+  const address = document.querySelector('input[name="address"]').value;
+  const city = document.querySelector('input[name="city"]').value;
+  const landmark = document.querySelector('input[name="landmark"]').value;
+  const state = document.querySelector('input[name="state"]').value;
+  const postcode = document.querySelector('input[name="postcode"]').value;
+  const phoneNumber = document.querySelector('input[name="phoneNumber"]').value;
+  const altphone = document.querySelector('input[name="altphone"]').value;
+
+  console.log('Sending request with data:', { username, address, city, landmark, state, postcode, phoneNumber, altphone });
+
+  fetch('/post-address', {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, address, city, landmark, state, postcode, phoneNumber, altphone })
+  })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log('Response from server:', data);
+          if (data.message) {
+              swal.fire({
+                  position: 'top-center',
+                  icon: 'success',
+                  title: data.message,
+                  showConfirmButton: false,
+                  timer: 1500
+              });
+          }
+          document.getElementById("myForm").reset();
+          window.location.reload();
+          window.location.href = '/account';
+      })
+      .catch(error => {
+          Swal.fire({
+              position: 'top-center',
+              icon: 'error',
+              title: error.message,
+              showConfirmButton: false,
+              timer: 1500
+          });
+          console.error("Error:", error);
+      });
+});
+</script>
+
+
+
+
+
   <!-- Script to handle the AJAX request for deletion -->
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -701,7 +923,7 @@
         </div>
     </footer>
     <!-- Preloader Start -->
-    <div id="preloader-active">
+    <!-- <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="text-center">
@@ -714,7 +936,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Vendor JS-->
 
     

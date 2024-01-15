@@ -1,4 +1,4 @@
-﻿﻿<%- include("../partials/user-header")%>
+﻿﻿﻿﻿<%- include("../partials/user-header")%>
 
 <body>
     <header class="header-area header-style-2 header-height-2">
@@ -470,10 +470,10 @@
                 </div>
             </div>
         </div> -->
-        <section class="mt-50 mb-50">
+        <section class="mt-50 mb-50" >
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12" >
                         <% if (!cartDetails) { %>
                             <div class="text-center">
                                 <h5>There is no items in your cart</h5>
@@ -483,19 +483,20 @@
                                     <h5>There is no items in your cart</h5>
                                   </div>
                                 <%} else { %>
-                        <div class="table-responsive">
-                            <table class="table shopping-summery text-center clean">
+                        <div class="table-responsive" id="reload">
+                            <table class="table shopping-summery text-center clean" >
                                 <thead>
                                     <tr class="main-heading">
                                         <th scope="col">Image</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
-                                        <th scope="col">Subtotal</th>
+                                        <!-- <th scope="col">Subtotal</th> -->
+                                        <th scope="col">Product price</th>
                                         <th scope="col">Remove</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     <% cartDetails.products.forEach(product => { %>
                                     <tr>
                                         <td class="image product-thumbnail"><img src="<%= product.productId?.productImg[0] %>" alt="#"></td>
@@ -522,14 +523,21 @@
                                             </div>
                                             
                                         </td>
-                                        <td class="text-right" data-title="Cart">
+
+                                       
+                                        <td class="text-right" data-title="Cart" >
+                                           
                                             <% if(product.productId?.productStock < product.quantity) {%>
                                                 <label for="" style="color: red;">Product<br> out of<br> stock</label>
                                                 <%} else {%>
-                                                    <span>₹<%= product.quantity * product.productId?.sellingPrice %></span>
+                                                    <!-- <span id="reload">₹<%= product.quantity * product.productId?.sellingPrice %></span> -->
+                                                    <!-- <span>₹<%= product.quantity * product.productId?.sellingPrice %></span> -->
+                                                    <span>₹<%= product.productId?.sellingPrice %></span>
                                                     <%} %>
-                                            
+                    
                                         </td>
+                                    
+
                                         <td class="action" data-title="Remove"><a href="/delete-cart?productId=<%= product.id %>" class="text-muted"><i class="fi-rs-trash"></i></a></td>
                                     </tr>
                                     <tr>
@@ -548,60 +556,7 @@
                         </div>
                         <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
                         <div class="row mb-50">
-                            <!-- <div class="col-lg-6 col-md-12">
-                                <div class="heading_s1 mb-3">
-                                    <h4>Calculate Shipping</h4>
-                                </div>
-                                <p class="mt-15 mb-30">Flat rate: <span class="font-xl text-brand fw-900">5%</span></p>
-                                <form class="field_form shipping_calculator">
-                                    <div class="form-row">
-                                        <div class="form-group col-lg-12">
-                                            <div class="custom_select">
-                                                <select class="form-control select-active">
-                                                    <option value="">Choose a option...</option>
-                                                    <option value="AX">Aland Islands</option>
-                                                    <option value="AF">Afghanistan</option>
-                                                    <option value="ZW">Zimbabwe</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-row row">
-                                        <div class="form-group col-lg-6">
-                                            <input required="required" placeholder="State / Country" name="name" type="text">
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <input required="required" placeholder="PostCode / ZIP" name="name" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-lg-12">
-                                            <button class="btn  btn-sm"><i class="fi-rs-shuffle mr-10"></i>Update</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="mb-30 mt-50">
-                                    <div class="heading_s1 mb-3">
-                                        <h4>Apply Coupon</h4>
-                                    </div>
-                                    <div class="total-amount">
-                                        <div class="left">
-                                            <div class="coupon">
-                                                <form action="#" target="_blank">
-                                                    <div class="form-row row justify-content-center">
-                                                        <div class="form-group col-lg-6">
-                                                            <input class="font-medium" name="Coupon" placeholder="Enter Your Coupon">
-                                                        </div>
-                                                        <div class="form-group col-lg-6">
-                                                            <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                            
                             <div class="col-lg-6 col-md-12">
                                 <div class="border p-md-4 p-30 border-radius cart-totals">
                                     <div class="heading_s1 mb-3">
@@ -645,24 +600,74 @@
     
 
     <script>
-        function updateQuantityAndSubtotal(productId,newQuantity,index) {
-            fetch(`/manage-quantity?productId=${productId}&newQuantity=${newQuantity}`,{
-                method:'PUT'
+        function updateQuantityAndSubtotal(productId, newQuantity, index) {
+            fetch(`/manage-quantity?productId=${productId}&newQuantity=${newQuantity}`, {
+                method: 'PUT'
             })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    location.reload()
-                    console.log("item updated")
-                } else {
-                    console.error('Failed to update the quantity',error)
-                }
-            })
-            .catch(error=> {
-                console.error("error:",error)
-            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update subtotal and total without reloading the entire page
+                       
+                        updateSubtotalAndTotal();
+                        console.log("item updated");
+                    } else {
+                        console.error('Failed to update the quantity', error);
+                    }
+                })
+                .catch(error => {
+                    console.error("error:", error);
+                });
+        }
+    
+        function updateSubtotalAndTotal() {
+            // Fetch subtotal and stock availability from the server
+            fetch("/get-subtotal")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const subtotalElement = document.getElementById("cart_total_amount");
+                        subtotalElement.innerHTML = `<strong><span class="font-xl fw-900 text-brand">₹${data.subtotal.toFixed(2)}</span></strong>`;
+    
+                        // Disable the button if any product is out of stock
+                        if (!data.isStockAvailable) {
+                            const checkoutbtn = document.getElementById("checkoutbtn");
+                            checkoutbtn.disabled = true;
+                            checkoutbtn.innerHTML += " (Out of Stock)";
+                        }
+                    } else {
+                        console.error("Failed to fetch subtotal");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching subtotal:", error);
+                });
         }
     </script>
+    
+    
+    
+    <!-- <script>
+        function updateQuantityAndSubtotal(productId, newQuantity, index) {
+            fetch(`/manage-quantity?productId=${productId}&newQuantity=${newQuantity}`, {
+                method: 'PUT'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload()
+                        // $("#reload").load('/cart #reload');
+                        console.log("item updated");
+                    } else {
+                        console.error('Failed to update the quantity', error);
+                    }
+                })
+                .catch(error => {
+                    console.error("error:", error);
+                });
+        }
+    </script>
+    
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -688,7 +693,7 @@
                         console.error("Error fetching subtotal:", error);
                     });
             });
-        </script>
+        </script> -->
 
     
 

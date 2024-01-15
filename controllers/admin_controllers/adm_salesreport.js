@@ -12,6 +12,28 @@ module.exports.salesReport = async(req,res) =>{
 }
 
 
+// module.exports.salesReport = async(req,res) =>{
+//     try {
+//         // Get today's date
+//         const today = new Date();
+//         today.setHours(0, 0, 0, 0); 
+
+        
+//         const orderData = await orderCollection.find({
+//             orderStatus: "Delivered",
+//             orderDate: { $gte: today, $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) }, // Orders from today
+//         });
+
+//         res.render("admin-salesReport", { orderData });
+//     } catch (error) {
+//         console.log(error);
+//         next(error);
+//     }
+// }
+
+
+
+
 
 module.exports.filterSales = async (req, res, next) => {
   try {
@@ -43,6 +65,5 @@ module.exports.filterSales = async (req, res, next) => {
       next(error);
   }
 };
-
 
 

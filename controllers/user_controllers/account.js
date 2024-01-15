@@ -6,25 +6,60 @@ const orderCollection = require("../../models/order");
 const nodemailer = require('nodemailer');
 
 
-// render account page
-module.exports.getUserAccount = async(req,res,next) => {
-  try{
+// // render account page
+// module.exports.getUserAccount = async(req,res,next) => {
+//   try{
+//     const loggedIn = req.cookies.loggedIn;
+//     const username = req.cookies.username;
+
+//     const userData = await userCollection.findOne({ email: req.user });
+//     const userId = userData._id;
+//     const addressDetails = await addressCollection.findOne({userId: userId})
+//     const orderDetails = await orderCollection.find({userId: userId}).populate('products.productId');
+
+//     // res.render("user-account",{ loggedIn,username,addressDetails })
+//     res.render("user-account",{ loggedIn, username, addressDetails, orderDetails, userData })
+
+//   } catch(error){
+//     console.error("error: ", error)
+//     next(error);
+//   }
+// }
+
+ // render account page with pagination
+module.exports.getUserAccount = async (req, res,next) => {
+  try {
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 10; // You can adjust the page size as needed
+    const skip = (page - 1) * pageSize;
 
     const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
     const addressDetails = await addressCollection.findOne({userId: userId})
-    const orderDetails = await orderCollection.find({userId: userId}).populate('products.productId');
 
-    // res.render("user-account",{ loggedIn,username,addressDetails })
-    res.render("user-account",{ loggedIn, username, addressDetails, orderDetails, userData })
+    const orderDetails = await orderCollection
+      .find({userId: userId})
+      .populate('products.productId')
+      .skip(skip)
+      .limit(pageSize)
+      .exec();
 
-  } catch(error){
-    console.error("error: ", error)
+    const totalCount = await orderCollection.countDocuments();
+    console.log(totalCount)
+    const totalPages = Math.ceil(totalCount / pageSize);
+    
+
+    res.render("user-account",{ loggedIn, username, addressDetails, userData, orderDetails,currentPage: page,totalPages,});
+  } catch (error) {
+    console.error("Error:", error);
     next(error);
   }
-}
+};
+
+
+
 
 //  render user edit details page
 module.exports.getUsereditdetails = async(req,res,next) => {
@@ -406,6 +441,7 @@ module.exports.getOrderdetails = async (req, res,next) => {
     next(error);
   }
 };
+
 
 // cancel order
 module.exports.cancelOrder = async (req, res) => {

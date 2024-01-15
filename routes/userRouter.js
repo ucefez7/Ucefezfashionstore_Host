@@ -40,6 +40,7 @@ userRouter.post("/add-cart", userMiddleware.verifyUser, userMiddleware.checkBloc
 userRouter.get("/delete-cart",  userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.deleteCart)
 userRouter.put("/manage-quantity",userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.manageQuantity)
 userRouter.get("/get-subtotal", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.subtotal)
+userRouter.get("/stockchecking", userMiddleware.verifyUser,userMiddleware.checkBlockedStatus ,cartControll.stockchecking);
 
 // checkout
 userRouter.get("/checkout", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.getCheckout)
