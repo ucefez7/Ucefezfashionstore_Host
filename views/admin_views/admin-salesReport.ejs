@@ -26,10 +26,7 @@
                   </a>
               </li>
 
-              <!-- <li class="menu-item">
-                  <a class="menu-link" href="/admin/category-list"> <i class="icon material-icons md-category"></i>
-                      <span class="text">Category</span> </a>
-              </li> -->
+             
               <li class="menu-item">
                 <a class="menu-link" href="/admin/category-list"> <i class="icon material-icons md-stars"></i>
                     <span class="text">Category</span> </a>
@@ -47,60 +44,17 @@
                   </a>
               </li>
 
-              <!-- <li class="menu-item">
-                  <a class="menu-link" href="/admin/coupon-list"> <i class="icon material-icons md-local_offer"></i>
-                      <span class="text">Coupons</span>
-                  </a>
-              </li> -->
-              <!-- <li class="menu-item">
-                  <a class="menu-link" href="/admin/offer-list"> <i class="icon material-icons md-request_quote"></i>
-                      <span class="text">Offers</span>
-                  </a>
-              </li> -->
+            
               <li class="menu-item active">
                   <a class="menu-link" href="/admin/sales-report"> <i class="icon material-icons md-assessment"></i>
                       <span class="text">Sales Report</span>
                   </a>
               </li>
-              <!-- <li class="menu-item">
-                  <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
-                      <span class="text">Add product</span>
-                  </a>
-              </li> -->
-              <!-- <li class="menu-item">
-                  <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
-                      <span class="text">Transactions</span>
-                  </a>
-              </li> -->
-              
-              <!-- <li class="menu-item">
-                  <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                      <span class="text">Reviews</span>
-                  </a>
-              </li> -->
-              
-              <!-- <li class="menu-item">
-                  <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                      <span class="text">Statistics</span>
-                  </a>
-              </li> -->
+            
           </ul>
           <hr>
           <ul class="menu-aside">
-              <!-- <li class="menu-item has-submenu">
-                  <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                      <span class="text">Settings</span>
-                  </a>
-                  <div class="submenu">
-                      <a href="page-settings-1.html">Setting sample 1</a>
-                      <a href="page-settings-2.html">Setting sample 2</a>
-                  </div>
-              </li>
-              <li class="menu-item">
-                  <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                      <span class="text"> Starter page </span>
-                  </a>
-              </li> -->
+             
           </ul>
           <br>
           <br>
@@ -256,6 +210,21 @@
        
             
         </section>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+        <script>
+        jQuery(document).ready(function ($) {
+        $('#salesReport').DataTable({
+        destroy: true,
+        ordering: false
+        });
+        });
+        
+        </script>
 
         <script>
            

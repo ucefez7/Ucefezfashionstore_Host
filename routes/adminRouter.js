@@ -71,6 +71,8 @@ adminRouter.post("/deliver-order", adminMiddleware.verifyadmin, ordermanageContr
 adminRouter.post("/cancel-order", adminMiddleware.verifyadmin, ordermanageControll.cancelOrder)
 
 
+
+
 // salesReport
 adminRouter.get("/sales-report", adminMiddleware.verifyadmin, salesReport.salesReport);
 adminRouter.post("/filter-sales",adminMiddleware.verifyadmin, salesReport.filterSales )

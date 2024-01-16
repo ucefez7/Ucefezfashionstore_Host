@@ -1,46 +1,44 @@
 const mongoose = require("mongoose");
 const multer = require("multer");
 const sharp = require('sharp')
-//const {uploads} = require("../multer-middleware/multer_middleware")
 
 const categoryCollection = require("../../models/category");
 const productCollection = require("../../models/product");
 
-const mongoosePaginate = require('mongoose-paginate-v2');
+// const mongoosePaginate = require('mongoose-paginate-v2');
 
-module.exports.getProductList = async (req, res,next) => {
-  try {
-    const page = parseInt(req.query.page) || 1; // Get the page from the query parameters
-    const pageSize = 5; // Set the number of items per page
-
-    const options = {
-      page,
-      limit: pageSize,
-    };
-
-    // Use the paginate function provided by mongoose-paginate-v2
-    const result = await productCollection.paginate({}, options);
-
-    res.render('admin-productlist', {
-      productdata: result.docs,
-      currentPage: page,
-      totalPages: result.totalPages,
-    });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-};
-
-// // render product list page
-// module.exports.getProductList = async(req,res) => {
+// module.exports.getProductList = async (req, res,next) => {
 //   try {
-//     const productdata = await productCollection.find()
-//     res.render("admin-productlist", {productdata});
+//     const page = parseInt(req.query.page) || 1; // Get the page from the query parameters
+//     const pageSize = 5; // Set the number of items per page
+
+//     const options = {
+//       page,
+//       limit: pageSize,
+//     };
+
+//     // Use the paginate function provided by mongoose-paginate-v2
+//     const result = await productCollection.paginate({}, options);
+
+//     res.render('admin-productlist', {
+//       productdata: result.docs,
+//       currentPage: page,
+//       totalPages: result.totalPages,
+//     });
 //   } catch (error) {
 //     console.error(error);
+//     next(error);
 //   }
-// }
+// };
+
+module.exports.getProductList = async(req,res) => {
+  try {
+    const productdata = await productCollection.find()
+    res.render("admin-productlist", {productdata});
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 
 // render add product page og
@@ -93,8 +91,29 @@ module.exports.postProduct = async (req, res,next) => {
         productImg: imageIds,
       });
 
-      const productdata = await productCollection.find();
-      res.render("admin-productlist", { productdata });
+       const productdata = await productCollection.find();
+
+
+      const page = parseInt(req.query.page) || 4; // Get the page from the query parameters
+      const pageSize = 5; // Set the number of items per page
+  
+      const options = {
+        page,
+        limit: pageSize,
+      };
+  
+      // Use the paginate function provided by mongoose-paginate-v2
+      const result = await productCollection.paginate({}, options);
+  
+      res.render('admin-productlist', {
+        productdata: result.docs,
+        currentPage: page,
+        totalPages: result.totalPages,
+      });
+
+      
+
+  
       console.log(imageIds);
     } else {
       res.status(400).send("No images selected for upload");

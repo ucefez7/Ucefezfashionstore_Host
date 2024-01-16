@@ -5,74 +5,60 @@ const productCollection = require("../../models/product");
 
 
 
-// const shortid = require('shortid');
-
-// function generateRandomOrderId() {
-//     return '' + shortid.generate();
-// }
-
+// // render order manage page pagination done
 // module.exports.getOrderlist = async (req, res, next) => {
-//     try {
-//         const page = parseInt(req.query.page) || 1;
-//         const pageSize = 5;
-//         const skip = (page - 1) * pageSize;
+//   try {
+//       const page = parseInt(req.query.page) || 1;
+//       const pageSize = 5;
+//       const skip = (page - 1) * pageSize;
 
-//         const orderDetails = await orderCollection
-//             .find()
-//             .populate('products.productId')
-//             .populate('userId')
-//             .skip(skip)
-//             .limit(pageSize)
-//             .exec();
+//       let searchQuery = {};
+//       const searchParam = req.query.search;
+//       if (searchParam) {
+//           // If a search parameter is provided, search by order ID or user name
+//           searchQuery = {
+//               $or: [
+//                   { _id: { $regex: new RegExp(searchParam, 'i') } }, // Case-insensitive search for order ID
+//                   { 'userId.username': { $regex: new RegExp(searchParam, 'i') } } // Case-insensitive search for user name
+//               ]
+//           };
+//       }
 
-//         // Generate custom order ID for display
-//         orderDetails.forEach(order => {
-//             order.customOrderId = generateRandomOrderId();
-//         });
+//       const orderDetails = await orderCollection
+//           .find(searchQuery)
+//           .populate('products.productId')
+//           .populate('userId')
+//           .skip(skip)
+//           .limit(pageSize)
+//           .exec();
 
-//         const totalCount = await orderCollection.countDocuments();
-//         const totalPages = Math.ceil(totalCount / pageSize);
+//       const totalCount = await orderCollection.countDocuments(searchQuery);
+//       const totalPages = Math.ceil(totalCount / pageSize);
 
-//         res.render("admin-orderlist", {
-//             orderDetails,
-//             currentPage: page,
-//             totalPages,
-//         });
-//     } catch (error) {
-//         console.error("Error:", error);
-//         next(error);
-//     }
+//       res.render("admin-orderlist", {
+//           orderDetails,
+//           currentPage: page,
+//           totalPages,
+//       });
+//   } catch (error) {
+//       console.error("Error:", error);
+//       next(error);
+//   }
 // };
 
 
-// render order manage page pagination done
-module.exports.getOrderlist = async (req, res,next) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = 5; // You can adjust the page size as needed
-    const skip = (page - 1) * pageSize;
 
-    const orderDetails = await orderCollection
-      .find()
-      .populate('products.productId')
-      .populate('userId')
-      .skip(skip)
-      .limit(pageSize)
-      .exec();
 
-    const totalCount = await orderCollection.countDocuments();
-    const totalPages = Math.ceil(totalCount / pageSize);
 
-    res.render("admin-orderlist", {
-      orderDetails,
-      currentPage: page,
-      totalPages,
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    next(error);
+
+module.exports.getOrderlist = async(req,res) => {
+  try{
+    const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
+    res.render("admin-orderlist",{ orderDetails})
+  }catch (error) {
+    console.error("Error:", error)
   }
-};
+}
 
 
 // render order details page
@@ -189,3 +175,6 @@ module.exports.cancelOrder = async (req, res,next) => {
     next(error);
   }
 };
+
+
+
