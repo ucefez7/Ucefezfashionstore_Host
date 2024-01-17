@@ -183,6 +183,12 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover" id="order">
+
+                            <!-- <div>
+                                <input type="text" id="searchInput" placeholder="Search...">
+                                <button id="searchButton">Search</button>
+                            </div> -->
+
                             <thead>
                                 <tr>
                                     <th>Order_ID</th>
@@ -201,9 +207,10 @@
                                     <% orderDetails.reverse().forEach((order) => { %>
                                         
                                 <tr>
-                                    <td>orderId_<%= order._id %></td>
-                                    <!-- <td><%= order.customOrderId %></td> -->
-
+                                    
+                                    <td><%= 'orderID_' + order._id %></td>
+                                   
+                                    
                                     <td><b><%= order.userId?.username %></b></td>
                                     <!-- <td><template class="_cf_email_" data-cfemail="aec3cfdcd8c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</template></td> -->
                                     <td>₹<%= order.totalAmount %></td>
@@ -245,12 +252,30 @@
 jQuery(document).ready(function ($) {
 $('#order').DataTable({
 destroy: true,
-ordering: false
+ordering: false,
+lengthChange: false,
+pageLength: 10
 });
 });
 
 </script>
 
+<!-- <script>
+    $(document).ready(function () {
+        const dataTable = $('#example').DataTable({
+            destroy: true,
+            ordering: false,
+            lengthChange: false,
+            pageLength: 10
+        });
+
+        // Add event listener for search button
+            $('#searchButton').on('click', function () {
+                const searchValue = $('#searchInput').val();
+                table.search(searchValue).draw();
+        });
+    });
+</script> -->
 
 
 

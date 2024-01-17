@@ -1,4 +1,4 @@
-﻿﻿﻿﻿<%- include("../partials/user-header")%>
+﻿﻿﻿﻿﻿<%- include("../partials/user-header")%>
 
 <body>
     <header class="header-area header-style-2 header-height-2">
@@ -531,8 +531,8 @@
                                                 <label for="" style="color: red;">Product<br> out of<br> stock</label>
                                                 <%} else {%>
                                                     <!-- <span id="reload">₹<%= product.quantity * product.productId?.sellingPrice %></span> -->
-                                                    <!-- <span>₹<%= product.quantity * product.productId?.sellingPrice %></span> -->
-                                                    <span>₹<%= product.productId?.sellingPrice %></span>
+                                                    <span>₹<%= product.quantity * product.productId?.sellingPrice %></span>
+                                                    <!-- <span>₹<%= product.productId?.sellingPrice %></span> -->
                                                     <%} %>
                     
                                         </td>
@@ -599,7 +599,7 @@
 
     
 
-    <script>
+    <!-- <script>
         function updateQuantityAndSubtotal(productId, newQuantity, index) {
             fetch(`/manage-quantity?productId=${productId}&newQuantity=${newQuantity}`, {
                 method: 'PUT'
@@ -643,11 +643,11 @@
                     console.error("Error fetching subtotal:", error);
                 });
         }
-    </script>
+    </script> -->
     
     
     
-    <!-- <script>
+    <script>
         function updateQuantityAndSubtotal(productId, newQuantity, index) {
             fetch(`/manage-quantity?productId=${productId}&newQuantity=${newQuantity}`, {
                 method: 'PUT'
@@ -693,12 +693,12 @@
                         console.error("Error fetching subtotal:", error);
                     });
             });
-        </script> -->
+        </script>
 
     
 
 
-    <!-- <footer class="main">
+    <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
             <div class="container">
                 <div class="row align-items-center">
@@ -784,10 +784,10 @@
                                     <a href="#" class="hover-up"><img src="/userAssets/imgs/theme/google-play.jpg" alt=""></a>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                            <!-- <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
                                 <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
                                 <img class="wow fadeIn animated" src="/userAssets/imgs/theme/payment-method.png" alt="">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -808,7 +808,7 @@
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
     <!-- Preloader Start -->
     <!-- <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">

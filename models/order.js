@@ -6,6 +6,11 @@ const orderSchema = new mongoose.Schema({
     ref: "userCollection",
     required: true,
   },
+  // randomOrderId: {
+  //       type: String,
+  //       required: true,
+  //       unique: true,
+  // },
   products:[
     {
       productId: {
