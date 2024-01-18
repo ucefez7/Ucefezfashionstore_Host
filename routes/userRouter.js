@@ -14,7 +14,8 @@ const cartControll = require("../controllers/user_controllers/cartdetails");
 const checkoutControll = require("../controllers/user_controllers/checkout");
 const accountControll = require("../controllers/user_controllers/account");
 const forgotpasswordControll = require("../controllers/user_controllers/forgotpassword")
-const userError = require("../middlewares/error_handling")
+const userError = require("../middlewares/error_handling");
+const wishlistControl = require("../controllers/user_controllers/wishlistdetails");
 
 
 // homepage 
@@ -77,8 +78,13 @@ userRouter.get("/delete-address/:objectId/:addressId",userMiddleware.verifyUser,
 // userRouter.get('/delete-address',userMiddleware.verifyUser,userMiddleware.checkBlockedStatus ,accountControll.deleteAddress);
 
 
+// wishlist
+userRouter.get("/wishlist", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, wishlistControl.getWishlist)
+userRouter.post("/add-wishlist", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, wishlistControl.addWishlist)
+userRouter.get("/delete-wishlist/:productId", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, wishlistControl.deleteWishlist)
 
 
+//forgotpassword
 userRouter.get("/forgotpassword", forgotpasswordControll.userForgotpassword );
 userRouter.post("/post-sentotp", forgotpasswordControll.postforget);
 userRouter.post("/post-forgetpassword", forgotpasswordControll.postreset);

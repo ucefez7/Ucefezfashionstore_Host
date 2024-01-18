@@ -1,4 +1,4 @@
-﻿<%- include("../partials/user-header")%>
+﻿﻿<%- include("../partials/user-header")%>
     <!-- Quick view -->
     <header class="header-area header-style-2 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
@@ -731,11 +731,8 @@
                                                     </div>
                                                     <div class="product-action-1">
                                                         <!-- <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a> -->
-                                                        
-                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up addingwishlist-btn" data-product-id="<%= product._id %>" id="addingwishlist">
-                                                            <i class="fi-rs-heart"></i>
-                                                        </a>
-                                                        
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                        <!-- <a aria-label="Compare" class="action-btn hover-up" href="#"><i class="fi-rs-shuffle"></i></a> -->
                                                     </div>
                                                     <div class="product-badges product-badges-position product-badges-mrg">
                                                         <!-- <span class="hot">Hot</span> -->
@@ -818,59 +815,7 @@
                                             });
                                         });
                                     </script>
- <script>
-    // adding wishlist
-    document.addEventListener("DOMContentLoaded", function () {
-        const addingwishlistButtons = document.querySelectorAll(".addingwishlist-btn");
 
-        addingwishlistButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const productId = button.getAttribute("data-product-id");
-                fetch(`/add-wishlist?productId=${productId}`, {
-                    method: 'POST',
-                    headers: {
-                        'content-Type': 'application/json',
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Response from server", data);
-                        // Check if the response contains a message
-                        if (data.message) {
-                            // Display Sweet Alert
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Product Added to wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } if (data.existing) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Product already in wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed to add to wishlist',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        console.error("Error adding to wishlist", error);
-                    });
-            });
-        });
-    });
-</script>
                                     <!-- <div class="col-lg-4 col-md-4 col-12 col-sm-6">
                                         <div class="product-cart-wrap mb-30">
                                             <div class="product-img-action-wrap">

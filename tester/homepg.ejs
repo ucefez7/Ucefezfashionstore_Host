@@ -1,4 +1,4 @@
-﻿<%- include("../partials/user-header")%>
+<%- include("../partials/user-header")%>
     <!-- Quick view -->
     <header class="header-area header-style-2 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
@@ -37,10 +37,12 @@
                                 <% if (!loggedIn) { %>
                                     <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
                                     <li><i class="fi-rs-user"></i><a href="/signup">Sign Up</a></li>
-                                <% } else { %>
+                                <% } else if (username) { %>
                                     <li><i class="fi-rs-user"></i><a href="/account"><%= username %></a></li>
                                     <li><i class="fi-rs-user"></i><a href="/logout">Logout</a></li>
-                                <% } %> 
+                                <% } else {%>
+                                    
+                                 <%} %> 
                                 
                                 <!-- <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
                                 <li><i class="fi-rs-user"></i><a href="/signup">Sign Up</a></li>  -->
@@ -50,35 +52,25 @@
                 </div>
             </div>
         </div>
-        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="header-middle header-middle mt-30  d-none d-lg-block">
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
-                        <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                        <a href="/">
+                            <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                        </a>
                     </div>
                     <div class="header-right">
-                        <div class="search-style-2">
-                            <form action="#">
-                                <select class="select-active">
-                                    <option>All Categories</option>
-                                    <option>Women's</option>
-                                    <option>Men's</option>
-                                    <option>Cellphones</option>
-                                    <option>Computer</option>
-                                    <option>Electronics</option>
-                                    <option> Accessories</option>
-                                    <option>Home & Garden</option>
-                                    <option>Luggage</option>
-                                    <option>Shoes</option>
-                                    <option>Mother & Kids</option>
-                                </select>
-                                <input type="text" placeholder="Search for items...">
+                        <div class="search-style-2 ml-75">
+                            <form action="/search" method="post">
+                                <input type="text" placeholder="Search for items..." name="search_product">
+                                <button type="submit" class="btn btn-fill-out btn-block " style="font-size: medium;font-weight: 700;">Search</button>
                             </form>
                         </div>
                         <div class="header-action-right">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="/wishlist">
+                                    <a href="/whishlist">
                                         <img class="svgInject" alt="Evara" src="/userAssets/imgs/theme/icons/icon-heart.svg">
                                         <!-- <span class="pro-count blue">4</span> -->
                                     </a>
@@ -98,9 +90,11 @@
         <div class="header-bottom header-bottom-bg-color sticky-bar">
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
-                    <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
-                    </div>
+                    <!-- <div class="logo logo-width-1">
+                        <a href="/">
+                            <img src="/userAssets/imgs/theme/Brand.jpg" alt="logo" style="width: 250px; height: auto;">
+                        </a>
+                    </div> -->
                     <div class="header-nav d-none d-lg-flex">
                         <div class="main-categori-wrap d-none d-lg-block">
                             <a class="categori-button-active open" href="#">
@@ -201,9 +195,30 @@
                                         
                                     </li>
                                     <li>
-                                        <a href="#">About</a>
+                                        <a href="/about">About</a>
                                     </li>
-                                   
+                                    <!-- <li><a href="shop-grid-right.html">Shop <i class="fi-rs-angle-down"></i></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
+                                            <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
+                                            <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
+                                            <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
+                                            <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
+                                            <li><a href="#">Single Product <i class="fi-rs-angle-right"></i></a>
+                                                <ul class="level-menu">
+                                                    <li><a href="shop-product-right.html">Product – Right Sidebar</a></li>
+                                                    <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
+                                                    <li><a href="shop-product-full.html">Product – No sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="shop-filter.html">Shop – Filter</a></li>
+                                            <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
+                                            <li><a href="shop-cart.html">Shop – Cart</a></li>
+                                            <li><a href="shop-checkout.html">Shop – Checkout</a></li>
+                                            <li><a href="shop-compare.html">Shop – Compare</a></li>
+                                        </ul>
+                                    </li> -->
+
                                     <li>
                                         <a href="#">Contact</a>
                                     </li>
@@ -218,15 +233,15 @@
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
                             <div class="header-action-icon-2">
-                                <a href="#">
+                                <a href="/whishlist">
                                     <img alt="Evara" src="/userAssets/imgs/theme/icons/icon-heart.svg">
-                                    <span class="pro-count white">4</span>
+                                    
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="shop-cart.html">
+                                <a class="mini-cart-icon" href="/cart">
                                     <img alt="Evara" src="/userAssets/imgs/theme/icons/icon-cart.svg">
-                                    <span class="pro-count white">2</span>
+                                    
                                 </a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2">
                                     <ul>
@@ -236,7 +251,7 @@
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="shop-product-right.html">Plain Striola Shirts</a></h4>
-                                                <h3><span>1 × </span>₹800.00</h3>
+                                                <h3><span>1 × </span>$800.00</h3>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -248,7 +263,7 @@
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="shop-product-right.html">Macbook Pro 2022</a></h4>
-                                                <h3><span>1 × </span>₹3500.00</h3>
+                                                <h3><span>1 × </span>$3500.00</h3>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="fi-rs-cross-small"></i></a>
@@ -257,7 +272,7 @@
                                     </ul>
                                     <div class="shopping-cart-footer">
                                         <div class="shopping-cart-total">
-                                            <h4>Total <span>₹383.00</span></h4>
+                                            <h4>Total <span>$383.00</span></h4>
                                         </div>
                                         <div class="shopping-cart-button">
                                             <a href="shop-cart.html">View cart</a>
@@ -352,8 +367,8 @@
                                 </div>
                                 <div class="clearfix product-price-cover">
                                     <div class="product-price primary-color float-left">
-                                        <ins><span class="text-brand">₹120.00</span></ins>
-                                        <ins><span class="old-price font-md ml-15">₹200.00</span></ins>
+                                        <ins><span class="text-brand">$120.00</span></ins>
+                                        <ins><span class="old-price font-md ml-15">$200.00</span></ins>
                                         <span class="save-price  font-md color3 ml-15">25% Off</span>
                                     </div>
                                 </div>
@@ -393,7 +408,7 @@
                                     </div>
                                     <div class="product-extra-link2">
                                         <button type="submit" class="button button-add-to-cart">Add to cart</button>
-                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                     </div>
                                 </div>
@@ -411,11 +426,13 @@
         </div>
     </div>
     
-    <!-- <div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
-                <div class="mobile-header-logo">
-                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                <div class="logo logo-width-1">
+                    <a href="/">
+                        <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                    </a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -425,10 +442,10 @@
                 </div>
             </div>
             <div class="mobile-header-content-area">
-                <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="#">
-                        <input type="text" placeholder="Search for items…">
-                        <button type="submit"><i class="fi-rs-search"></i></button>
+                <div class="search-style-2">
+                    <form action="/search" method="post">
+                        <input type="text" placeholder="Search for items..." name="search_product">
+                        <button type="submit" class="btn btn-fill-out btn-block " style="font-size: medium;font-weight: 700;">Search</button>
                     </form>
                 </div>
                 <div class="mobile-menu-wrap mobile-header-border">
@@ -437,99 +454,17 @@
                             <span class="fi-rs-apps"></span> Browse Categories
                         </a>
                         <div class="categori-dropdown-wrap categori-dropdown-active-small">
-                            <ul>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a></li>
-                            </ul>
+                            
                         </div>
                     </div>
-                    mobile menu start
+
                     <nav>
                         <ul class="mobile-menu">
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
-                                <ul class="dropdown">
-                                    <li><a href="/">Home 1</a></li>
-                                    <li><a href="index-2.html">Home 2</a></li>
-                                    <li><a href="index-3.html">Home 3</a></li>
-                                    <li><a href="index-4.html">Home 4</a></li>
-                                </ul>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="shop-grid-right.html">shop</a>
-                                <ul class="dropdown">
-                                    <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
-                                    <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
-                                    <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
-                                    <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
-                                    <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Product – Right Sidebar</a></li>
-                                            <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
-                                            <li><a href="shop-product-full.html">Product – No sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="shop-filter.html">Shop – Filter</a></li>
-                                    <li><a href="/wishlist">Shop – Wishlist</a></li>
-                                    <li><a href="shop-cart.html">Shop – Cart</a></li>
-                                    <li><a href="shop-checkout.html">Shop – Checkout</a></li>
-                                    <li><a href="shop-compare.html">Shop – Compare</a></li>
-                                </ul>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/about">About</a>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega menu</a>
-                                <ul class="dropdown">
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Women's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Dresses</a></li>
-                                            <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
-                                            <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
-                                            <li><a href="shop-product-right.html">Women's Sets</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Men's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Jackets</a></li>
-                                            <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
-                                            <li><a href="shop-product-right.html">Genuine Leather</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Technology</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Gaming Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Tablets</a></li>
-                                            <li><a href="shop-product-right.html">Laptop Accessories</a></li>
-                                            <li><a href="shop-product-right.html">Tablet Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
-                                <ul class="dropdown">
-                                    <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
-                                    <li><a href="blog-category-list.html">Blog Category List</a></li>
-                                    <li><a href="blog-category-big.html">Blog Category Big</a></li>
-                                    <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product Layout</a>
-                                        <ul class="dropdown">
-                                            <li><a href="blog-post-left.html">Left Sidebar</a></li>
-                                            <li><a href="blog-post-right.html">Right Sidebar</a></li>
-                                            <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="page-about.html">About Us</a></li>
-                                    <li><a href="page-contact.html">Contact</a></li>
-                                    <li><a href="page-account.html">My Account</a></li>
-                                    <li><a href="page-login-register.html">login/register</a></li>
-                                    <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
-                                    <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
-                                    <li><a href="page-terms.html">Terms of Service</a></li>
-                                    <li><a href="page-404.html">404 Page</a></li>
-                                </ul>
-                            </li>
+                            
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Language</a>
                                 <ul class="dropdown">
                                     <li><a href="#">English</a></li>
@@ -540,18 +475,22 @@
                             </li>
                         </ul>
                     </nav>
-                    mobile menu end
+                   
                 </div>
                 <div class="mobile-header-info-wrap mobile-header-border">
                     <div class="single-mobile-header-info mt-30">
                         <a  href="page-contact.html"> Our location </a>
                     </div>
-                    <div class="single-mobile-header-info">
-                        <a href="/login">Log In / Sign Up </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="#">(+01) - 2345 - 6789 </a>
-                    </div>
+                    <% if (!loggedIn) { %>
+                        <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
+                        <li><i class="fi-rs-user"></i><a href="/signup">Sign Up</a></li>
+                    <% } else if (username) { %>
+                        <li><i class="fi-rs-user"></i><a href="/account"><%= username %></a></li>
+                        <li><i class="fi-rs-user"></i><a href="/logout">Logout</a></li>
+                    <% } else {%>
+                        
+                     <%} %>
+                    
                 </div>
                 <div class="mobile-social-icon">
                     <h5 class="mb-15 text-grey-4">Follow Us</h5>
@@ -563,7 +502,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <main class="main">
         <!-- <section class="home-slider position-relative">
             <div class="hero-slider-1 style-2 dot-style-1 dot-style-1-position-1">
@@ -658,45 +597,54 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
-                            <ul class="categories">
-                                <li><a href="shop-grid-right.html">Ucefez Tshirts</a></li>
-                                <li><a href="shop-grid-right.html">Ucefez Casual Shirts</a></li>
-                                <li><a href="shop-grid-right.html">Hoodies</a></li>
-                                <li><a href="shop-grid-right.html">Ucefez Caps</a></li>
-                                <li><a href="shop-grid-right.html">Fitness Style</a></li>
-                                <li><a href="shop-grid-right.html">Jewelry & Watch</a></li>
-                                <li><a href="shop-grid-right.html">Accessories</a></li>
-                            </ul>
-                        </div>
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort by</h5>
-                            <ul class="categories">
-                                <li><a href="shop-grid-right.html">Popularity</a></li>
-                                <li><a href="shop-grid-right.html">Average rating</a></li>
-                                <li><a href="shop-grid-right.html">Price: Low to High</a></li>
-                                <li><a href="shop-grid-right.html">Price: High to Low</a></li>
-                            </ul>
-                        </div>
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price Range</h5>
-                            <ul class="categories">
-                                <li><a href="shop-grid-right.html">₹0-₹200</a></li>
-                                <li><a href="shop-grid-right.html">₹200-₹400</a></li>
-                                <li><a href="shop-grid-right.html">₹400-₹600</a></li>
-                                <li><a href="shop-grid-right.html">₹600-₹800</a></li>
-                                <li><a href="shop-grid-right.html">800₹+</a></li>
-                            </ul>
-                        </div>
-                        <!-- <div class="banner-img wow fadeIn mb-45mb-lg-0 animated d-lg-block d-none">
-                            <img src="/userAssets/imgs/banner/banner-11.jpg" alt="">
-                            <div class="banner-text">
-                                <span>Women Zone</span>
-                                <h4>Save 17% on <br>Office Dress</h4>
-                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+
+                      
+
+
+                        
+                        <form action="filter-category" method="post" class="row">
+                            <div class="col-md-12">
+                                <div class="widget-category mb-30">
+                                    <h5 class="section-title style-1 mb-30 wow fadeIn animated">
+                                        Categories
+                                    </h5>
+                                    <ul class="categories">
+                                       
+                                            <li class="form-check">
+                                                <input type="checkbox" class="form-check-input "  name="categories" >
+                                                <label class="form-check-label" ></label>
+                                            </li>
+                                        
+                                    </ul>
+                                </div>
                             </div>
-                        </div> -->
+                            <div class="col-md-12">
+                                <div class="widget-category mb-30">
+                                    <h5 class="section-title style-1 mb-30 wow fadeIn animated">
+                                        Sort by
+                                    </h5>
+                                    <ul class="categories">
+                                        <!-- <li class="form-check">
+                                            <input type="radio" class="form-check-input" id="viewAll" value="viewAll" name="sort" >
+                                            <label class="form-check-label" for="popularity">View All</label>
+                                        </li> -->
+                                        <li class="form-check">
+                                            <input type="radio" class="form-check-input" id="lowToHigh" value="lowToHigh" name="sort">
+                                            <label class="form-check-label" for="lowToHigh">Price: Low to High</label>
+                                        </li>
+                                        <li class="form-check">
+                                            <input type="radio" class="form-check-input" id="highToLow" value="highToLow" name="sort">
+                                            <label class="form-check-label" for="highToLow">Price: High to Low</label>
+                                        </li>
+                                    </ul>
+                                </div>                
+                            </div>
+                            <div class="col-md-12 d-flex align-items-center justify-content-center mt--30">
+                                <button type="submit" class="btn btn-sm hover-up btn-primary"><i class="fi-rs-filter mr-5"></i>Apply Filter</button>
+                            </div>
+                        </form>
+
+                        
                     </div>
                     <div class="col-lg-9">
                         <!-- <div class="tab-header">
@@ -717,8 +665,9 @@
                         <div class="tab-content wow fadeIn animated" id="myTabContent">
                             <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
                                 <div class="row product-grid-4">
-
-                                    <% productdata.forEach(product => {%> 
+                                    <% if(productdata) {%>
+                                    
+                                    <% productdata.reverse().forEach(product => {%> 
                                         
                                         <div class="col-lg-4 col-md-4 col-12 col-sm-6">
                                             <div class="product-cart-wrap mb-30">
@@ -732,7 +681,7 @@
                                                     <div class="product-action-1">
                                                         <!-- <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a> -->
                                                         
-                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up addingwishlist-btn" data-product-id="<%= product._id %>" id="addingwishlist">
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up addingwhishlist-btn" data-product-id="<%= product._id %>" id="addingwhishlist">
                                                             <i class="fi-rs-heart"></i>
                                                         </a>
                                                         
@@ -741,10 +690,10 @@
                                                         <!-- <span class="hot">Hot</span> -->
                                                     </div>
                                                 </div>
-
+                                                
                                                 <div class="product-content-wrap">
                                                     <div class="product-category">
-                                                        <a href="shop-grid-right.html">Clothing</a>
+                                                        <a href="shop-grid-right.html"><%= product.productBrand %></a>
                                                     </div>
                                                     <h2><a href="#"><%= product.productName %></a></h2>
                                                     <div class="rating-result" title="90%">
@@ -753,9 +702,18 @@
                                                         </span>
                                                     </div>
                                                     <div class="product-price">
-                                                        <span>₹<%= product.sellingPrice %></span>
-                                                        <span class="old-price">₹<%= product.regularPrice %></span>
-                                                        <span class="save-price  font-md color3 ml-5 text-danger" style="font-size: small;"> - <%=Math.round((1 - (product.sellingPrice / product.regularPrice)) * 100)%>% </span>
+
+                                                        
+                                                        <% if (product.discountStatus === 'Active' && typeof product.discountPercent === 'number') { %>
+                                                            <span>₹<%= product.sellingPrice - (product.sellingPrice * product.discountPercent) / 100 %></span>
+                                                            <span class="old-price">₹<%= product.sellingPrice %></span>
+                                                            <span class="save-price font-md color3 ml-5 text-danger" style="font-size: small;"> - <%= product.discountPercent %>% </span>
+                                                        <% } else { %>
+                                                            <span>₹<%= product.sellingPrice %></span>
+                                                        <% } %>
+                                                               
+                                                                    
+                                                        
                                                     </div>
                                                     <div class="product-action-1 show">
                                                         <!-- <a aria-label="Add To Cart" class="action-btn hover-up" id="addingcart"><i class="fi-rs-shopping-bag-add"></i></a> -->
@@ -778,8 +736,15 @@
                                         </div>
 
                                     <%}) %>
+                                    <%} else if(!productdata || productdata.length === 0) {%>
+                                        <h6 class="text-center">No products available</h6>
+                                    <%} %>
+
+                                     <!--pagination-->
+                        
 
                                     <script>
+                                        // adding cart
                                         document.addEventListener("DOMContentLoaded", function () {
                                             const addingcartButtons = document.querySelectorAll(".addingcart-btn");
                                     
@@ -818,132 +783,61 @@
                                             });
                                         });
                                     </script>
- <script>
-    // adding wishlist
-    document.addEventListener("DOMContentLoaded", function () {
-        const addingwishlistButtons = document.querySelectorAll(".addingwishlist-btn");
 
-        addingwishlistButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const productId = button.getAttribute("data-product-id");
-                fetch(`/add-wishlist?productId=${productId}`, {
-                    method: 'POST',
-                    headers: {
-                        'content-Type': 'application/json',
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Response from server", data);
-                        // Check if the response contains a message
-                        if (data.message) {
-                            // Display Sweet Alert
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Product Added to wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        } if (data.existing) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Product already in wishlist',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed to add to wishlist',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        console.error("Error adding to wishlist", error);
-                    });
-            });
-        });
-    });
-</script>
-                                    <!-- <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                        <div class="product-cart-wrap mb-30">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="shop-product-right.html">
-                                                        <img class="default-img" src="/userAssets/imgs/shop/product-2-1.jpg" alt="">
-                                                        <img class="hover-img" src="/userAssets/imgs/shop/product-2-2.jpg" alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/wishlist"><i class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                                </div>
-                                                <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="new">New</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <div class="product-category">
-                                                    <a href="shop-grid-right.html">Clothing</a>
-                                                </div>
-                                                <h2><a href="shop-product-right.html">Plain Color Pocket Shirts</a></h2>
-                                                <div class="rating-result" title="90%">
-                                                    <span>
-                                                        <span>50%</span>
-                                                    </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>₹138.85 </span>
-                                                    <span class="old-price">₹255.8</span>
-                                                </div>
-                                                <div class="product-action-1 show">
-                                                    <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                        <div class="product-cart-wrap">
-                                            <div class="product-img-action-wrap">
-                                                <div class="product-img product-img-zoom">
-                                                    <a href="shop-product-right.html">
-                                                        <img class="default-img" src="/userAssets/imgs/shop/product-9-1.jpg" alt="">
-                                                        <img class="hover-img" src="/userAssets/imgs/shop/product-9-2.jpg" alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/wishlist"><i class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="product-content-wrap">
-                                                <div class="product-category">
-                                                    <a href="shop-grid-right.html">Shirt</a>
-                                                </div>
-                                                <h2><a href="shop-product-right.html">Mens Porcelain Shirt</a></h2>
-                                                <div class="rating-result" title="90%">
-                                                    <span>
-                                                        <span>70%</span>
-                                                    </span>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
-                                                </div>
-                                                <div class="product-action-1 show">
-                                                    <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    <script>
+                                        // adding whishlist
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            const addingwhishlistButtons = document.querySelectorAll(".addingwhishlist-btn");
+
+                                            addingwhishlistButtons.forEach(button => {
+                                                button.addEventListener("click", function () {
+                                                    const productId = button.getAttribute("data-product-id");
+                                                    fetch(`/add-whishlist?productId=${productId}`, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'content-Type': 'application/json',
+                                                        },
+                                                    })
+                                                        .then(response => {
+                                                            if (!response.ok) {
+                                                                throw new Error(`HTTP error! status: ${response.status}`);
+                                                            }
+                                                            return response.json();
+                                                        })
+                                                        .then(data => {
+                                                            console.log("Response from server", data);
+                                                            // Check if the response contains a message
+                                                            if (data.message) {
+                                                                // Display Sweet Alert
+                                                                Swal.fire({
+                                                                    icon: 'success',
+                                                                    title: 'Product Added to whishlist',
+                                                                    showConfirmButton: false,
+                                                                    timer: 1500
+                                                                });
+                                                            } if (data.existing) {
+                                                                Swal.fire({
+                                                                    icon: 'error',
+                                                                    title: 'Product already in whishlist',
+                                                                    showConfirmButton: false,
+                                                                    timer: 1500
+                                                                });
+                                                            }
+                                                        })
+                                                        .catch(error => {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Failed to add to whishlist',
+                                                                showConfirmButton: false,
+                                                                timer: 1500
+                                                            });
+                                                            console.error("Error adding to wishlist", error);
+                                                        });
+                                                });
+                                            });
+                                        });
+                                    </script>
+
 
                                 </div>
                                 <!--End product-grid-4-->
@@ -962,7 +856,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -980,8 +874,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
+                                                    <span>$238.85 </span>
+                                                    <span class="old-price">$245.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1000,7 +894,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1018,8 +912,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹138.85 </span>
-                                                    <span class="old-price">₹255.8</span>
+                                                    <span>$138.85 </span>
+                                                    <span class="old-price">$255.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1038,7 +932,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1056,8 +950,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹338.85 </span>
-                                                    <span class="old-price">₹445.8</span>
+                                                    <span>$338.85 </span>
+                                                    <span class="old-price">$445.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1076,7 +970,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1094,8 +988,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹338.85 </span>
-                                                    <span class="old-price">₹445.8</span>
+                                                    <span>$338.85 </span>
+                                                    <span class="old-price">$445.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1114,7 +1008,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1132,8 +1026,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹123.85 </span>
-                                                    <span class="old-price">₹235.8</span>
+                                                    <span>$123.85 </span>
+                                                    <span class="old-price">$235.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1152,7 +1046,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1170,8 +1064,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹28.85 </span>
-                                                    <span class="old-price">₹45.8</span>
+                                                    <span>$28.85 </span>
+                                                    <span class="old-price">$45.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1190,7 +1084,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1208,8 +1102,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
+                                                    <span>$238.85 </span>
+                                                    <span class="old-price">$245.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1228,7 +1122,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1246,7 +1140,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹1275.85 </span>
+                                                    <span>$1275.85 </span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1265,7 +1159,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                             </div>
@@ -1280,8 +1174,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
+                                                    <span>$238.85 </span>
+                                                    <span class="old-price">$245.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1306,7 +1200,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1324,8 +1218,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
+                                                    <span>$238.85 </span>
+                                                    <span class="old-price">$245.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1344,7 +1238,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1362,8 +1256,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹138.85 </span>
-                                                    <span class="old-price">₹255.8</span>
+                                                    <span>$138.85 </span>
+                                                    <span class="old-price">$255.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1382,7 +1276,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1400,8 +1294,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹138.85 </span>
-                                                    <span class="old-price">₹255.8</span>
+                                                    <span>$138.85 </span>
+                                                    <span class="old-price">$255.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1420,7 +1314,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1438,8 +1332,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹338.85 </span>
-                                                    <span class="old-price">₹445.8</span>
+                                                    <span>$338.85 </span>
+                                                    <span class="old-price">$445.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1458,7 +1352,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1476,8 +1370,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹123.85 </span>
-                                                    <span class="old-price">₹235.8</span>
+                                                    <span>$123.85 </span>
+                                                    <span class="old-price">$235.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1496,7 +1390,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1514,8 +1408,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹28.85 </span>
-                                                    <span class="old-price">₹45.8</span>
+                                                    <span>$28.85 </span>
+                                                    <span class="old-price">$45.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1534,7 +1428,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1552,8 +1446,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
+                                                    <span>$238.85 </span>
+                                                    <span class="old-price">$245.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1572,7 +1466,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
@@ -1590,7 +1484,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹1275.85 </span>
+                                                    <span>$1275.85 </span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1609,7 +1503,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/add-wishlist"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                             </div>
@@ -1624,8 +1518,8 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>₹238.85 </span>
-                                                    <span class="old-price">₹245.8</span>
+                                                    <span>$238.85 </span>
+                                                    <span class="old-price">$245.8</span>
                                                 </div>
                                                 <div class="product-action-1 show">
                                                     <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
@@ -1646,141 +1540,133 @@
         <!-- <section class="banner-2 section-padding pb-0">
             <div class="container">
                 <div class="banner-img banner-big wow fadeIn animated f-none">
-                    <img src="/userAssets/imgs/banner/banner-4.png" alt="">
+                    <img src="/userAssets/imgs/banner/ban1.jpg" alt="" style="height: 400px; width: 100%;">
                     <div class="banner-text d-md-block d-none">
-                        <h4 class="mb-15 mt-40 text-brand">Repair Services</h4>
-                        <h1 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h1>
-                        <a href="shop-grid-right.html" class="btn">Learn More <i class="fi-rs-arrow-right"></i></a>
+                        <h4 class="mb-15 mt-40 text-brand">Elevate Your Senses, Buy Today!</h4>
+                        <h1 class="fw-600 mb-20">Elevate Your Presence <br>with Our Exquisite Fragrances.</h1>
+                        <a href="/" class="btn">Explore <i class="fi-rs-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </section> -->
-        <!-- <section class="popular-categories section-padding mt-15">
+        
+                
+        <section class="popular-categories section-padding mt-15">
             <div class="container wow fadeIn animated">
-                <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
+                <style>
+                    .carausel-12-columns {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+        
+                    .card-1 {
+                        width: auto; /* Set the desired width */
+                        height: 315px; /* Set the desired height */
+                        border: 1px solid #ddd; /* Add a border for better visibility */
+                        padding: 15px; /* Add padding for content spacing */
+                        margin: 10px; /* Add margin for spacing between cards */
+                        text-align: center; /* Center text */
+                    }
+                </style>
+        
+                <h3 class="section-title mb-20"><span>Offer</span> Products</h3>
                 <div class="carausel-6-columns-cover position-relative">
                     <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
                     <div class="carausel-6-columns" id="carausel-6-columns">
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-1.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">T-Shirt</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"> <img src="/userAssets/imgs/shop/category-thumb-2.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Bags</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-3.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Sandan</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-4.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Scarf Cap</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-5.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Shoes</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-6.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Pillowcase</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-7.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Jumpsuits</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-8.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Hats</a></h5>
-                        </div>
+                        <%
+                            let hasActiveDiscount = false;
+        
+                            productdata.forEach(product => {
+                                if (product.discountStatus === 'Active' && typeof product.discountPercent === 'number') {
+                                hasActiveDiscount = true;
+                            %>
+                                <div class="card-1 hover-up">
+                                    <figure class="img-hover-scale overflow-hidden">
+                                        <a href="/product-details/<%= product._id %>">
+                                            <img class="default-img" src="/<%= product.productImg[0] %>" alt="">
+                                        </a>
+                                    </figure>
+                                    <h5 style="height: 4rem;"><a  href="shop-grid-right.html"><%= product.productName %></a></h5>
+                                    <span>₹<%= (product.sellingPrice - (product.sellingPrice * product.discountPercent) / 100).toFixed(0) %></span>
+                                    <span style="font-size: 14px;
+                                    font-weight: 400;
+                                    color: #90908e;
+                                    margin: 0 0 0 7px;
+                                    text-decoration: line-through;" class="old-price">₹<%= product.sellingPrice %></span>
+                                    <span class="save-price font-md color3 ml-5 text-danger" style="font-size: small;"> - <%= product.discountPercent %>% </span>
+                                </div>
+                            <%
+                                }
+                            });
+        
+                            if (!hasActiveDiscount) {
+                            %>
+                                <h3 class="text-center">Currently No Offers Available</h3>
+                            <%
+                            }%>
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
+        
 
-        <!-- <section class="section-padding">
+            
+        
+
+        <section class="section-padding">
             <div class="container wow fadeIn animated">
                 <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>
                 <div class="carausel-6-columns-cover position-relative">
                     <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows"></div>
                     <div class="carausel-6-columns carausel-arrow-center" id="carausel-6-columns-2">
+                        
+                        <% productdata.forEach(product => {%>
                         <div class="product-cart-wrap small hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
-                                    <a href="shop-product-right.html">
-                                        <img class="default-img" src="/userAssets/imgs/shop/product-2-1.jpg" alt="">
-                                        <img class="hover-img" src="/userAssets/imgs/shop/product-2-2.jpg" alt="">
+                                    <a href="/product-details/<%= product._id %>">
+                                        <img class="default-img" src="/<%= product.productImg[0] %>" alt="">
+                                        <img class="hover-img" src="/<%= product.productImg[1] %>" alt="">
                                     </a>
                                 </div>
                                 <div class="product-action-1">
-                                    <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-<i class="fi-rs-eye"></i></a>
-                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="/wishlist" tabindex="0"><i class="fi-rs-heart"></i></a>
-                                    <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+                                    <!-- <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                        <i class="fi-rs-eye"></i></a> -->
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up addingwhishlist-btn" data-product-id="<%= product._id %>" id="addingwhishlist">
+                                            <i class="fi-rs-heart"></i>
+                                        </a>                                    <% if(product.productStock >0 ){%> 
+                                        <a aria-label="Add To Cart" class="action-btn hover-up addingcart-btn" data-product-id="<%= product._id %>" id="addingcart">
+                                            <i class="fi-rs-shopping-bag-add"></i>
+                                        </a>
+                                        <%} else {%>
+                                            <span class="badge text-white" style="background-color: rgb(247, 58, 58); border-radius: 7px;" >Out of Stock</span>
+                                    <%} %>
                                 </div>
                                 <div class="product-badges product-badges-position product-badges-mrg">
                                     <span class="hot">Hot</span>
                                 </div>
                             </div>
                             <div class="product-content-wrap">
-                                <h2><a href="shop-product-right.html">Lorem ipsum dolor</a></h2>
+                                <h2><a href="/product-details/<%= product._id %>"><%= product.productBrand %></a></h2>
                                 <div class="rating-result" title="90%">
                                     <span>
                                     </span>
                                 </div>
                                 <div class="product-price">
-                                    <span>₹238.85 </span>
-                                    <span class="old-price">₹245.8</span>
+                                    <% if (product.discountStatus === 'Active' && typeof product.discountPercent === 'number') { %>
+                                        <span>₹<%= product.sellingPrice - (product.sellingPrice * product.discountPercent) / 100 %></span>
+                                        <span class="old-price">₹<%= product.sellingPrice %></span>
+                                        <!-- <span class="save-price font-md color3 ml-5 text-danger" style="font-size: small;"> - <%= product.discountPercent %>% </span> -->
+                                    <% } else { %>
+                                        <span>₹<%= product.sellingPrice %></span>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
-                        <!--End product-cart-wrap-2-->
-                       
-        <section class="section-padding">
-            <div class="container pb-20">
-                <h3 class="section-title mb-20 wow fadeIn animated"><span>Featured brand</span> Ucefez</h3>
-                <!-- <div class="carausel-6-columns-cover position-relative wow fadeIn animated">
-                    <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-3-arrows"></div>
-                    <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-1.png" alt="">
-                        </div>
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-2.png" alt="">
-                        </div>
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-3.png" alt="">
-                        </div>
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-4.png" alt="">
-                        </div>
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-5.png" alt="">
-                        </div>
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-6.png" alt="">
-                        </div>
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="/userAssets/imgs/banner/brand-3.png" alt="">
-                        </div>
+                        <%}) %>
+                        
                     </div>
-                </div> -->
+                </div>
             </div>
         </section>
 
@@ -1796,7 +1682,7 @@
                                 <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
                             </div>
                             <div class="col my-4 my-md-0 des">
-                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>₹25 coupon for first shopping.</strong></h5>
+                                <!-- <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first shopping.</strong></h5> -->
                             </div>
                         </div>
                     </div>
@@ -1816,12 +1702,14 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
-                            <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                            <div class="logo logo-width-1">
+                                <a href="/">
+                                    <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                                </a>
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
-                                <strong>Address: </strong>562 Wellington Road, Street 32, San Francisco
+                                <strong>Address: </strong>Perfumery, Wellington Road, San Francisco
                             </p>
                             <p class="wow fadeIn animated">
                                 <strong>Phone: </strong>+01 2222 365 /(+91) 01 2345 6789
@@ -1834,7 +1722,7 @@
                                 <a href="#"><img src="/userAssets/imgs/theme/icons/icon-facebook.svg" alt=""></a>
                                 <a href="#"><img src="/userAssets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
                                 <a href="#"><img src="/userAssets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
-                               
+                                <a href="#"><img src="/userAssets/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
                                 <a href="#"><img src="/userAssets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
                             </div>
                         </div>
@@ -1842,23 +1730,21 @@
                     <div class="col-lg-2 col-md-3">
                         <h5 class="widget-title wow fadeIn animated">About</h5>
                         <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Support Center</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/about">Delivery Information</a></li>
+                            <li><a href="/about">Privacy Policy</a></li>
+                            <li><a href="/about">Terms &amp; Conditions</a></li>
+                            <li><a href="/about">Contact Us</a></li>
+                            <li><a href="/about">Support Center</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-2  col-md-3">
                         <h5 class="widget-title wow fadeIn animated">My Account</h5>
                         <ul class="footer-list wow fadeIn animated">
-                            <li><a href="#">Sign In</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">My Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
-                            <li><a href="#">Order</a></li>
+                            <li><a href="/account">Account Details</a></li>
+                            <li><a href="/cart">View Cart</a></li>
+                            <li><a href="/whishlist">My Wishlist</a></li>
+                            <li><a href="/account">Order</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
@@ -1871,10 +1757,7 @@
                                     <a href="#" class="hover-up"><img src="/userAssets/imgs/theme/google-play.jpg" alt=""></a>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
-                                <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
-                                <img class="wow fadeIn animated" src="/userAssets/imgs/theme/payment-method.png" alt="">
-                            </div> -->
+                            
                         </div>
                     </div>
                 </div>
@@ -1886,11 +1769,11 @@
                     <div class="footer-bottom"></div>
                 </div>
                 <div class="col-lg-6">
-                    <p class="float-md-left font-sm text-muted mb-0">&copy; 2023, <strong class="text-brand">UCEFEZ</strong> - Fashion Store</p>
+                    <p class="float-md-left font-sm text-muted mb-0">&copy; 2022, <strong class="text-brand">Ucefez</strong> - HTML Ecommerce Template </p>
                 </div>
                 <div class="col-lg-6">
                     <p class="text-lg-end text-start font-sm text-muted mb-0">
-                        Designed by <a href="http://alithemes.com/" target="_blank">Alithemes.com</a>. All rights reserved
+                        Designed by <a href="http://alithemes.com/" target="_blank">Ucefez.com</a>. All rights reserved
                     </p>
                 </div>
             </div>
