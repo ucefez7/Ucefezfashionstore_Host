@@ -4,57 +4,37 @@ const cartCollection = require("../../models/cart");
 const addressCollection = require("../../models/address");
 const orderCollection = require("../../models/order");
 const nodemailer = require('nodemailer');
+const couponCollection = require("../../models/coupon");
+const walletCollection = require("../../models/wallet");
+const bcrypt = require("bcrypt");
+const offerController = require("../admin_controllers/adm_offermanage");
 
-
-// // render account page
-// module.exports.getUserAccount = async(req,res,next) => {
-//   try{
-//     const loggedIn = req.cookies.loggedIn;
-//     const username = req.cookies.username;
-
-//     const userData = await userCollection.findOne({ email: req.user });
-//     const userId = userData._id;
-//     const addressDetails = await addressCollection.findOne({userId: userId})
-//     const orderDetails = await orderCollection.find({userId: userId}).populate('products.productId');
-
-//     // res.render("user-account",{ loggedIn,username,addressDetails })
-//     res.render("user-account",{ loggedIn, username, addressDetails, orderDetails, userData })
-
-//   } catch(error){
-//     console.error("error: ", error)
-//     next(error);
-//   }
-// }
-
- // render account page with pagination
-module.exports.getUserAccount = async (req, res,next) => {
+ // render account page
+module.exports.getUserAccount = async (req, res) => {
   try {
     const loggedIn = req.cookies.loggedIn;
-    const username = req.cookies.username;
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = 10; // You can adjust the page size as needed
-    const skip = (page - 1) * pageSize;
-
     const userData = await userCollection.findOne({ email: req.user });
+    const username = userData.username;
+
+    // const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
-    const addressDetails = await addressCollection.findOne({userId: userId})
-
+    const addressDetails = await addressCollection.findOne({ userId: userId });
     const orderDetails = await orderCollection
-      .find({userId: userId})
-      .populate('products.productId')
-      .skip(skip)
-      .limit(pageSize)
-      .exec();
+      .find({ userId: userId })
+      .populate("products.productId");
+    const wallet = await walletCollection.findOne({ userId: userId });
 
-    const totalCount = await orderCollection.countDocuments();
-    console.log(totalCount)
-    const totalPages = Math.ceil(totalCount / pageSize);
-    
-
-    res.render("user-account",{ loggedIn, username, addressDetails, userData, orderDetails,currentPage: page,totalPages,});
+    // res.render("user-account",{ loggedIn,username,addressDetails })
+    res.render("user-account", {
+      loggedIn,
+      username,
+      addressDetails,
+      orderDetails,
+      userData,
+      wallet,
+    });
   } catch (error) {
-    console.error("Error:", error);
-    next(error);
+    console.error("error: ", error);
   }
 };
 
@@ -411,17 +391,56 @@ module.exports.deleteAddress = async(req,res,next)=>{
 
 
 
+// // render order details
+// module.exports.getOrderdetails = async (req, res,next) => {
+//   try {
+//     const loggedIn = req.cookies.loggedIn;
+//     const userData = await userCollection.findOne({ email: req.user });
+//     const username = userData.username;
+//     userId = userData._id;
+//     const currentDate = Date.now();
+//     const Idorder = req.params.orderId;
+    
+//     if (Idorder) {
+//       const orderDetails = await orderCollection
+//         .findById({ _id: Idorder })
+//         .populate("products.productId");
+//       res.render("user-orderDetails", {
+//         loggedIn,
+//         username,
+//         order: orderDetails,
+//         orderDetails,
+//         currentDate,
+//       });
+//     } else {
+//       res.redirect("/");
+//     }
+//   } catch (error) {
+//     console.error("Error: ", error);
+//     next(error);
+//   }
+// };
+
+
 
 // render order details
 module.exports.getOrderdetails = async (req, res,next) => {
   try {
     const loggedIn = req.cookies.loggedIn;
+    await offerController.deactivateExpiredOffers();
     const userData = await userCollection.findOne({ email: req.user });
     const username = userData.username;
     userId = userData._id;
     const currentDate = Date.now();
     const Idorder = req.params.orderId;
-    
+
+    const productOffers = await productCollection.find({
+      discountStatus: "Active",
+    });
+    const cartDetails = await cartCollection
+      .findOne({ userId: userId })
+      .populate("products.productId");
+
     if (Idorder) {
       const orderDetails = await orderCollection
         .findById({ _id: Idorder })
@@ -432,6 +451,8 @@ module.exports.getOrderdetails = async (req, res,next) => {
         order: orderDetails,
         orderDetails,
         currentDate,
+        cartDetails,
+        productOffers 
       });
     } else {
       res.redirect("/");
@@ -441,6 +462,9 @@ module.exports.getOrderdetails = async (req, res,next) => {
     next(error);
   }
 };
+
+
+
 
 
 // cancel order
@@ -461,8 +485,7 @@ module.exports.cancelOrder = async (req, res) => {
     const totalProductAmount = orderData.products
       .filter((product) => product.status !== "Cancelled")
       .reduce((total, product) => total + product.orderPrice, 0);
- 
-      
+
     // updating stock
     for (const product of productData) {
       const orderProduct = orderData.products.find((orderProduct) =>
@@ -482,6 +505,47 @@ module.exports.cancelOrder = async (req, res) => {
     orderData.cancelReason = cancelReason;
     orderData.payableAmount -= totalProductAmount;
     await orderData.save();
+
+    // updating payment
+    if (
+      orderData.paymentMethod == "Online payment" ||
+      orderData.paymentMethod == "Wallet"
+    ) {
+      const userWallet = await walletCollection.findOne({ userId: userId });
+      const walletAmout = userWallet.amount ?? 0;
+      const totalOrderAmount = totalProductAmount ?? 0;
+      const newWalletAmount = walletAmout + totalOrderAmount;
+
+      if (orderData.paymentStatus == "Success") {
+        await walletCollection.updateOne(
+          { userId: userId },
+          { $set: { amount: newWalletAmount } }
+        );
+        await orderCollection.updateOne(
+          { _id: orderId },
+          { $set: { paymentStatus: "Repayed" } }
+        );
+        
+      }
+    } else if (orderData.paymentMethod == "Cash On Delivery") {
+      if (orderData.orderStatus == "Delivered") {
+        const userWallet = await walletCollection.findOne({ userId: userId });
+        const walletAmout = userWallet.amount ?? 0;
+        const totalOrderAmount = totalProductAmount ?? 0;
+        const newWalletAmount = walletAmout + totalOrderAmount;
+
+        if (orderData.paymentStatus == "Success") {
+          await walletCollection.updateOne(
+            { userId: userId },
+            { $set: { amount: newWalletAmount } }
+          );
+          await orderCollection.updateOne(
+            { _id: orderId },
+            { $set: { paymentStatus: "Repayed" } }
+          );
+        }
+      }
+    }
 
     res.status(200).json({ message: "The order is cancelled" });
   } catch (error) {
@@ -523,12 +587,92 @@ module.exports.cancelSingleOrder = async (req, res) => {
       product.productStock += orderProduct.quantity;
       await product.save();
     }
+
+    // refunding amount
+    if (
+      orderData.paymentMethod == "Online payment" ||
+      orderData.paymentMethod == "Wallet"
+    ) {
+      const userWallet = await walletCollection.findOne({ userId: userId });
+      const walletAmout = userWallet.amount ?? 0;
+      const totalOrderAmount = productAmount ?? 0;
+      const newWalletAmount = walletAmout + totalOrderAmount;
+
+      if (orderData.paymentStatus == "Success") {
+        await walletCollection.updateOne(
+          { userId: userId },
+          { $set: { amount: newWalletAmount } }
+        );
+      }
+    }
+
     res.status(200).json({ message: "The order is cancelled" });
   } catch (error) {
     console.error("Error: ", error);
     res.status(500).json({ error: "Error found while cancelling product" });
   }
 };
+
+
+
+
+// // return order
+// module.exports.returnOrder = async (req, res) => {
+//   try {
+//     const userData = await userCollection.findOne({ email: req.user });
+//     const userId = userData._id;
+//     const orderId = req.query.orderId;
+//     const returnReason = req.query.reason;
+//     const orderData = await orderCollection.findById(orderId);
+//     const deliveryDate = orderData.deliveryDate;
+//     const productIds = orderData.products.map((product) => product.productId);
+//     const productData = await productCollection.find({
+//       _id: { $in: productIds },
+//     });
+
+//     const totalProductAmount = orderData.products
+//       .filter((product) => product.status !== "Cancelled")
+//       .reduce((total, product) => total + product.orderPrice, 0);
+
+//     for (const product of productData) {
+//       const orderProduct = orderData.products.find((orderProduct) =>
+//         orderProduct.productId.equals(product._id)
+//       );
+//       product.productStock += orderProduct.quantity;
+//       await product.save();
+//     }
+
+//     orderData.products.forEach((product) => {
+//       if (product.status == "Delivered") {
+//         product.status = "Returned";
+//       }
+//     });
+//     await orderData.save();
+
+//     // save the order status
+//     orderData.orderStatus = "Returned";
+//     orderData.paymentStatus = "Repayed";
+//     orderData.returnReason = returnReason;
+//     await orderData.save();
+
+//     const userWallet = await walletCollection.findOne({ userId: userId });
+//     const walletAmout = userWallet.amount ?? 0;
+//     const totalOrderAmount = totalProductAmount ?? 0;
+//     const newWalletAmount = walletAmout + totalOrderAmount;
+
+//     if (orderData.paymentStatus == "Success") {
+//       await walletCollection.updateOne(
+//         { userId: userId },
+//         { $set: { amount: newWalletAmount } }
+//       );
+//     }
+
+//     res.status(200).json({ message: "The order is Returned" });
+//   } catch (error) {
+//     console.error("Error: ", error);
+//     res.status(500).json({ error: "Error found while returning product" });
+//   }
+// };
 
 
 
@@ -570,7 +714,7 @@ module.exports.returnOrder = async (req, res) => {
 
     // save the order status
     orderData.orderStatus = "Returned";
-    orderData.paymentStatus = "Success";
+    orderData.paymentStatus = "Repayed";
     orderData.returnReason = returnReason;
     await orderData.save();
 
@@ -579,5 +723,77 @@ module.exports.returnOrder = async (req, res) => {
   } catch (error) {
     console.error("Error: ", error);
     res.status(500).json({ error: "Error found while returning product" });
+  }
+};
+
+
+
+
+
+
+
+// get coupon page
+module.exports.getCoupons = async (req, res) => {
+  try {
+    const loggedIn = req.cookies.loggedIn;
+
+    const userData = await userCollection.findOne({ email: req.user });
+    const username = userData.username;
+    const userId = userData._id;
+
+    const coupondata = await couponCollection.find();
+    const coupons = coupondata.filter((coupons) => coupons.status !== "Block");
+
+    res.render("user-coupon", { loggedIn, username, coupons, userId });
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+
+// apply referal
+module.exports.applyReferelOffers = async (req, res) => {
+  try {
+    const referelcode = req.query.referel;
+    const userData = await userCollection.findOne({ email: req.user });
+    const userId = userData._id;
+
+    const usedReferel = await userCollection.findOne({
+      referelId: referelcode,
+    });
+    const myReferelCode = userData.referelId;
+
+    if (usedReferel) {
+      if (usedReferel.redmmedreferels.includes(userData._id)) {
+        res.status(400).send({ data: "Offer already redeemed by the user" });
+      } else if (referelcode === myReferelCode) {
+        res.status(400).send({ data: "Unable to apply yourself" });
+      } else {
+        usedReferel.redmmedreferels.push(userData._id);
+        await usedReferel.save();
+        await userCollection.updateOne(
+          { _id: userData._id },
+          { $set: { appliedReferel: true } }
+        );
+
+        const userWallet = await walletCollection.findOne({
+          userId: userData._id,
+        });
+        userWallet.amount += 100;
+        await userWallet.save();
+
+        const referedUserWallet = await walletCollection.findOne({
+          userId: usedReferel._id,
+        });
+        referedUserWallet.amount += 200;
+        await referedUserWallet.save();
+
+        res.status(200).send({ data: "Offer redeemed successfully" });
+      }
+    } else {
+      res.status(500).send({ data: "Invalid referral code" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ data: "Internal Server Error" });
   }
 };

@@ -46,8 +46,12 @@ userRouter.get("/stockchecking", userMiddleware.verifyUser,userMiddleware.checkB
 // checkout
 userRouter.get("/checkout", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.getCheckout)
 userRouter.get("/get-grandtotal", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.grandtotal)
+userRouter.post("/add-coupon", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.applyCoupon)
+userRouter.post("/remove-coupon", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.removeCoupon)
 userRouter.post("/cashOnDelivery", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.cashOnDelivery)
 userRouter.get("/order-placed", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.getPlaceOrder)
+userRouter.post("/walletPay", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.walletPay)
+
 
 //Razorpay
 userRouter.post("/razorpay", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.razorpayOrder)
@@ -63,8 +67,7 @@ userRouter.get("/get-changepswd", userMiddleware.verifyUser, userMiddleware.chec
 userRouter.post("/post-changedpswd", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.postChangedswd)
 userRouter.get("/get-changeemail", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getChangeEmail)
 userRouter.get("/newsend-otp", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.newSendotp)
-userRouter.post("/newverify-otp", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.newVerifyotp)
-
+userRouter.post("/newverify-otp", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.newVerifyotp);
 userRouter.get("/get-address", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.addAddress)
 userRouter.post("/post-address", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.postAddress)
 userRouter.get("/edit-address/:objectId/:addressId", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.editAddress)
@@ -72,11 +75,12 @@ userRouter.post("/post-editedaddress", userMiddleware.verifyUser, userMiddleware
 userRouter.get("/order-details/:orderId", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getOrderdetails)
 userRouter.post("/cancel-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.cancelOrder)
 userRouter.post("/cancelSingle-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.cancelSingleOrder)
-
 userRouter.post("/return-order", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.returnOrder)
 userRouter.get("/delete-address/:objectId/:addressId",userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.deleteAddress);
 // userRouter.get('/delete-address',userMiddleware.verifyUser,userMiddleware.checkBlockedStatus ,accountControll.deleteAddress);
 
+userRouter.get("/get-coupons", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getCoupons)
+userRouter.post("/applyreferel", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.applyReferelOffers)
 
 // wishlist
 userRouter.get("/wishlist", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, wishlistControl.getWishlist)

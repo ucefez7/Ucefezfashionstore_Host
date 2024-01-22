@@ -65,10 +65,10 @@
                                     </div>
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width:90%">
+                                           
                                             </div>
                                         </div>
-                                        <span class="font-small ml-5 text-muted"> (25 reviews)</span>
+                                       
                                     </div>
                                 </div>
                                 <div class="clearfix product-price-cover">
@@ -107,16 +107,14 @@
                                 </div>
                                 <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                                 <div class="detail-extralink">
-                                    <!-- <div class="detail-qty border radius">
-
+                                    <div class="detail-qty border radius">
                                         <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
                                         <span class="qty-val">1</span>
                                         <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                        
-                                    </div> -->
+                                    </div>
                                     <div class="product-extra-link2">
                                         <button type="submit" class="button button-add-to-cart">Add to cart</button>
-                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/wishlist"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                     </div>
                                 </div>
@@ -171,7 +169,7 @@
                                     <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
                                     <li><i class="fi-rs-user"></i><a href="/signup">Sign Up</a></li>
                                 <% } else { %>
-                                    <li><i class="fi-rs-user"></i><a href="#"><%= username %></a></li>
+                                    <li><i class="fi-rs-user"></i><a href="/account"><%= username %></a></li>
                                     <li><i class="fi-rs-user"></i><a href="/logout">Logout</a></li>
                                 <% } %> 
                                 
@@ -183,11 +181,13 @@
                 </div>
             </div>
         </div>
-        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="header-middle header-middle mt-30 d-none d-lg-block">
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
-                        <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                        <a href="/">
+                            <img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" class="logo" alt="Evara Dashboard">
+                        </a>
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
@@ -211,15 +211,15 @@
                         <div class="header-action-right">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="/wishlist">
+                                    <a href="shop-wishlist.html">
                                         <img class="svgInject" alt="Evara" src="/userAssets/imgs/theme/icons/icon-heart.svg">
-                                        <!-- <span class="pro-count blue">4</span> -->
+                                        
                                     </a>
                                 </div>
                                 <div class="header-action-icon-2">
                                     <a class="mini-cart-icon" href="/cart">
                                         <img alt="Evara" src="/userAssets/imgs/theme/icons/icon-cart.svg">
-                                        <!-- <span class="pro-count blue">2</span> -->
+                                        
                                     </a>
                                     <!-- <div class="cart-dropdown-wrap cart-dropdown-hm2">
                                         <ul>
@@ -269,7 +269,7 @@
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="/"><img s" alt="logo"></a>
+                        <a href="index.html"><img src="/userAssets/imgs/theme/Brand.jpg" alt="logo"></a>
                     </div>
                     <div class="header-nav d-none d-lg-flex">
                         <div class="main-categori-wrap d-none d-lg-block">
@@ -367,16 +367,10 @@
                         <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                             <nav>
                                 <ul>
-                                    <li><a class="active" href="/">Home <i class="fi-rs-angle-down"></i></a>
-                                        <ul class="sub-menu">
-                                            <li><a href="/">Home 1</a></li>
-                                            <li><a href="index-2.html">Home 2</a></li>
-                                            <li><a href="index-3.html">Home 3</a></li>
-                                            <li><a href="index-4.html">Home 4</a></li>
-                                        </ul>
+                                    <li><a class="active" href="/">Home </a>
                                     </li>
                                     <li>
-                                        <a href="page-about.html">About</a>
+                                        <a href="/about">About</a>
                                     </li>
                                     <!-- <li><a href="shop-grid-right.html">Shop <i class="fi-rs-angle-down"></i></a>
                                         <ul class="sub-menu">
@@ -393,7 +387,7 @@
                                                 </ul>
                                             </li>
                                             <li><a href="shop-filter.html">Shop – Filter</a></li>
-                                            <li><a href="/wishlist">Shop – Wishlist</a></li>
+                                            <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
                                             <li><a href="shop-cart.html">Shop – Cart</a></li>
                                             <li><a href="shop-checkout.html">Shop – Checkout</a></li>
                                             <li><a href="shop-compare.html">Shop – Compare</a></li>
@@ -401,7 +395,7 @@
                                     </li> -->
 
                                     <li>
-                                        <a href="page-contact.html">Contact</a>
+                                        <a href="#">Contact</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -414,15 +408,13 @@
                     <div class="header-action-right d-block d-lg-none">
                         <div class="header-action-2">
                             <div class="header-action-icon-2">
-                                <a href="/wishlist">
+                                <a href="/whishlist">
                                     <img alt="Evara" src="/userAssets/imgs/theme/icons/icon-heart.svg">
-                                    <span class="pro-count white">4</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
-                                <a class="mini-cart-icon" href="shop-cart.html">
+                                <a class="mini-cart-icon" href="/cart">
                                     <img alt="Evara" src="/userAssets/imgs/theme/icons/icon-cart.svg">
-                                    <span class="pro-count white">2</span>
                                 </a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2">
                                     <ul>
@@ -479,7 +471,7 @@
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
-                    <a href="/"><img s" alt="logo"></a>
+                    <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                     <button class="close-style search-close">
@@ -489,10 +481,10 @@
                 </div>
             </div>
             <div class="mobile-header-content-area">
-                <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="#">
-                        <input type="text" placeholder="Search for items…">
-                        <button type="submit"><i class="fi-rs-search"></i></button>
+                <div class="search-style-2">
+                    <form action="/search" method="post">
+                        <input type="text" placeholder="Search for items..." name="search_product">
+                        <button type="submit" class="btn btn-fill-out btn-block " style="font-size: medium;font-weight: 700;">Search</button>
                     </form>
                 </div>
                 <div class="mobile-menu-wrap mobile-header-border">
@@ -501,114 +493,16 @@
                             <span class="fi-rs-apps"></span> Browse Categories
                         </a>
                         <div class="categori-dropdown-wrap categori-dropdown-active-small">
-                            <ul>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a></li>
-                                <li> <a href="shop-grid-right.html"><i class="evara-font-smartphone"></i> Cellphones</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-desktop"></i>Computer & Office</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-cpu"></i>Consumer Electronics</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-home"></i>Home & Garden</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-high-heels"></i>Shoes</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-teddy-bear"></i>Mother & Kids</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-kite"></i>Outdoor fun</a></li>
-                            </ul>
                         </div>
                     </div>
                     <!-- mobile menu start -->
                     <nav>
                         <ul class="mobile-menu">
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/">Home</a>
-                                <ul class="dropdown">
-                                    <li><a href="/">Home 1</a></li>
-                                    <li><a href="index-2.html">Home 2</a></li>
-                                    <li><a href="index-3.html">Home 3</a></li>
-                                    <li><a href="index-4.html">Home 4</a></li>
-                                </ul>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="shop-grid-right.html">shop</a>
-                                <ul class="dropdown">
-                                    <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
-                                    <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
-                                    <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
-                                    <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
-                                    <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Product – Right Sidebar</a></li>
-                                            <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
-                                            <li><a href="shop-product-full.html">Product – No sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="shop-filter.html">Shop – Filter</a></li>
-                                    <li><a href="/wishlist">Shop – Wishlist</a></li>
-                                    <li><a href="shop-cart.html">Shop – Cart</a></li>
-                                    <li><a href="shop-checkout.html">Shop – Checkout</a></li>
-                                    <li><a href="shop-compare.html">Shop – Compare</a></li>
-                                </ul>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="/about">About</a>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega menu</a>
-                                <ul class="dropdown">
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Women's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Dresses</a></li>
-                                            <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
-                                            <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
-                                            <li><a href="shop-product-right.html">Women's Sets</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Men's Fashion</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Jackets</a></li>
-                                            <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
-                                            <li><a href="shop-product-right.html">Genuine Leather</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Technology</a>
-                                        <ul class="dropdown">
-                                            <li><a href="shop-product-right.html">Gaming Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
-                                            <li><a href="shop-product-right.html">Tablets</a></li>
-                                            <li><a href="shop-product-right.html">Laptop Accessories</a></li>
-                                            <li><a href="shop-product-right.html">Tablet Accessories</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
-                                <ul class="dropdown">
-                                    <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
-                                    <li><a href="blog-category-list.html">Blog Category List</a></li>
-                                    <li><a href="blog-category-big.html">Blog Category Big</a></li>
-                                    <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product Layout</a>
-                                        <ul class="dropdown">
-                                            <li><a href="blog-post-left.html">Left Sidebar</a></li>
-                                            <li><a href="blog-post-right.html">Right Sidebar</a></li>
-                                            <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="page-about.html">About Us</a></li>
-                                    <li><a href="page-contact.html">Contact</a></li>
-                                    <li><a href="page-account.html">My Account</a></li>
-                                    <li><a href="page-login-register.html">login/register</a></li>
-                                    <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
-                                    <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
-                                    <li><a href="page-terms.html">Terms of Service</a></li>
-                                    <li><a href="page-404.html">404 Page</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Language</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">German</a></li>
-                                    <li><a href="#">Spanish</a></li>
-                                </ul>
-                            </li>
+                            
                         </ul>
                     </nav>
                     <!-- mobile menu end -->
@@ -617,12 +511,16 @@
                     <div class="single-mobile-header-info mt-30">
                         <a  href="page-contact.html"> Our location </a>
                     </div>
-                    <div class="single-mobile-header-info">
-                        <a href="page-login-register.html">Log In / Sign Up </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="#">(+01) - 2345 - 6789 </a>
-                    </div>
+                    <% if (!loggedIn) { %>
+                        <li><i class="fi-rs-user"></i><a href="/login">Log In</a></li>
+                        <li><i class="fi-rs-user"></i><a href="/signup">Sign Up</a></li>
+                    <% } else if (username) { %>
+                        <li><i class="fi-rs-user"></i><a href="/account"><%= username %></a></li>
+                        <li><i class="fi-rs-user"></i><a href="/logout">Logout</a></li>
+                    <% } else {%>
+                        
+                     <%} %>
+                    
                 </div>
                 <div class="mobile-social-icon">
                     <h5 class="mb-15 text-grey-4">Follow Us</h5>
@@ -639,7 +537,7 @@
         <!-- <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="/" rel="nofollow">Home</a>
+                    <a href="index.html" rel="nofollow">Home</a>
                     <span></span> Fashion
                     <span></span> Abstract Print Patchwork Dress
                 </div>
@@ -658,39 +556,22 @@
                                     <div class="detail-gallery">
                                         <div class="image-container">
                                             <img class="product-image" src="/<%= productdata.productImg[0] %>" alt="Product Image">
+
+                                            
                                             <!-- THUMBNAILS -->
-
-
-
-
-
-                                           <!-- <div class="slider-nav-thumbnails pl-15 pr-15">
-                                                <div data-image="/<%= productdata.productImg[0] %>" class="thumbnail"><img
-                                                        src="/<%= productdata.productImg[0] %>" alt="product image"></div>
-                                                <div data-image="/<%= productdata.productImg[1] %>" class="thumbnail"><img
-                                                        src="/<%= productdata.productImg[1] %>" alt="product image"></div>
-                                                <div data-image="/<%= productdata.productImg[2] %>" class="thumbnail"><img
-                                                        src="/<%= productdata.productImg[2] %>" alt="product image"></div>
-                                                <div data-image="/<%= productdata.productImg[3] %>" class="thumbnail"><img
-                                                        src="/<%= productdata.productImg[3] %>" alt="product image"></div>
+                                            <div class="slider-nav-thumbnails pl-15 pr-15">
+                                                <%productdata.productImg.forEach((image)=>{%>
+                                                                        <div data-image="/<%= image %>" class="thumbnail"><img
+                                                                                src="/<%= image %>" alt="product image"></div>
+                                                                 
+                                                <%})%>
                                             </div>
-                                        </div> -->
-
-
-
-
-                                        <div class="slider-nav-thumbnails pl-15 pr-15">
-                                            <%productdata.productImg.forEach((image)=>{%>
-                                                                    <div data-image="/<%= image %>" class="thumbnail"><img
-                                                                            src="/<%= image %>" alt="product image"></div>
-                                                             
-                                            <%})%>
                                         </div>
-                                    </div>
-
-
-                                    
                                         <!-- End Gallery -->
+
+
+
+
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12">
@@ -702,17 +583,31 @@
                                             </div>
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
-                                                    <!-- <div class="product-rating" style="width:90%">
-                                                    </div> -->
+                                                   
+                                                    </div>
                                                 </div>
-                                                <!-- <span class="font-small ml-5 text-muted"> (25 reviews)</span> -->
+                                               
                                             </div>
                                         </div>
                                         <div class="clearfix product-price-cover">
                                             <div class="product-price primary-color float-left">
-                                                <ins><span class="text-brand">₹<%= productdata.sellingPrice %></span></ins>
-                                                <ins><span class="old-price font-md ml-15">₹<%= productdata.regularPrice %></span></ins>
-                                                <!-- <span class="save-price  font-md color3 ml-15">25% Off</span> -->
+
+                                                <% if (productdata.discountStatus === 'Active' && typeof productdata.discountPercent === 'number') { %>
+                                                    <span style="font-size: 18px;
+                                                    font-weight: bold;
+                                                    color: #088178;">₹<%= productdata.sellingPrice - (productdata.sellingPrice * productdata.discountPercent) / 100 %></span>
+                                                    <span style="font-size: 14px;
+                                                    font-weight: 400;
+                                                    color: #90908e;
+                                                    margin: 0 0 0 7px;
+                                                    text-decoration: line-through;" class="old-price">₹<%= productdata.sellingPrice %></span>
+                                                    <span class="save-price font-md color3 ml-5 text-danger" style="font-size: small;"> - <%= productdata.discountPercent %>% </span>
+                                                <% } else { %>
+                                                    <span style="font-size: 18px;
+                                                    font-weight: bold;
+                                                    color: #088178;">₹<%= productdata.sellingPrice %></span>
+                                                <% } %>
+
                                             </div>
                                         </div>
                                         <div class="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -724,9 +619,7 @@
                                                 <!-- <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year AL Jazeera Brand Warranty</li> -->
                                                 <!-- <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return Policy</li> -->
                                                 <!-- <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery available</li> -->
-                                                <% if (productdata.productStock === 0) { %>
-                                                    <li class="text-danger"><i class="fas fa-times mr-2"></i> Out of stock</li>
-                                                  <% } %>                                           </ul>
+                                          </ul>
                                         </div>
 
                                         <!-- <div class="attr-detail attr-color mb-15">
@@ -745,7 +638,7 @@
                                         <div class="attr-detail attr-size">
                                             <strong class="mr-10">Size</strong>
                                             <ul class="list-filter size-filter font-small">
-                                                <li><a href="#"><%= productdata.productSize %> inches</a></li>
+                                                <li><a href="#"><%= productdata.productSize %> Inches</a></li>
                                                 <!-- <li class="active"><a href="#">M</a></li>
                                                 <li><a href="#">L</a></li>
                                                 <li><a href="#">XL</a></li>
@@ -760,67 +653,30 @@
                                                 <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                             </div> -->
                                             <div class="product-extra-link2">
-                                                
-                                                <a aria-label="Add To Cart" class="action-btn hover-up addingcart-btn" type="submit" data-product-id="<%= productdata._id %>" id="addingcart" style="width: 120px; background-color: #088178 ;">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up addingcart-btn" data-product-id="<%= productdata._id %>" id="addingcart" style="width: 120px; background-color: #088178 ;">
                                                     Add to cart
                                                 </a>
-                                                <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/wishlist"><i class="fi-rs-heart"></i></a>
-                                                <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn hover-up addingwhishlist-btn" data-product-id="<%= productdata._id %>" id="addingwhishlist" style="background-color: #088178 ;">
+                                                    <i class="fi-rs-heart"></i>
+                                                </a>
+                                                <!-- <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a> -->
                                             </div>
                                         </div>
                                         <ul class="product-meta font-xs color-grey mt-50">
-                                            <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
-                                            <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women, Men</a>, <a href="#" rel="tag">Dress</a> </li>
-                                            <!-- <li>Availability:<span class="in-stock text-success ml-5">8 Items In Stock</span></li> -->
+                                            <!-- <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li> -->
+                                            <!-- <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li> -->
+                                            
+                                                <% if (productdata.productStock === 0) { %>
+                                                    <li>Availability:<li class="text-danger"> Out of stock</li><span class="in-stock text-success ml-5"></span>
+                                                  <% } else {%>
+                                                    <li>Availability: <br> <%= productdata.productStock %> in stock<span class="in-stock text-success ml-5"></span>
+                                                    <%} %>
+                                            </span></li>
                                         </ul>
                                     </div>
                                     <!-- Detail Info -->
                                 </div>
                             <!-- </div> -->
-
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    const addingcartButtons = document.querySelectorAll(".addingcart-btn");
-                            
-                                    addingcartButtons.forEach(button => {
-                                        button.addEventListener("click", function () {
-                                            const productId = button.getAttribute("data-product-id");
-                                            console.log(productId);
-                                            fetch(`/add-cart?productId=${productId}`, {
-                                                method: 'POST',
-                                                headers: {
-                                                    'content-Type': 'application/json',
-                                                },
-                                            })
-                                            .then(response => {
-                                                if (!response.ok) {
-                                                    throw new Error(`HTTP error! status: ${response.status}`);
-                                                }
-                                                return response.json();
-                                            })
-                                            .then(data => {
-                                                console.log("Response from server", data);
-                                                // Check if the response contains a message
-                                                if (data.message) {
-                                                    // Display Sweet Alert
-                                                    Swal.fire({
-                                                        icon: 'success',
-                                                        title: 'Product Added to Cart',
-                                                        showConfirmButton: false,
-                                                        timer: 1500
-                                                    });
-                                                }
-                                            })
-                                            .catch(error => {
-                                                console.error("Error adding to cart", error);
-                                            });
-                                        });
-                                    });
-                                });
-                            </script>
-                           
-
                            
                             <script>
                                     const imageContainer = document.querySelector('.image-container');
@@ -857,33 +713,126 @@
                 
                                 </script>
 
-                          
+                            <script>
+                                // adding cart
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    const addingcartButtons = document.querySelectorAll(".addingcart-btn");
+
+                                    addingcartButtons.forEach(button => {
+                                        button.addEventListener("click", function () {
+                                            const productId = button.getAttribute("data-product-id");
+                                            fetch(`/add-cart?productId=${productId}`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'content-Type': 'application/json',
+                                                },
+                                            })
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                                }
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                console.log("Response from server", data);
+                                                // Check if the response contains a message
+                                                if (data.message) {
+                                                    // Display Sweet Alert
+                                                    Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Product Added to Cart',
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    });
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error("Error adding to cart", error);
+                                            });
+                                        });
+                                    });
+                                });
+                            </script>
+
+                            <script>
+                                // adding whishlist
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    const addingwhishlistButtons = document.querySelectorAll(".addingwhishlist-btn");
+
+                                    addingwhishlistButtons.forEach(button => {
+                                        button.addEventListener("click", function () {
+                                            const productId = button.getAttribute("data-product-id");
+                                            fetch(`/add-whishlist?productId=${productId}`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'content-Type': 'application/json',
+                                                },
+                                            })
+                                                .then(response => {
+                                                    if (!response.ok) {
+                                                        throw new Error(`HTTP error! status: ${response.status}`);
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then(data => {
+                                                    console.log("Response from server", data);
+                                                    // Check if the response contains a message
+                                                    if (data.message) {
+                                                        // Display Sweet Alert
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Product Added to whishlist',
+                                                            showConfirmButton: false,
+                                                            timer: 1500
+                                                        });
+                                                    } if (data.existing) {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Product already in whishlist',
+                                                            showConfirmButton: false,
+                                                            timer: 1500
+                                                        });
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Failed to add to whishlist',
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    });
+                                                    console.error("Error adding to wishlist", error);
+                                                });
+                                        });
+                                    });
+                                });
+                            </script>
+
                             <div class="row">
                                 <div class="col-lg-10 m-auto entry-main-content">
                                     <h2 class="section-title style-1 mb-30">Description</h2>
                                     <div class="description mb-50">
                                         <p><%= productdata.productDiscription %></p>
-                                        <!-- <ul class="product-more-infor mt-30">
-                                            <li><span>Type Of Packing</span> Bottle</li>
-                                            <li><span>Color</span> Green, Pink, Powder Blue, Purple</li>
-                                            <li><span>Quantity Per Case</span> 100ml</li>
-                                            <li><span>Ethyl Alcohol</span> 70%</li>
-                                            <li><span>Piece In One</span> Carton</li>
-                                        </ul> -->
-                                        <!-- <hr class="wp-block-separator is-style-dots"> -->
-                                        <!-- <p>Laconic overheard dear woodchuck wow this outrageously taut beaver hey hello far meadowlark imitatively egregiously hugged that yikes minimally unanimous pouted flirtatiously as beaver beheld above forward
-                                            energetic across this jeepers beneficently cockily less a the raucously that magic upheld far so the this where crud then below after jeez enchanting drunkenly more much wow callously irrespective limpet.</p>
+                                        <ul class="product-more-infor mt-30">
+                                            
+                                            <li><span>Brand</span> <%= productdata.productBrand %></li>
+                                            <li><span>Category</span> <%= productdata.productCategory %></li>
+                                            <li><span>Quantity Per Case</span> <%= productdata.productSize %> inches</li>
+                                            
+                                        </ul>
+                                        <hr class="wp-block-separator is-style-dots">
+                                        
                                         <h4 class="mt-30">Packaging & Delivery</h4>
                                         <hr class="wp-block-separator is-style-wide">
-                                        <p>Less lion goodness that euphemistically robin expeditiously bluebird smugly scratched far while thus cackled sheepishly rigid after due one assenting regarding censorious while occasional or this more crane
-                                            went more as this less much amid overhung anathematic because much held one exuberantly sheep goodness so where rat wry well concomitantly.
+                                        <!-- <p>At Perfumery, we redefine the essence of luxury through an exquisite collection of fragrances that captivate the senses. 
+                                            Immerse yourself in a world of unparalleled sophistication, where each perfume is meticulously crafted to evoke emotion and leave an indelible impression.  -->
                                         </p>
-                                        <p>Scallop or far crud plain remarkably far by thus far iguana lewd precociously and and less rattlesnake contrary caustic wow this near alas and next and pled the yikes articulate about as less cackled dalmatian
-                                            in much less well jeering for the thanks blindly sentimental whimpered less across objectively fanciful grimaced wildly some wow and rose jeepers outgrew lugubrious luridly irrationally attractively
-                                            dachshund.
-                                        </p> -->
+                                        <p>
+                                            <!-- Our commitment to quality extends beyond the aromatic notes; it's embodied in our elegant packaging, ensuring that every bottle reflects the prestige of the Perfumery experience. 
+                                            Elevate your senses with our signature scents and embrace the allure of timeless elegance, only at Perfumery. -->
+                                        </p>
                                     </div>
-                                   
+                                    
                                     <div class="social-icons single-share">
                                         <ul class="text-grey-5 d-inline-block">
                                             <li><strong class="mr-10">Share this:</strong></li>
@@ -893,17 +842,225 @@
                                             <li class="social-linkedin"><a href="#"><img src="/userAssets/imgs/theme/icons/icon-pinterest.svg" alt=""></a></li>
                                         </ul>
                                     </div>
+                                    <!-- <h3 class="section-title style-1 mb-30 mt-30">Reviews (3)</h3>
                                   
-                           
-                            <!-- <div class="banner-img banner-big wow fadeIn f-none animated mt-50">
-                                <img class="border-radius-10" src="/userAssets/imgs/banner/banner-4.png" alt="">
-                                <div class="banner-text">
-                                    <h4 class="mb-15 mt-40">Repair Services</h4>
-                                    <h2 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h2>
+                                    <div class="comments-area style-2">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <h4 class="mb-30">Customer questions & answers</h4>
+                                                <div class="comment-list">
+                                                    <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                            <div class="thumb text-center">
+                                                                <img src="/userAssets/imgs/page/avatar-6.jpg" alt="">
+                                                                <h6><a href="#">Jacky Chan</a></h6>
+                                                                <p class="font-xxs">Since 2012</p>
+                                                            </div>
+                                                            <div class="desc">
+                                                                <div class="product-rate d-inline-block">
+                                                                    <div class="product-rating" style="width:90%">
+                                                                    </div>
+                                                                </div>
+                                                                <p>Thank you very fast shipping from Poland only 3days.</p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <p class="font-xs mr-30">December 4, 2020 at 3:12 pm </p>
+                                                                        <a href="#" class="text-brand btn-reply">Reply <i class="fi-rs-arrow-right"></i> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                           
+                                                    <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                            <div class="thumb text-center">
+                                                                <img src="/userAssets/imgs/page/avatar-7.jpg" alt="">
+                                                                <h6><a href="#">Ana Rosie</a></h6>
+                                                                <p class="font-xxs">Since 2008</p>
+                                                            </div>
+                                                            <div class="desc">
+                                                                <div class="product-rate d-inline-block">
+                                                                    <div class="product-rating" style="width:90%">
+                                                                    </div>
+                                                                </div>
+                                                                <p>Great low price and works well.</p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <p class="font-xs mr-30">December 4, 2020 at 3:12 pm </p>
+                                                                        <a href="#" class="text-brand btn-reply">Reply <i class="fi-rs-arrow-right"></i> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                            <div class="thumb text-center">
+                                                                <img src="/userAssets/imgs/page/avatar-8.jpg" alt="">
+                                                                <h6><a href="#">Steven Keny</a></h6>
+                                                                <p class="font-xxs">Since 2010</p>
+                                                            </div>
+                                                            <div class="desc">
+                                                                <div class="product-rate d-inline-block">
+                                                                    <div class="product-rating" style="width:90%">
+                                                                    </div>
+                                                                </div>
+                                                                <p>Authentic and Beautiful, Love these way more than ever expected They are Great earphones</p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <p class="font-xs mr-30">December 4, 2020 at 3:12 pm </p>
+                                                                        <a href="#" class="text-brand btn-reply">Reply <i class="fi-rs-arrow-right"></i> </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h4 class="mb-30">Customer reviews</h4>
+                                                <div class="d-flex mb-30">
+                                                    <div class="product-rate d-inline-block mr-15">
+                                                        <div class="product-rating" style="width:90%">
+                                                        </div>
+                                                    </div>
+                                                    <h6>4.8 out of 5</h6>
+                                                </div>
+                                                <div class="progress">
+                                                    <span>5 star</span>
+                                                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                                </div>
+                                                <div class="progress">
+                                                    <span>4 star</span>
+                                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                </div>
+                                                <div class="progress">
+                                                    <span>3 star</span>
+                                                    <div class="progress-bar" role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                                </div>
+                                                <div class="progress">
+                                                    <span>2 star</span>
+                                                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                                </div>
+                                                <div class="progress mb-30">
+                                                    <span>1 star</span>
+                                                    <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                                </div>
+                                                <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="comment-form">
+                                        <h4 class="mb-15">Add a review</h4>
+                                        <div class="product-rate d-inline-block mb-30">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-12">
+                                                <form class="form-contact comment_form" action="#" id="commentForm">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <input class="form-control" name="name" id="name" type="text" placeholder="Name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <input class="form-control" name="email" id="email" type="email" placeholder="Email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <input class="form-control" name="website" id="website" type="text" placeholder="Website">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="button button-contactForm">Submit
+                                                            Review</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div> -->
                                 </div>
-                            </div> -->
-                        <!-- </div> -->
-                    <!-- </div> -->
+                            </div>
+                            <div class="container wow fadeIn animated">
+                                <h3 class="section-title mb-20"><span>Related</span> Products</h3>
+                                <div class="carausel-6-columns-cover position-relative">
+                                    <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows"></div>
+                                    <div class="carausel-6-columns carausel-arrow-center" id="carausel-6-columns-2">
+                                        
+                                        <% relatedProducts.forEach(product => {%>
+                                        <div class="product-cart-wrap small hover-up">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="/product-details/<%= product._id %>">
+                                                        <img class="default-img" src="/<%= product.productImg[0] %>" alt="">
+                                                        <img class="hover-img" src="/<%= product.productImg[1] %>" alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <!-- <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                        <i class="fi-rs-eye"></i></a> -->
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up addingwhishlist-btn" data-product-id="<%= product._id %>" id="addingwhishlist">
+                                                            <i class="fi-rs-heart"></i>
+                                                        </a>                                    <% if(product.productStock >0 ){%> 
+                                                        <a aria-label="Add To Cart" class="action-btn hover-up addingcart-btn" data-product-id="<%= product._id %>" id="addingcart">
+                                                            <i class="fi-rs-shopping-bag-add"></i>
+                                                        </a>
+                                                        <%} else {%>
+                                                            <span class="badge text-white" style="background-color: rgb(247, 58, 58); border-radius: 7px;" >Out of Stock</span>
+                                                    <%} %>
+                                                </div>
+                                                <!-- <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="hot">Hot</span>
+                                                </div> -->
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <h2><a href="/product-details/<%= product._id %>"><%= product.productBrand %></a></h2>
+                                                <div class="rating-result" title="90%">
+                                                    <span>
+                                                    </span>
+                                                </div>
+                                                <div class="product-price">
+                                                    <% if (product.discountStatus === 'Active' && typeof product.discountPercent === 'number') { %>
+                                                        <span>₹<%= product.sellingPrice - (product.sellingPrice * product.discountPercent) / 100 %></span>
+                                                        <span class="old-price">₹<%= product.sellingPrice %></span>
+                                                        <!-- <span class="save-price font-md color3 ml-5 text-danger" style="font-size: small;"> - <%= product.discountPercent %>% </span> -->
+                                                    <% } else { %>
+                                                        <span>₹<%= product.sellingPrice %></span>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%}) %>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <section class="banner-2 section-padding pb-0">
+                                <div class="container">
+                                    <div class="banner-img banner-big wow fadeIn animated f-none">
+                                        <img src="/userAssets/imgs/banner/ban1.jpg" alt="" style="height: 340px; width: 100%;">
+                                        <div class="banner-text d-md-block d-none">
+                                            <h4 class="mb-15 mt-40 text-brand">Perfumery</h4>
+                                            <h1 class="fw-600 mb-20">Elevate Your Presence <br>with Our Exquisite Fragrances.</h1>
+                                            <a href="/" class="btn">Explore <i class="fi-rs-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section> -->
+                        
                 </div>
             </div>
         </section>
@@ -919,7 +1076,7 @@
                                 <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
                             </div>
                             <div class="col my-4 my-md-0 des">
-                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first shopping.</strong></h5>
+                                <!-- <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first shopping.</strong></h5> -->
                             </div>
                         </div>
                     </div>
@@ -939,12 +1096,14 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
-                            <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                            <div class="logo logo-width-1">
+                                <a href="/">
+                                    <img src="/userAssets/imgs/theme/Brand.jpg" alt="logo" style="width: 250px; height: auto;">
+                                </a>
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
-                                <strong>Address: </strong>562 Wellington Road, Street 32, San Francisco
+                                <strong>Address: </strong>Perfumery, Wellington Road, San Francisco
                             </p>
                             <p class="wow fadeIn animated">
                                 <strong>Phone: </strong>+01 2222 365 /(+91) 01 2345 6789
@@ -965,23 +1124,21 @@
                     <div class="col-lg-2 col-md-3">
                         <h5 class="widget-title wow fadeIn animated">About</h5>
                         <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Support Center</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/about">Delivery Information</a></li>
+                            <li><a href="/about">Privacy Policy</a></li>
+                            <li><a href="/about">Terms &amp; Conditions</a></li>
+                            <li><a href="/about">Contact Us</a></li>
+                            <li><a href="/about">Support Center</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-2  col-md-3">
                         <h5 class="widget-title wow fadeIn animated">My Account</h5>
                         <ul class="footer-list wow fadeIn animated">
-                            <li><a href="#">Sign In</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">My Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
-                            <li><a href="#">Order</a></li>
+                            <li><a href="/account">Account Details</a></li>
+                            <li><a href="/cart">View Cart</a></li>
+                            <li><a href="/whishlist">My Wishlist</a></li>
+                            <li><a href="/account">Order</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
@@ -994,7 +1151,7 @@
                                     <a href="#" class="hover-up"><img src="/userAssets/imgs/theme/google-play.jpg" alt=""></a>
                                 </div>
                             </div>
-                            
+                           
                         </div>
                     </div>
                 </div>

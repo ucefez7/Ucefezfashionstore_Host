@@ -18,6 +18,11 @@ const cropImage = require("../controllers/admin_controllers/adm_cropimage")
 const salesReport = require("../controllers/admin_controllers/adm_salesreport");
 const adminDashboard = require("../controllers/admin_controllers/adm_dashboard");
 
+const couponmanageControll = require("../controllers/admin_controllers/adm_couponmanage")
+const offermanageControll = require("../controllers/admin_controllers/adm_offermanage")
+
+
+
 adminRouter.use("/public/uploads",express.static('public/uploads'));
 adminRouter.use("/uploads",express.static('uploads'));
 
@@ -77,7 +82,23 @@ adminRouter.post("/cancel-order", adminMiddleware.verifyadmin, ordermanageContro
 adminRouter.get("/sales-report", adminMiddleware.verifyadmin, salesReport.salesReport);
 adminRouter.post("/filter-sales",adminMiddleware.verifyadmin, salesReport.filterSales )
 
+// manage coupon
+adminRouter.get("/coupon-list", adminMiddleware.verifyadmin, couponmanageControll.getCouponlist)
+adminRouter.get("/add-coupon", adminMiddleware.verifyadmin, couponmanageControll.addCoupon)
+adminRouter.post("/post-coupon", adminMiddleware.verifyadmin, couponmanageControll.postCoupon)
+adminRouter.get("/edit-coupon/:couponId", adminMiddleware.verifyadmin, couponmanageControll.editCoupon)
+adminRouter.post("/postEdit-coupon", adminMiddleware.verifyadmin, couponmanageControll.postEditcoupon)
+adminRouter.get("/block-coupon/:couponId", adminMiddleware.verifyadmin, couponmanageControll.blockCoupon)
+adminRouter.get("/unblock-coupon/:couponId", adminMiddleware.verifyadmin, couponmanageControll.unblockCoupon)
 
+// manage offer
+adminRouter.get("/offer-list", adminMiddleware.verifyadmin, offermanageControll.getOfferlist)
+adminRouter.get("/add-offer", adminMiddleware.verifyadmin, offermanageControll.addOffer)
+adminRouter.post("/postadd-offer", adminMiddleware.verifyadmin, offermanageControll.postOffer)
+adminRouter.get("/edit-offer/:offerId", adminMiddleware.verifyadmin, offermanageControll.editOffer)
+adminRouter.post("/postEdit-offer", adminMiddleware.verifyadmin, offermanageControll.postEditOffer)
+adminRouter.get("/block-offer/:offerId", adminMiddleware.verifyadmin, offermanageControll.blockOffer)
+adminRouter.get("/Unblock-offer/:offerId", adminMiddleware.verifyadmin, offermanageControll.unblockOffer)
 
 
 

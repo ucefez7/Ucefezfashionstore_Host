@@ -4,7 +4,7 @@
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
-            <a href="/" class="brand-wrap">
+            <a href="/admin/admin-dash" class="brand-wrap">
                 <img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" class="logo" alt="Evara Dashboard">
             </a>
             <div>
@@ -45,6 +45,16 @@
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/sales-report"> <i class="icon material-icons md-assessment"></i>
                         <span class="text">Sales Report</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/coupon-list"> <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/offer-list"> <i class="icon material-icons md-request_quote"></i>
+                        <span class="text">Offers</span>
                     </a>
                 </li>
                 <!-- <li class="menu-item">
@@ -192,6 +202,8 @@
                                                             
                                                             </td>
                                             <td><%= orderDetails.paymentMethod %></td>
+
+                                            
                                             <td>₹<%= item.price * item.quantity %> for <%= item.quantity%> item</td>
                                            
                                           </tr>
@@ -227,8 +239,6 @@
                                         <% } %>
 
 
-
-
                                         <%} else if(orderDetails.orderStatus === "Shipped") {%> 
                                             <% const allItemsCanceled = orderDetails.products.every(item => item.status === 'Cancelled'); %>
                                             <% if (allItemsCanceled) { %>
@@ -239,13 +249,18 @@
                                               <% } %>
 
                                           
-                                          <%} else if(orderDetails.orderStatus === "Delivered") {%>
+                                      
+                                           
+                                            <%} else if(orderDetails.orderStatus === "Delivered") {%>     
+                                                <% const allItemsReturned = orderDetails.products.every(item => item.status === "Returned"); %> 
+                                        <!-- If all items are canceled, display a message; otherwise, show the dispatch and cancel buttons -->
+                                        <% if (allItemsReturned) { %>
+                                            <h5 style="color: rgb(177, 29, 29);">The order is Returned</h5>
+                                            <% } else { %>
                                             <h5 style="color: rgb(2, 120, 36);">The order is Delivered</h5>
-                                            <%} else if(orderDetails.orderStatus === "Cancelled") {%> 
-                                            <h5 style="color: rgb(177, 29, 29);">The order is Cancelled</h5>
-                                            <%} else if (orderDetails.orderStatus === "Returned") {%> 
-                                                <h5 style="color: rgb(177, 29, 29);">The order is returend</h5>
                                                 <%}%>
+                                            <%}%>
+
 
                                   </div>
                               </div>  

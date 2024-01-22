@@ -7,11 +7,12 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
 const secretkey = process.env.JWT_SECRET_KEY;
+const offerController = require("../admin_controllers/adm_offermanage");
 
 // render wishlist
 module.exports.getWishlist = async (req, res) => {
   try {
-    
+    await offerController.deactivateExpiredOffers();
     const userData = await userCollection.findOne({ email: req.user });
     const username = userData.username;
     const userId = userData._id;

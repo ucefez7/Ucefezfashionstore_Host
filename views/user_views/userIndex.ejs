@@ -752,11 +752,23 @@
                                                             <!-- <span>90%</span> -->
                                                         </span>
                                                     </div>
+
+
+
                                                     <div class="product-price">
-                                                        <span>₹<%= product.sellingPrice %></span>
-                                                        <span class="old-price">₹<%= product.regularPrice %></span>
-                                                        <span class="save-price  font-md color3 ml-5 text-danger" style="font-size: small;"> - <%=Math.round((1 - (product.sellingPrice / product.regularPrice)) * 100)%>% </span>
+                                                        <% if (product.discountStatus === 'Active' && typeof product.discountPercent === 'number') { %>
+                                                            <span>₹<%= product.sellingPrice - (product.sellingPrice * product.discountPercent) / 100 %></span>
+                                                            <span class="old-price">₹<%= product.sellingPrice %></span>
+                                                            <span class="save-price font-md color3 ml-5 text-danger" style="font-size: small;"> - <%= product.discountPercent %>% </span>
+                                                        <% } else { %>
+                                                            <span>₹<%= product.sellingPrice %></span>
+                                                        <% } %>
                                                     </div>
+
+
+
+
+
                                                     <div class="product-action-1 show">
                                                         <!-- <a aria-label="Add To Cart" class="action-btn hover-up" id="addingcart"><i class="fi-rs-shopping-bag-add"></i></a> -->
                                                         
@@ -768,7 +780,7 @@
                                                             <span class="badge text-white" style="background-color: rgb(247, 58, 58); border-radius: 7px;" >Out of Stock</span>
                                                         <%} %>
                                                         
-                                                            <!-- <span class="badge text-white" style="background-color: rgb(247, 58, 58); border-radius: 7px;" >Out of Stock</span> -->
+                                                            
                                                         
                                                         
                                                     </div>
@@ -1643,114 +1655,7 @@
                 </div>
             </div>
         </section>
-        <!-- <section class="banner-2 section-padding pb-0">
-            <div class="container">
-                <div class="banner-img banner-big wow fadeIn animated f-none">
-                    <img src="/userAssets/imgs/banner/banner-4.png" alt="">
-                    <div class="banner-text d-md-block d-none">
-                        <h4 class="mb-15 mt-40 text-brand">Repair Services</h4>
-                        <h1 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h1>
-                        <a href="shop-grid-right.html" class="btn">Learn More <i class="fi-rs-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        <!-- <section class="popular-categories section-padding mt-15">
-            <div class="container wow fadeIn animated">
-                <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
-                <div class="carausel-6-columns-cover position-relative">
-                    <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
-                    <div class="carausel-6-columns" id="carausel-6-columns">
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-1.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">T-Shirt</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"> <img src="/userAssets/imgs/shop/category-thumb-2.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Bags</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-3.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Sandan</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-4.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Scarf Cap</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-5.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Shoes</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-6.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Pillowcase</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-7.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Jumpsuits</a></h5>
-                        </div>
-                        <div class="card-1">
-                            <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"><img src="/userAssets/imgs/shop/category-thumb-8.jpg" alt=""></a>
-                            </figure>
-                            <h5><a href="shop-grid-right.html">Hats</a></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <!-- <section class="section-padding">
-            <div class="container wow fadeIn animated">
-                <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>
-                <div class="carausel-6-columns-cover position-relative">
-                    <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows"></div>
-                    <div class="carausel-6-columns carausel-arrow-center" id="carausel-6-columns-2">
-                        <div class="product-cart-wrap small hover-up">
-                            <div class="product-img-action-wrap">
-                                <div class="product-img product-img-zoom">
-                                    <a href="shop-product-right.html">
-                                        <img class="default-img" src="/userAssets/imgs/shop/product-2-1.jpg" alt="">
-                                        <img class="hover-img" src="/userAssets/imgs/shop/product-2-2.jpg" alt="">
-                                    </a>
-                                </div>
-                                <div class="product-action-1">
-                                    <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
-<i class="fi-rs-eye"></i></a>
-                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="/wishlist" tabindex="0"><i class="fi-rs-heart"></i></a>
-                                    <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
-                                </div>
-                                <div class="product-badges product-badges-position product-badges-mrg">
-                                    <span class="hot">Hot</span>
-                                </div>
-                            </div>
-                            <div class="product-content-wrap">
-                                <h2><a href="shop-product-right.html">Lorem ipsum dolor</a></h2>
-                                <div class="rating-result" title="90%">
-                                    <span>
-                                    </span>
-                                </div>
-                                <div class="product-price">
-                                    <span>₹238.85 </span>
-                                    <span class="old-price">₹245.8</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End product-cart-wrap-2-->
+        
                        
         <section class="section-padding">
             <div class="container pb-20">

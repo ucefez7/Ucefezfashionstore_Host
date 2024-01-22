@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿<%- include("../partials/user-header")%>
+﻿﻿﻿<%- include("../partials/user-header")%>
 
 <body>
     <header class="header-area header-style-2 header-height-2">
@@ -490,9 +490,10 @@
                                         <th scope="col">Image</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Price</th>
+                                        <th scope="col">Payable Price</th>
                                         <th scope="col">Quantity</th>
                                         <!-- <th scope="col">Subtotal</th> -->
-                                        <th scope="col">Product price</th>
+                                        <th scope="col">Subtotal</th>
                                         <th scope="col">Remove</th>
                                     </tr>
                                 </thead>
@@ -505,7 +506,18 @@
                                             <p class="font-xs"><%= product.productId?.productBrand %>
                                             </p>
                                         </td>
-                                        <td class="price" data-title="Price"><span>₹<%= product.productId?.sellingPrice %> </span></td>
+                                        <td class="price" data-title="rice"> <span>₹<%= product.productId.sellingPrice %> </span></td>
+                                        <td class="price" data-title="Price">
+                                            <% if (product.productId.discountStatus === 'Active' && typeof product.productId.discountPercent === 'number') { %>
+                                                <span>₹<%= product.productId.sellingPrice - (product.productId.sellingPrice * product.productId.discountPercent) / 100 %></span>
+                                            <% } else { %>
+                                                <span>₹<%= product.productId.sellingPrice %> </span>
+                                            <% } %>
+                                        </td>
+
+
+
+
                                         <td class="text-center" data-title="Stock">
                                             <!-- <div class="detail-qty border radius  m-auto" data-product-id="<%= product._id %>">
                                                 <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
@@ -524,17 +536,15 @@
                                             
                                         </td>
 
-                                       
-                                        <td class="text-right" data-title="Cart" >
-                                           
+
+                                        <td class="text-right" data-title="Cart" > 
                                             <% if(product.productId?.productStock < product.quantity) {%>
                                                 <label for="" style="color: red;">Product<br> out of<br> stock</label>
-                                                <%} else {%>
-                                                    <!-- <span id="reload">₹<%= product.quantity * product.productId?.sellingPrice %></span> -->
+                                                <%} else if (product.productId.discountStatus === 'Active' && typeof product.productId.discountPercent === 'number') { %>
+                                                    <span>₹<%= product.quantity * (product.productId.sellingPrice - (product.productId.sellingPrice * product.productId.discountPercent) / 100) %></span>
+                                                <% } else { %>
                                                     <span>₹<%= product.quantity * product.productId?.sellingPrice %></span>
-                                                    <!-- <span>₹<%= product.productId?.sellingPrice %></span> -->
-                                                    <%} %>
-                    
+                                                <% } %>
                                         </td>
                                     
 

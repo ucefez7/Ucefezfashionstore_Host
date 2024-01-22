@@ -1,32 +1,34 @@
 const userCollection = require("../../models/user_schema");
 const productCollection = require("../../models/product");
 const cartCollection = require("../../models/cart")
-
+const offerController = require("../admin_controllers/adm_offermanage");
 require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
 const secretkey = process.env.JWT_SECRET_KEY
 
 // render cart page
-module.exports.getCart = async (req, res,next) => {
+module.exports.getCart = async (req, res) => {
   try {
-    
+    await offerController.deactivateExpiredOffers();
     const userData = await userCollection.findOne({ email: req.user });
-    const userName = userData.username
     const userId = userData._id;
+    const username = userData.username;
 
     const loggedIn = req.cookies.loggedIn;
-    const username = req.cookies.username;
-
-    const cartDetails = await cartCollection.findOne({ userId: userId }).populate('products.productId') ;
-    res.render("user-cart", { loggedIn, username, cartDetails });
-    
+    const productOffers = await productCollection.find({
+      discountStatus: "Active",
+    });
+    const cartDetails = await cartCollection
+      .findOne({ userId: userId })
+      .populate("products.productId");
+    res.render("user-cart", { loggedIn, username, cartDetails, productOffers });
   } catch (error) {
     console.error(error);
-    // res.status(500).send('Internal Server Error');
-    next(error);
+    res.status(500).send("Internal Server Error");
   }
-};  
+};
+
 
 
 
@@ -103,12 +105,6 @@ module.exports.deleteCart = async (req, res,next) => {
   }
 };
 
-
-
-
-
-
-
 module.exports.manageQuantity = async(req,res,next) => {
   try {
     const {productId,newQuantity} = req.query;
@@ -137,37 +133,56 @@ module.exports.manageQuantity = async(req,res,next) => {
 }
 
 
-// subtotal 
-module.exports.subtotal = async (req, res, next) => {
+module.exports.subtotal = async (req, res) => {
   try {
     const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
     const cart = await cartCollection.findOne({ userId: userId });
+    const productOffers = await productCollection.find({
+      discountStatus: "Active",
+    });
 
     let subtotal = 0;
     let isStockAvailable = true;
 
-    
-    for (const productItem of cart.products) {
-      const product = await productCollection.findById(productItem.productId);
+    if (cart) {
+      for (const productItem of cart.products) {
+        const product = await productCollection.findById(productItem.productId);
 
-      
-      if (productItem.quantity > product.productStock) {
-        isStockAvailable = false;
-      } else {
-        
-        subtotal += product.sellingPrice * productItem.quantity;
+        if (productItem.quantity > product.productStock) {
+          isStockAvailable = false;
+        } else {
+          subtotal += product.sellingPrice * productItem.quantity;
+
+          // Check if the product has a discount offer
+          const matchingOffer = productOffers.find(
+            (offer) => offer.productName === product.productName
+          );
+
+          if (matchingOffer) {
+            const discountedAmount =
+              (productItem.quantity *
+                (product.sellingPrice * matchingOffer.discountPercent)) /
+              100;
+
+            // Ensure that discountedAmount is a valid number
+            if (!isNaN(discountedAmount)) {
+              subtotal -= discountedAmount;
+              console.log("discountedAmount", discountedAmount);
+            }
+          }
+        }
       }
+      console.log("subtotal", subtotal);
+      res.json({ success: true, subtotal, isStockAvailable });
     }
-
-    
-    res.json({ success: true, subtotal, isStockAvailable });
   } catch (error) {
     console.error(error);
-    // res.status(500).json({ success: false, error: "Internal Server Error" });
-    next(error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
+
+
 
 module.exports.stockchecking = async(req,res) =>{
   try {
