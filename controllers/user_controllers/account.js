@@ -41,6 +41,10 @@ module.exports.getUserAccount = async (req, res) => {
 
 
 
+
+
+
+
 //  render user edit details page
 module.exports.getUsereditdetails = async(req,res,next) => {
   try {
@@ -554,6 +558,8 @@ module.exports.cancelOrder = async (req, res) => {
   }
 };
 
+
+
 // cancel single order
 module.exports.cancelSingleOrder = async (req, res) => {
   try {
@@ -594,9 +600,9 @@ module.exports.cancelSingleOrder = async (req, res) => {
       orderData.paymentMethod == "Wallet"
     ) {
       const userWallet = await walletCollection.findOne({ userId: userId });
-      const walletAmout = userWallet.amount ?? 0;
+      const walletAmount = userWallet.amount ?? 0;
       const totalOrderAmount = productAmount ?? 0;
-      const newWalletAmount = walletAmout + totalOrderAmount;
+      const newWalletAmount = walletAmount + totalOrderAmount;
 
       if (orderData.paymentStatus == "Success") {
         await walletCollection.updateOne(
@@ -616,11 +622,17 @@ module.exports.cancelSingleOrder = async (req, res) => {
 
 
 
+
+
+
+
+
 // // return order
 // module.exports.returnOrder = async (req, res) => {
 //   try {
 //     const userData = await userCollection.findOne({ email: req.user });
 //     const userId = userData._id;
+
 //     const orderId = req.query.orderId;
 //     const returnReason = req.query.reason;
 //     const orderData = await orderCollection.findById(orderId);
@@ -647,6 +659,7 @@ module.exports.cancelSingleOrder = async (req, res) => {
 //         product.status = "Returned";
 //       }
 //     });
+
 //     await orderData.save();
 
 //     // save the order status
@@ -655,17 +668,6 @@ module.exports.cancelSingleOrder = async (req, res) => {
 //     orderData.returnReason = returnReason;
 //     await orderData.save();
 
-//     const userWallet = await walletCollection.findOne({ userId: userId });
-//     const walletAmout = userWallet.amount ?? 0;
-//     const totalOrderAmount = totalProductAmount ?? 0;
-//     const newWalletAmount = walletAmout + totalOrderAmount;
-
-//     if (orderData.paymentStatus == "Success") {
-//       await walletCollection.updateOne(
-//         { userId: userId },
-//         { $set: { amount: newWalletAmount } }
-//       );
-//     }
 
 //     res.status(200).json({ message: "The order is Returned" });
 //   } catch (error) {
@@ -677,12 +679,12 @@ module.exports.cancelSingleOrder = async (req, res) => {
 
 
 
+
 // return order
 module.exports.returnOrder = async (req, res) => {
   try {
     const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
-
     const orderId = req.query.orderId;
     const returnReason = req.query.reason;
     const orderData = await orderCollection.findById(orderId);
@@ -709,7 +711,6 @@ module.exports.returnOrder = async (req, res) => {
         product.status = "Returned";
       }
     });
-
     await orderData.save();
 
     // save the order status
@@ -718,6 +719,17 @@ module.exports.returnOrder = async (req, res) => {
     orderData.returnReason = returnReason;
     await orderData.save();
 
+    const userWallet = await walletCollection.findOne({ userId: userId });
+    const walletAmout = userWallet.amount ?? 0;
+    const totalOrderAmount = totalProductAmount ?? 0;
+    const newWalletAmount = walletAmout + totalOrderAmount;
+
+    if (orderData.paymentStatus == "Success") {
+      await walletCollection.updateOne(
+        { userId: userId },
+        { $set: { amount: newWalletAmount } }
+      );
+    }
 
     res.status(200).json({ message: "The order is Returned" });
   } catch (error) {
@@ -725,9 +737,6 @@ module.exports.returnOrder = async (req, res) => {
     res.status(500).json({ error: "Error found while returning product" });
   }
 };
-
-
-
 
 
 
@@ -778,7 +787,7 @@ module.exports.applyReferelOffers = async (req, res) => {
         const userWallet = await walletCollection.findOne({
           userId: userData._id,
         });
-        userWallet.amount += 100;
+        userWallet.amount += 500;
         await userWallet.save();
 
         const referedUserWallet = await walletCollection.findOne({

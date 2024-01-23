@@ -371,6 +371,7 @@ module.exports.cashOnDelivery = async (req, res) => {
 // razorpay order
 module.exports.razorpayOrder = async (req, res) => {
   try {
+    console.log(req.body)
     await offerController.deactivateExpiredOffers();
     const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
@@ -804,17 +805,32 @@ module.exports.razorpayOrderPlaced = async (req, res) => {
 // wallet pay
 module.exports.walletPay = async (req, res) => {
   try {
+    console.log(req.body)
     await offerController.deactivateExpiredOffers();
     const userData = await userCollection.findOne({ email: req.user });
+
+
     const userId = userData._id;
     console.log("userid", userId);
     const cartDetails = await cartCollection
       .findOne({ userId: userId })
       .populate("products.productId");
-
     const walletData = await walletCollection.findOne({ userId: userId });
+    
     console.log("walletdata: ", walletData);
     const walletAmout = walletData.amount;
+
+
+   
+  //   const cartDetails = await cartCollection
+  //   .findOne({ userId: user._id })
+  //   .populate("products.productId");
+
+  // const walletData = await walletCollection.findOne({ userId: user._id });
+  
+  // console.log("walletdata: ", walletData);
+  // const walletAmout = walletData.amount;
+
 
     const couponCode = req.body.couponCode;
     const addressId = req.body.selectedAddresses;
@@ -1164,6 +1180,11 @@ module.exports.walletPay = async (req, res) => {
   }
 };
 
+
+
+
+
+
 // render place order page
 module.exports.getPlaceOrder = async (req, res) => {
   try {
@@ -1177,14 +1198,6 @@ module.exports.getPlaceOrder = async (req, res) => {
     console.error("error: ", error);
   }
 };
-
-
-
-
-
-
-
-
 
 
 

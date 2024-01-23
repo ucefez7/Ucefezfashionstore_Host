@@ -1,11 +1,8 @@
 const userCollection = require("../../models/user_schema");
 const adminCollection = require("../../models/admin_schema");
 const productCollection = require("../../models/product");
-const walletCollection = require("../../models/wallet");
-var randomstring = require("randomstring");
-const bcrypt = require("bcrypt");
-require('dotenv').config();
 
+require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const secretkey = process.env.JWT_SECRET_KEY
 
@@ -23,10 +20,6 @@ module.exports.getUserSignup = (req,res) => {
 module.exports.postUserSignup = async (req,res) => {
   const email = await userCollection.findOne({ email: req.body.email });
   const phoneNumber = await userCollection.findOne({ phoneNumber: req.body.phoneNumber });
-
-  //generating referral code
-  let codeId = randomstring.generate(12);
-
   if(email) {
     res.render("user-signup", { error: "Email already exists" })
   } else if(phoneNumber) {
@@ -39,13 +32,7 @@ module.exports.postUserSignup = async (req,res) => {
       phoneNumber: req.body.phoneNumber,
       // otpInput:req.body.otpInput,
       status:"Unblock",
-      referelId: codeId,
-    });
-    const currUser = await userCollection.findOne({ email: req.body.email });
-    await walletCollection.create({
-      userId: currUser._id,
-      amount: 0,
-    });
+    })
     res.render("user-login", {message: "User sign up successfully"});
   }
 }
@@ -69,9 +56,11 @@ module.exports.getSendOtp = async (req,res,next) => {
     });
     if (existingUser) {
       // Handle the case where either email or phoneNumber already exists
-      
+      // if (existingUser.email === req.query.email && existingUser.phoneNumber === req.query.phoneNumber) {
         res.status(200).json({error: "User already exists"})
-      
+      // } else  {
+        // res.status(200).json({error: "User already exists"})
+      // }
   } else 
   {
 

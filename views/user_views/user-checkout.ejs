@@ -816,7 +816,7 @@
               }
               document.getElementById("myForm").reset();
               window.location.reload();
-              window.location.href = '/account';
+              window.location.href = '/checkout';
           })
           .catch(error => {
               Swal.fire({
@@ -954,10 +954,7 @@
 
             const selectedCheckboxes = document.querySelectorAll('input[name="selectedAddresses"]:checked');
 
-            // if (selectedCheckboxes.length === 0) {
-            //     alert('Please select an address');
-            //     return; 
-            // }
+          
             if (selectedCheckboxes.length === 0) {
                 Swal.fire({
                     icon: 'warning',
@@ -987,13 +984,7 @@
             })
             .then((data)=>{
                 if (data.applied) {
-                    // swal.fire({
-                    //     position: 'top-center',
-                    //     icon: 'success',
-                    //     title: data.message,
-                    //     showConfirmButton: false,
-                    //     timer: 1500
-                    // });
+                   
                     console.log("order placed");
                     window.location.href = '/order-placed'
                 } else {
@@ -1049,13 +1040,7 @@
             })
             .then((data)=>{
                 if (data.success) {
-                    // const orderDetails = {
-                    //     order : data.order,
-                    //     orderId : data.orderId,
-                    //     amount : data.totalAmount,
-                    //     addressId : data.addressId,
-                    //     couponCode : data.couponCode,
-                    // }
+                  
                     const order = data.order;
                     const orderId = data.orderId;
                     const amount = data.totalAmount;
@@ -1096,17 +1081,7 @@
                     rzp1.on('payment.failed', function (response){
                             // alert(response.error.code);
                             alert(response.error.description);
-                            // alert(response.error.source);
-                            // alert(response.error.step);
-                            // alert(response.error.reason);
-                            // alert(response.error.metadata.order_id);
-                            // alert(response.error.metadata.payment_id);
-                            // Swal.fire({
-                            //     icon: "error",
-                            //     title: "Oops...",
-                            //     text: "Payment failed!",
-                            //     footer: '<a href="#">Why do I have this issue?</a>',
-                            // });
+                            
                     });
                     
 
@@ -1167,13 +1142,7 @@
             })
             .then((data)=>{
                 if (data.applied) {
-                    // swal.fire({
-                    //     position: 'top-center',
-                    //     icon: 'success',
-                    //     title: data.message,
-                    //     showConfirmButton: false,
-                    //     timer: 1500
-                    // });
+                  
                     console.log("order placed");
                     window.location.href = '/order-placed'
                 } else if (data.excessAmount) {

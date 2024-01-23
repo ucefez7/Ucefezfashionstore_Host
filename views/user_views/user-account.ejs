@@ -375,7 +375,7 @@
                                             <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fas fa-wallet mr-10"></i>Wallet</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
@@ -453,37 +453,67 @@
                                 
                                   </script>
                                       
-
                                     </div>
 
 
-                                    
+
                                     <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="mb-0">Orders tracking</h5>
+                                                <h5 class="mb-0">Your Wallet</h5>
                                             </div>
+                                            
                                             <div class="card-body contact-from-area">
-                                                <p>To track your order please enter your OrderID in the box below and press "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+                                                <div id="balance">
+                                                    <h5>Account Balance</h5>
+                                                    <p>
+                                                      Your current balance:<span class="ml-10"
+                                                        style="font-size: medium; font-weight: 600"
+                                                        >₹ <%= wallet?.amount %> </span
+                                                      >
+                                                    </p>
+                                                    <br /><br />
+                                                </div>
+
                                                 <div class="row">
                                                     <div class="col-lg-8">
-                                                        <form class="contact-form-style mt-30 mb-50" action="#" method="post">
-                                                            <div class="input-style mb-20">
-                                                                <label>Order ID</label>
-                                                                <input name="order-id" placeholder="Found in your order confirmation email" type="text" class="square">
-                                                            </div>
-                                                            <div class="input-style mb-20">
-                                                                <label>Billing email</label>
-                                                                <input name="billing-email" placeholder="Email you used during checkout" type="email" class="square">
-                                                            </div>
-                                                            <button class="submit submit-auto-width" type="submit">Track</button>
-                                                        </form>
+                                                        
+                                                        <section id="transaction-history">
+                                                            <h5>Transaction History</h5>
+                                                            <table>
+                                                              <thead>
+                                                                <tr>
+                                                                  <th>Date</th>
+                                                                  <th>Type</th>
+                                                                  <th>Amount</th>
+                                                                  <th>Payment status</th>
+                                                                  <th>Transaction ID</th>
+                                                                </tr>
+                                                              </thead>
+                                                              <% if(!orderDetails || orderDetails.length == 0 ){%>
+                                                              <tr>
+                                                                <td colspan="6">No Orders</td>
+                                                              </tr>
+                                                              <% }else {%>
+                                                              <tbody>
+                                                                <% orderDetails.forEach((items)=>{%>
+                                                                <tr>
+                                                                  <%if(items.paymentMethod === "Wallet"){%>
+                                                                    <td><%= items.createdAt.toLocaleDateString() %></td>
+                                                                    <td><%=items.paymentMethod%></td>
+                                                                    <td><%=items.totalAmount%></td>
+                                                                    <td><%=items.paymentStatus%></td>
+                                                                    <td><%=items._id%></td>
+                                                                </tr>
+                                                                <%}})}%>
+                                                              </tbody>
+                                                            </table>
+                                                          </section>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
 
 
 
@@ -788,6 +818,115 @@ submitButton.addEventListener("click", function (e) {
                                                         <a href="/get-changepswd" class="">Update</a>
                                                     </div>
                                                 </div>
+
+
+                                                <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                                                    <div>
+                                                        <h4 style="font-size: small; font-weight: 500">
+                                                            Your Referel Code
+                                                        </h4>
+                                                          <br />
+                                                        <p style="font-weight: 500">
+                                                            Code: <span style="color: rgb(6, 80, 145);"><%= userData.referelId %></span>
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <a class="btn btn-sm font-sm rounded btn-dark copy-button text-center" style="width: 70px; height: 35px;" onclick="copyToClipboard('<%= userData.referelId %>')">
+                                                            Copy
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    function copyToClipboard(code) {
+                                                        navigator.clipboard.writeText(code).then(()=> {
+                                                            Swal.fire({
+                                                            position: 'center',
+                                                            icon: 'success',
+                                                            title: "Coupon Code copied to Clipboard",
+                                                            showConfirmButton: false,
+                                                            timer: 1500
+                                                            });
+                                                        }).catch(err=>{
+                                                            console.error('Unable to copy to clipboard', error);
+                                                        });
+                                                    }
+                                                </script>
+                                                <% if (userData.appliedReferel) { %>
+                                                    <div></div>
+                                                    <% } else { %>
+                                                    <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                                                        <div id="referralSection">
+                                                            <h4 style="font-size: small; font-weight: 500">
+                                                                If you had any referral code? Paste here for Rewards
+                                                            </h4>
+                                                            <br />
+                                                            <div>
+                                                                <input
+                                                                style="border: 2px solid rgb(80, 80, 80)"
+                                                                type="text"
+                                                                placeholder="Paste Code Here"
+                                                                id="codeInput"
+                                                                />
+                                                            </div>
+                                                            <br />
+                                                            <button class="btn btn-fill-out btn-block btn-sm" id="referel">
+                                                                Apply
+                                                            </button>
+                                                            </div>
+                                                    </div>
+                                                <% } %>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        document.getElementById("referel")
+                                          .addEventListener("click", function () {
+
+                                            const codeValue = document.getElementById("codeInput").value;
+                                            const referralCodeApplied = localStorage.getItem("referralCodeApplied") === "true";
+                  
+                                            if (codeValue.trim() !== "") {
+                                              fetch(`/applyreferel?referel=${codeValue}`, {
+                                                method: "POST",
+                                                headers: {
+                                                  "Content-Type": "application/json",
+                                                },
+                                              })
+                                                .then((response) => {
+                                                  if (!response.ok) {
+                                                    throw new Error(`HTTP error!`);
+                                                  }
+                                                  return response.json();
+                                                })
+                  
+                                                .then((data) => {
+                                                  console.log(data);
+                                                  Swal.fire({
+                                                    position: "top-centre",
+                                                    icon: "success",
+                                                    title: "Credited 100Rs in Wallet",
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                  });
+                                                })
+                                                .catch((error) => {
+                                                  console.error("Error:", error);
+                                                  Swal.fire({
+                                                    icon: "error",
+                                                    title: "Oops...",
+                                                    text: "Invalid Referel Code!",
+                                                  });
+                                                });
+                                            } else {
+                                              alert("Please enter a code before applying.");
+                                            }
+                                          });
+                                      </script>
+
+
+
                                             </div>
                                         </div>
                                     </div>

@@ -21,6 +21,15 @@ const userSchema  = new mongoose.Schema({
   status: {
     type: String,
   },
+  referelId: {
+    type: String,
+  },
+  redmmedreferels: {
+    type: Array,
+  },
+  appliedReferel: {
+    type: Boolean,
+  },
 });
 
 const userCollection = mongoose.model("userCollection",userSchema);
