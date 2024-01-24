@@ -9,22 +9,63 @@ const walletCollection = require("../../models/wallet");
 const bcrypt = require("bcrypt");
 const offerController = require("../admin_controllers/adm_offermanage");
 
- // render account page
+//  // render account page
+// module.exports.getUserAccount = async (req, res) => {
+//   try {
+//     const loggedIn = req.cookies.loggedIn;
+//     const userData = await userCollection.findOne({ email: req.user });
+//     const username = userData.username;
+
+//     // const userData = await userCollection.findOne({ email: req.user });
+//     const userId = userData._id;
+//     const addressDetails = await addressCollection.findOne({ userId: userId });
+//     const orderDetails = await orderCollection
+//       .find({ userId: userId })
+//       .populate("products.productId");
+//     const wallet = await walletCollection.findOne({ userId: userId });
+
+    
+//     res.render("user-account", {
+//       loggedIn,
+//       username,
+//       addressDetails,
+//       orderDetails,
+//       userData,
+//       wallet,
+//     });
+//   } catch (error) {
+//     console.error("error: ", error);
+//   }
+// };
+
+
+// render account page
 module.exports.getUserAccount = async (req, res) => {
   try {
     const loggedIn = req.cookies.loggedIn;
     const userData = await userCollection.findOne({ email: req.user });
     const username = userData.username;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
 
     // const userData = await userCollection.findOne({ email: req.user });
     const userId = userData._id;
     const addressDetails = await addressCollection.findOne({ userId: userId });
+
     const orderDetails = await orderCollection
       .find({ userId: userId })
-      .populate("products.productId");
+      .populate("products.productId")
+      .skip(skip)
+      .limit(pageSize)
+      .exec();
+
+      const totalCount = await orderCollection.countDocuments();
+      console.log(totalCount)
+    const totalPages = Math.ceil(totalCount / pageSize);
     const wallet = await walletCollection.findOne({ userId: userId });
 
-    // res.render("user-account",{ loggedIn,username,addressDetails })
+    
     res.render("user-account", {
       loggedIn,
       username,
@@ -32,12 +73,13 @@ module.exports.getUserAccount = async (req, res) => {
       orderDetails,
       userData,
       wallet,
+      currentPage: page,
+      totalPages,
     });
   } catch (error) {
     console.error("error: ", error);
   }
 };
-
 
 
 

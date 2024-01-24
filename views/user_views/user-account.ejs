@@ -406,7 +406,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <table class="table" id="xample">
+                                                    <table class="table" id="example">
                                                         
                                                         <thead>
                                                             <tr>
@@ -437,25 +437,42 @@
                                                     </table>
                                                 </div>
                                             </div>  
-                                        </div>
-                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-                                  <script>
-                                    jQuery(document).ready(function ($) {
-                                    $('#xample').DataTable({
-                                        destroy: true,
-                                        ordering: false,
-                                        searching: false,
-                                        lengthChange: false,
-                                        pageLength: 10
-                                    });
-                                });
-                                
-                                  </script>
-                                      
+                                        </div>      
+                                        <div class="pagination-area mt-15 mb-50">
+                                            <nav aria-label="Page navigation example">
+                                              <ul class="pagination justify-content-start">
+                                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                                  <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                                  </li>
+                                                <% } %>
+                                                <% if (currentPage < totalPages) { %>
+                                                  <li class="page-item">
+                                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">
+                                                      <i class="material-icons md-chevron_right"></i>
+                                                    </a>
+                                                  </li>
+                                                <% } %>
+                                              </ul>
+                                            </nav>
+                                          </div>
+
                                     </div>
 
 
+                                    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+                                  <script>
+                                  jQuery(document).ready(function ($) {
+                                  $('#example').DataTable({
+                                    destroy: true,
+                                    ordering: false,
+                                    searching: false,
+                                    lengthChange: false,
+                                    pageLength: 5
+                                  });
+                                  });
+                                  </script> -->
 
                                     <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
                                         <div class="card">
