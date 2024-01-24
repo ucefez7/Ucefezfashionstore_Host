@@ -197,14 +197,14 @@
                                                          <%} else if(item.status === "Cancelled") {%> 
                                                  <p>Product Cancelled</p>
                                                          <%} else if (item.status === "Returned") {%> 
-                                                             <p>Product Returned</p>
+                                                             <p>Refunded</p>
                                                              <%}%>
                                                             
                                                             </td>
                                             <td><%= orderDetails.paymentMethod %></td>
 
                                             
-                                            <td>₹<%= item.price * item.quantity %> for <%= item.quantity%> item</td>
+                                            <td>₹<%= item.orderPrice.toFixed(0) %> for <%= item.quantity%> item</td>
                                            
                                           </tr>
                                         <% }); %>

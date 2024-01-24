@@ -400,7 +400,8 @@
                                             <td><%= item.status %></td>
                                             <td><%= orderDetails.paymentMethod %></td>
                                             
-                                            <td>₹<%= item.price * item.quantity %> for <%= item.quantity%> item</td>
+                                            
+                                            <td>₹<%= item.orderPrice.toFixed(0) %> for <%= item.quantity%> item</td>
                                             <td>₹<%= orderDetails.totalAmount * item.quantity %> for <%= item.quantity%> item</td>
                                             
                                            
@@ -487,7 +488,9 @@
 
                                     <% if (orderDetails.orderStatus === "Order Placed" || orderDetails.orderStatus === "Shipped") { %>
                                         <h5></h5>  
-                                    
+                                        <!-- <a href="#" order-id="<%= orderDetails._id %>" id="cancelButton" class="btn btn-sm" style="background-color: rgb(180, 36, 36);">Cancel Order</a> -->
+
+
                                             <%} else if(orderDetails.orderStatus === "Delivered") {%>     
                                                 <% const allItemsReturned = orderDetails.products.every(item => item.status === "Returned"); %> 
                                         <!-- If all items are canceled, display a message; otherwise, show the dispatch and cancel buttons -->
