@@ -821,16 +821,6 @@ module.exports.walletPay = async (req, res) => {
     const walletAmout = walletData.amount;
 
 
-   
-  //   const cartDetails = await cartCollection
-  //   .findOne({ userId: user._id })
-  //   .populate("products.productId");
-
-  // const walletData = await walletCollection.findOne({ userId: user._id });
-  
-  // console.log("walletdata: ", walletData);
-  // const walletAmout = walletData.amount;
-
 
     const couponCode = req.body.couponCode;
     const addressId = req.body.selectedAddresses;
