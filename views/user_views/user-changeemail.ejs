@@ -484,7 +484,7 @@
                                   </div>
 
                                   <div class="form-group">
-                                      <input type="text" required="" name="otpInput" placeholder="Enter OTP" id="otpInput">
+                                      <input type="number" required="" name="otpInput" placeholder="Enter OTP" id="otpInput">
                                   </div>
 
                                   <!-- <div class="form-group">
@@ -542,7 +542,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
                             <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                                <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
@@ -662,190 +662,114 @@
         // let countdown;
 
         const sendOTPButton = document.getElementById("sendOTPButton");
-        const resendOTPButton = document.getElementById("resendOTPButton");
         const verifyOTPButton = document.getElementById("verifyOTPButton");
-        
-        sendOTPButton.addEventListener("click", function(e){
+        const emailInput = document.getElementById("email");
+
+        sendOTPButton.addEventListener("click", function (e) {
             e.preventDefault();
 
-           
+            // Trim whitespaces from email input
+            const email = emailInput.value.trim();
 
-                const email = document.querySelector('input[name="email"]').value;
-                console.log(email);
+            // Validate email format
+            const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+            if (!email.match(emailPattern)) {
+                displayError("emailError", "Invalid email address");
+                return;
+            }
 
-                fetch(`/newsend-otp?email=${email}`)
-                .then((response)=>{
-                    if(!response.ok) {
+            // Rest of your code for sending OTP
+            fetch(`/newsend-otp?email=${email}`)
+                .then((response) => {
+                    if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then((data) => {
-                        console.log("Response from server", data);
+                    console.log("Response from server", data);
 
                     if (data.error) {
-                    // User already exists, display error message
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'error',
-                        title: data.error,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: data.error,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     } else {
-                    // User doesn't exist, continue with OTP sending logic
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'success',
-                        title: 'OTP sent to email successfully',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    startResendTimer();
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'OTP sent to email successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        // startResendTimer();
                     }
                 })
                 .catch((error) => {
                     console.error("Error sending OTP", error);
                 });
-        })
+        });
 
-        // resendOTPButton.addEventListener("click", function (e) {
-        //     e.preventDefault();
-
-        //     clearInterval(countdown);
-        //     // Validate the form before sending OTP
-
-        //         const email = document.querySelector('input[name="email"]').value;
-        //         console.log(email);
-
-        //         fetch(`/newsend-otp?email=${email}`)
-        //         .then((response)=>{
-        //             if(!response.ok) {
-        //                 throw new Error(`HTTP error! status: ${response.status}`);
-        //             }
-        //             return response.json();
-        //         })
-        //         .then((data) => {
-        //                 console.log("Response from server", data);
-
-        //             if (data.error) {
-        //             // User already exists, display error message
-        //             Swal.fire({
-        //                 position: 'top-center',
-        //                 icon: 'error',
-        //                 title: data.error,
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             });
-        //             } else {
-        //             // User doesn't exist, continue with OTP sending logic
-        //             Swal.fire({
-        //                 position: 'top-center',
-        //                 icon: 'success',
-        //                 title: 'OTP sent to email successfully',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             });
-        //             startResendTimer();
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             console.error("Error sending OTP", error);
-        //         });
-        //     // enableVerifyButton(true);
-        // });
-
-
-    //   function startResendTimer() {
-    //         let remainingTime = 10;
-    //         timerElement.style.display = "block";
-    //         resendOTPButton.style.display = "none";
-    //         sendOTPButton.style.display = "none"; // Hide the sendOTPButton
-
-    //         countdown = setInterval(() => {
-    //             timerElement.textContent = `Resend in ${remainingTime} seconds`;
-    //             remainingTime--;
-
-    //             if (remainingTime < 0) {
-    //                 clearInterval(countdown);
-    //                 timerElement.style.display = "none";
-    //                 resendOTPButton.style.display = "block";
-    //                 sendOTPButton.style.display = "none"; // Ensure sendOTPButton is hidden when timer expires
-    //             }
-    //         }, 1000);
-    //     }
-
-
-        // function validateForm(){
-            
-        //     resetErrorMessages();
-        //     const email = document.getElementById('email').value;
-
-        //     // Validate email
-        //     const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-        //     if (!email.match(emailPattern)) {
-        //         showError('emailError', 'Invalid email address');
-        //         return false;
-        //     }
-        // }
-        //  // Function to show error message
-        // function showError(elementId, message) {
-        //     const errorElement = document.getElementById(elementId);
-        //     errorElement.textContent = message;
-        // }
-
-        // // Function to reset error messages
-        // function resetErrorMessages() {
-        //     const errorElements = document.querySelectorAll('.error-message');
-        //     errorElements.forEach((element) => {
-        //         element.textContent = '';
-        //     });
-        // }
-
-
-        verifyOTPButton.addEventListener("click", function(e) {
+        verifyOTPButton.addEventListener("click", function (e) {
             e.preventDefault();
 
-            const otpInput = document.querySelector('input[name="otpInput"]').value;   
-            const email = document.querySelector('input[name="email"]').value; 
-            console.log("in script",otpInput);
-            fetch(`/newverify-otp?otpInput=${otpInput}&email=${email}`,{
+            
+
+            const otpInput = document.querySelector('input[name="otpInput"]').value;
+            const email = emailInput.value.trim();
+
+            fetch(`/newverify-otp?otpInput=${otpInput}&email=${email}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-            
-            .then((Response) => {
-                if(!Response.ok) {
-                    throw new Error(`HTTP error! status: ${Response.status}`)
-                }
-                return Response.json();
-            })
-            .then((data)=>{
-                console.log("Response from serve", data)
-                Swal.fire({
-                    position: 'top-center',
-                    icon: 'success',
-                    title: 'OTP verified succssfully',
-                    showConfirmButton: false,
-                    timer: 1500
+                .then((Response) => {
+                    if (!Response.ok) {
+                        throw new Error(`HTTP error! status: ${Response.status}`);
+                    }
+                    return Response.json();
                 })
-                // startResendTimer()
-                window.location.href = '/logout'
+                .then((data) => {
+                    console.log("Response from server", data);
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'OTP verified successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // startResendTimer();
+                    window.location.href = '/logout';
+                })
+                .catch((error) => {
+                    console.error("Invalid OTP", error);
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: "Invalid OTP",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                });
+        });
 
-            })
-            .catch((error)=>{
-                console.error("Invalid OTP",error);
-                Swal.fire({
-                position: 'top-center',
-                icon: 'error',
-                title: "Invalid OTP",
-                showConfirmButton: false,
-                timer: 1500
+        // Function to show error message
+        function displayError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+        }
+
+        // Function to reset error messages
+        function resetErrorMessages() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach((element) => {
+                element.textContent = '';
             });
-            })
-        }) 
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

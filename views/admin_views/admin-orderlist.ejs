@@ -217,12 +217,11 @@
                                     <% orderDetails.reverse().forEach((order) => { %>
                                         
                                 <tr>
-                                    
-                                    <td><%= 'orderID_' + order._id %></td>
+                                    <td><%= 'OID100' + order._id.toString().substring(21,24) %></td>
                                    
                                     
                                     <td><b><%= order.userId?.username %></b></td>
-                                    <!-- <td><template class="_cf_email_" data-cfemail="aec3cfdcd8c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</template></td> -->
+                                    
                                     <td>₹<%= order.totalAmount %></td>
                                     
                                     <td><%= order.createdAt.toLocaleDateString()%></td>

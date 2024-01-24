@@ -562,7 +562,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
                             <div class="logo logo-width-1 wow fadeIn animated">
-                                <a href="/"><img src="/WhatsApp Image 2023-11-02 at 6.19.15 PM (1).jpeg" alt="logo"></a>
+                                <a href="index.html"><img src="/userAssets/imgs/theme/logo.svg" alt="logo"></a>
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
@@ -663,15 +663,31 @@
 
         <script>
             // edited address
-            const submitButton = document.getElementById("submitButton")
+            const submitButton = document.getElementById("submitButton");
 
             submitButton.addEventListener("click", function (e) {
                 e.preventDefault();
 
-                const username = document.querySelector('input[name="username"]').value;
-                // const email = document.querySelector('input[name="email"]').value;
-                const phoneNumber = document.querySelector('input[name="phoneNumber"]').value;
+                const usernameInput = document.querySelector('input[name="username"]');
+                const phoneNumberInput = document.querySelector('input[name="phoneNumber"]');
 
+                const username = usernameInput.value.trim();
+                const phoneNumber = phoneNumberInput.value.trim();
+
+                // Reset previous error messages
+                resetErrorMessages();
+
+                // Validate username
+                if (!isValidUsername(username)) {
+                    displayError("Username should contain only characters", usernameInput);
+                    return;
+                }
+
+                // Validate phoneNumber
+                if (!isValidPhoneNumber(phoneNumber)) {
+                    displayError("Invalid phone number", phoneNumberInput);
+                    return;
+                }
 
                 fetch('/post-userupdatedetails', {
                     method: "POST",
@@ -680,37 +696,62 @@
                     },
                     body: JSON.stringify({ username, phoneNumber })
                 })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                        if (data.message) {
-                            swal.fire({
-                                position: 'top-center',
-                                icon: 'success',
-                                title: data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                        window.location.href = '/account'
-                    })
-                    .catch(error => {
-                        Swal.fire({
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.message) {
+                        swal.fire({
                             position: 'top-center',
-                            icon: 'error',
-                            title: "User already exist in this number",
+                            icon: 'success',
+                            title: data.message,
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        console.error("Error:", error);
+                    }
+                    window.location.href = '/account'
+                })
+                .catch(error => {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: "User already exists with this phone number",
+                        showConfirmButton: false,
+                        timer: 1500
                     });
+                    console.error("Error:", error);
+                });
             });
+
+            function isValidUsername(username) {
+                // Validate that the username contains only letters and is not empty
+                return /^[a-zA-Z]+$/.test(username);
+            }
+
+            function isValidPhoneNumber(phoneNumber) {
+                return /^[0-9]+$/.test(phoneNumber) && phoneNumber.length === 10;
+            }                                                                   
+
+            function displayError(message, inputElement) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message text-danger';
+                errorDiv.textContent = message;
+
+                inputElement.parentNode.appendChild(errorDiv);
+            }
+
+            function resetErrorMessages() {
+                const errorMessages = document.querySelectorAll('.error-message');
+                errorMessages.forEach(message => message.remove());
+            }
         </script>
+
+       
+
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 

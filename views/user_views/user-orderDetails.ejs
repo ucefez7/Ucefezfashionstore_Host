@@ -391,7 +391,7 @@
                                             <% orderDetails.products.forEach((item) => { %>
                                               
                                         <tr>
-                                            <td>orderID_<%= order._id %></td>
+                                            <td><%= 'OID100' + order._id.toString().substring(21,24) %></td>
                                            
 
                                             <td><img src="/<%= item.productId.productImg[0] %>" class="img-sm " alt="Item" height="68" width="68"></td>
@@ -843,43 +843,7 @@
                 }
             });
             
-        // Show SweetAlert confirmation dialog
-        // Swal.fire({
-        //     title: 'Are you sure?',
-        //     text: 'You are about to return this order!',
-        //     icon: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#d33',
-        //     cancelButtonColor: '#3085d6',
-        //     confirmButtonText: 'Yes, return it!'
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //     // User confirmed, send the request
-        //     fetch(`/return-order?orderId=${orderId}`, {
-        //         method: 'POST',
-        //         headers: {
-        //         'Content-Type': 'application/json',
-        //         },
-        //     })
-        //         .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error(`HTTP error! status: ${response.status}`);
-        //         }
-        //         return response.json();
-        //         })
-        //         .then(data => {
-        //         console.log("Response from server", data);
     
-        //         if (data.message) {
-        //             // Reload the page or perform any other action
-        //             window.location.reload();
-        //         }
-        //         })
-        //         .catch(error => {
-        //         console.error("Error returning product", error);
-        //         });
-        //     }
-        // });
         });
     </script>
 
