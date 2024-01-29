@@ -6,18 +6,34 @@ const productCollection = require("../../models/product");
 
 
 
-
-
-
+// module.exports.getOrderlist = async(req,res) => {
+//   try{
+//     const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
+//     res.render("admin-orderlist",{ orderDetails})
+//   }catch (error) {
+//     console.error("Error:", error)
+//   }
+// }
 
 module.exports.getOrderlist = async(req,res) => {
   try{
-    const orderDetails = await orderCollection.find().populate('products.productId').populate('userId');
+    const page = req.query.page ? parseInt(req.query.page, 10) : 1;
+    const limit = 9;
+    const orderDetails = await orderCollection.find().populate('products.productId').populate('userId').aggregate([
+      {
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: limit,
+      },
+    ])
+    .exec();
     res.render("admin-orderlist",{ orderDetails})
   }catch (error) {
     console.error("Error:", error)
   }
 }
+
 
 
 // render order details page
@@ -42,8 +58,6 @@ module.exports.dispatchOrder = async (req, res,next) => {
     if (orderData.orderStatus !== "Order Placed") {
       return res.status(400).json({ error: "Order has already been shipped or cancelled" });
     }
-
-    // Update the status of each product in the order
     for (const product of orderData.products) {
       if (product.status === "Order Placed") {
         product.status = "Shipped";
@@ -63,13 +77,13 @@ module.exports.dispatchOrder = async (req, res,next) => {
   }
 };
 
+
 // deliver order
 module.exports.deliverOrder = async (req, res,next) => {
   try {
     const orderId = req.query.orderId;
     const orderData = await orderCollection.findById(orderId);
 
-    // Update the status of each product in the order
     for (const product of orderData.products) {
       if (product.status === "Shipped") {
         product.status = "Delivered";
@@ -97,10 +111,7 @@ module.exports.deliverOrder = async (req, res,next) => {
 
 
 
-
-
-
-// Update cancelOrder controller
+//cancel order
 module.exports.cancelOrder = async (req, res,next) => {
   try {
     const orderId = req.query.orderId;
@@ -116,12 +127,10 @@ module.exports.cancelOrder = async (req, res,next) => {
       product.productStock += productInOrder.quantity;
       await product.save();
 
-      // Remove the product from the order
       orderData.products = orderData.products.filter(
         (product) => !product.productId.equals(productId)
       );
 
-      // Save the updated order
       await orderData.save();
 
       res.status(200).json({ message: "The product is cancelled" });

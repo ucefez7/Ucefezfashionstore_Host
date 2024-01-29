@@ -241,7 +241,21 @@
 
            
            <!-- pagination-area -->
-
+           <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+                    <%if(products){%>
+                        <% for (let i = 1; i < Math.ceil(products.length / 12)+2; i++) { %>
+                            <li class="page-item active">
+                              <a class="page-link" href="/products?page=<%= i %>"><%= i %></a>
+                            </li>
+                          <% } %>                                          
+                    <li class="page-item"><a class="page-link" href="#"><i class="fi-rs-angle-double-small-right"></i></a></li>
+                    <%}%>
+                </ul>
+            </nav>
+        </div>
+    </div>
 
   
 
@@ -253,7 +267,7 @@
 
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
@@ -267,7 +281,7 @@ pageLength: 10
 });
 });
 
-</script>
+</script> -->
 
 <!-- <script>
     $(document).ready(function () {

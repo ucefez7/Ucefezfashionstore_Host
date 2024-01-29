@@ -121,13 +121,7 @@ module.exports.postEditcoupon = async (req, res) => {
         .status(400)
         .json({ error: "Expiry date must be in the future" });
     } 
-    // else if (discountAmount >= minimumPurchase) {
-    //   return res
-    //     .status(400)
-    //     .json({
-    //       error: "Discount amount must be less than minimum Purchase amount",
-    //     });
-    // }
+   
      else {
       (coupon.couponCode = couponCode),
         (coupon.description = description),

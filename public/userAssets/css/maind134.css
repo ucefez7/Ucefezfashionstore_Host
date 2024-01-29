@@ -9920,6 +9920,12 @@ span.fi-rs-apps {
   }
 }
 
+/* #reload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
 .zoomContainer{ z-index: 9999;}
 .zoomWindow{ z-index: 9999;}
 /*# sourceMappingURL=main.css.map */

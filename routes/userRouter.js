@@ -35,13 +35,11 @@ userRouter.post("/verify-otp",signupControll.postVerifyOtp)
 // product
 userRouter.get("/product-details/:productId",  userMiddleware.verifyUser, userMiddleware.checkBlockedStatus,  productControll.productDetails)
 
-// cart
-userRouter.get("/cart", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.getCart)
-userRouter.post("/add-cart", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.addCart)
-userRouter.get("/delete-cart",  userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.deleteCart)
-userRouter.put("/manage-quantity",userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.manageQuantity)
-userRouter.get("/get-subtotal", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, cartControll.subtotal)
-userRouter.get("/stockchecking", userMiddleware.verifyUser,userMiddleware.checkBlockedStatus ,cartControll.stockchecking);
+//cart
+userRouter.get("/cart",userMiddleware.verifyUser,cartControll.getcart);
+userRouter.post("/add-cart", userMiddleware.verifyUser,userMiddleware.checkBlockedStatus, cartControll.gettocart);
+userRouter.post("/update-quantity",userMiddleware.verifyUser,userMiddleware.checkBlockedStatus,cartControll.updateQuantity);
+userRouter.post("/remove-from-cart/:productId",userMiddleware.verifyUser,userMiddleware.checkBlockedStatus,cartControll.removeFromCart);
 
 // checkout
 userRouter.get("/checkout", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, checkoutControll.getCheckout)
