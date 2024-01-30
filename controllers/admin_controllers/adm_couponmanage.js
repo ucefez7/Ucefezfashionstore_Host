@@ -4,15 +4,38 @@ const userCollection = require("../../models/user_schema");
 const productCollection = require("../../models/product");
 const couponCollection = require("../../models/coupon");
 
+// // render coupon list
+// module.exports.getCouponlist = async (req, res) => {
+//   try {
+//     const coupons = await couponCollection.find();
+//     res.render("admin-couponlist", { coupons });
+//   } catch (error) {
+//     console.error("Error: ", error);
+//   }
+// };
+
+
 // render coupon list
 module.exports.getCouponlist = async (req, res) => {
   try {
-    const coupons = await couponCollection.find();
-    res.render("admin-couponlist", { coupons });
+    let perPage = 5;
+    let page = req.query.page || 1;
+    const coupons = await couponCollection.find()
+    .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .exec();
+          coupons.reverse();
+        const count = await couponCollection.countDocuments({});
+
+    res.render("admin-couponlist", { coupons, current: page, pages: Math.ceil(count / perPage)});
   } catch (error) {
     console.error("Error: ", error);
   }
 };
+
+
+
 
 // render add coupon page
 module.exports.addCoupon = async (req, res) => {

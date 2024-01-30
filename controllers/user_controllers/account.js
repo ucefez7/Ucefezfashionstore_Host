@@ -766,7 +766,7 @@ module.exports.applyReferelOffers = async (req, res) => {
         const userWallet = await walletCollection.findOne({
           userId: userData._id,
         });
-        userWallet.amount += 500;
+        userWallet.amount += 200;
         await userWallet.save();
 
         const referedUserWallet = await walletCollection.findOne({

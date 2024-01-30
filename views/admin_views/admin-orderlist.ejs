@@ -240,22 +240,42 @@
             </div> <!-- card end// -->
 
            
-           <!-- pagination-area -->
-           <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <%if(products){%>
-                        <% for (let i = 1; i < Math.ceil(products.length / 12)+2; i++) { %>
-                            <li class="page-item active">
-                              <a class="page-link" href="/products?page=<%= i %>"><%= i %></a>
-                            </li>
-                          <% } %>                                          
-                    <li class="page-item"><a class="page-link" href="#"><i class="fi-rs-angle-double-small-right"></i></a></li>
-                    <%}%>
-                </ul>
-            </nav>
-        </div>
-    </div>
+            <!-- pagination-area -->
+        <% if(orderDetails.length > 0) {%>
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation ">
+                    <ul class="pagination justify-content-start">
+                        <% if(current ==1){ %>
+                            <li class="page-item disabled"><a href="#" class="page-link">First</a></li>
+                            <% }else{ %>
+                            <li class="page-item"><a href="/admin/order-list/?page=1" class="page-link">First</a></li>
+                            <% } %>
+    
+                        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                        <% if (i !== 1) { %>
+                            <li class="page-item "><a href="/admin/order-list/?page=<%= i %>" class="page-link">...</a></li>
+                        <% } %>
+     
+                        <% for(; i<= (Number(current) + 4) && i < pages; i++){ %>
+                        <% if (i == current) { %>
+                            <li class="page-item disabled"><a href="#" class="page-link"><%= i %></a></li>
+                        <% }else{ %>
+                            <li class="page-item"><a href="/admin/order-list/?page=<%= i %>" class="page-link"><%= i %></a></li>
+                            <% } %>   
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="page-item"><a href="/admin/order-list/?page=<%= i %>" class="page-link">...</a></li>
+                            <% } %>
+                            <% } %>
+       
+                        <% if (current == pages) { %>
+                            <li class="page-item disabled"><a href="#" class="page-link" style="border-radius: 0.25rem">End</a></li> 
+                            <% }else{ %>
+                            <li class="page-item"><a href="/admin/order-list/?page=<%= pages %>" class="page-link material-icons md-chevron_right" style="border-radius: 0.25rem">End</a></li>
+                            <% } %>
+                    </ul>
+                </nav>
+            </div>
+            <% } %>
 
   
 
@@ -267,7 +287,7 @@
 
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
@@ -277,28 +297,13 @@ $('#order').DataTable({
 destroy: true,
 ordering: false,
 lengthChange: false,
-pageLength: 10
+paging: false,
 });
 });
 
-</script> -->
+</script>
 
-<!-- <script>
-    $(document).ready(function () {
-        const dataTable = $('#example').DataTable({
-            destroy: true,
-            ordering: false,
-            lengthChange: false,
-            pageLength: 10
-        });
 
-        // Add event listener for search button
-            $('#searchButton').on('click', function () {
-                const searchValue = $('#searchInput').val();
-                table.search(searchValue).draw();
-        });
-    });
-</script> -->
 
 
 

@@ -79,6 +79,7 @@ userRouter.get("/delete-address/:objectId/:addressId",userMiddleware.verifyUser,
 
 userRouter.get("/get-coupons", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.getCoupons)
 userRouter.post("/applyreferel", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.applyReferelOffers)
+// userRouter.post("/applyreferel/:referralCode", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, accountControll.applyReferelOffers)
 
 // wishlist
 userRouter.get("/wishlist", userMiddleware.verifyUser, userMiddleware.checkBlockedStatus, wishlistControl.getWishlist)

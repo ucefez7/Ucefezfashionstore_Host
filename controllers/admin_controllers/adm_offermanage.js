@@ -7,15 +7,37 @@ const couponCollection = require("../../models/coupon");
 const offerCollection = require("../../models/offer");
 const categoryCollection = require("../../models/category");
 
-// render offer list
+// // offer list
+// module.exports.getOfferlist = async (req, res) => {
+//   try {
+//     const offerData = await offerCollection.find();
+//     res.render("admin-offerlist", { offerData });
+//   } catch (error) {
+//     console.error("Error: ", error);
+//   }
+// };
+
+// offer list
 module.exports.getOfferlist = async (req, res) => {
   try {
-    const offerData = await offerCollection.find();
-    res.render("admin-offerlist", { offerData });
+    let perPage = 5;
+    let page = req.query.page || 1;
+    const offerData = await offerCollection.find()
+    .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .exec();
+          offerData.reverse();
+        const count = await offerCollection.countDocuments({});
+
+    res.render("admin-offerlist", { offerData, current: page, pages: Math.ceil(count / perPage)});
   } catch (error) {
     console.error("Error: ", error);
   }
 };
+
+
+
 
 // render add offer page
 module.exports.addOffer = async (req, res) => {

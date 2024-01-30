@@ -827,7 +827,9 @@ submitButton.addEventListener("click", function (e) {
                                                         </h4>
                                                           <br />
                                                         <p style="font-weight: 500">
-                                                            Code: <span style="color: rgb(6, 80, 145);"><%= userData.referelId %></span>
+                                                            <!-- Code: <span style="color: rgb(6, 80, 145);"><%= userData.referelId %></span> -->
+                                                            Code: <a href="/signup?referralCode=<%= userData.referelId %>">Sign Up with Referral</a>
+
                                                         </p>
                                                     </div>
                                                     <div>

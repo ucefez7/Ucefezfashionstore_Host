@@ -210,8 +210,44 @@
                     </tbody>
                 </table>
             </div>
+            <% if(categories.length > 0) {%>
+                <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation ">
+                        <ul class="pagination justify-content-start">
+                            <% if(current ==1){ %>
+                                <li class="page-item disabled"><a href="#" class="page-link">First</a></li>
+                                <% }else{ %>
+                                <li class="page-item"><a href="/admin/category-list/?page=1" class="page-link">First</a></li>
+                                <% } %>
+        
+                            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                            <% if (i !== 1) { %>
+                                <li class="page-item "><a href="/admin/category-list/?page=<%= i %>" class="page-link">...</a></li>
+                            <% } %>
+         
+                            <% for(; i<= (Number(current) + 4) && i < pages; i++){ %>
+                            <% if (i == current) { %>
+                                <li class="page-item disabled"><a href="#" class="page-link"><%= i %></a></li>
+                            <% }else{ %>
+                                <li class="page-item"><a href="/admin/category-list/?page=<%= i %>" class="page-link"><%= i %></a></li>
+                                <% } %>   
+                            <% if (i == Number(current) + 4 && i < pages) { %>
+                                <li class="page-item"><a href="/admin/category-list/?page=<%= i %>" class="page-link">...</a></li>
+                                <% } %>
+                                <% } %>
+           
+                            <% if (current == pages) { %>
+                                <li class="page-item disabled"><a href="#" class="page-link" style="border-radius: 0.25rem">End</a></li> 
+                                <% }else{ %>
+                                <li class="page-item"><a href="/admin/category-list/?page=<%= pages %>" class="page-link material-icons md-chevron_right" style="border-radius: 0.25rem">End</a></li>
+                                <% } %>
+                        </ul>
+                    </nav>
+                </div>
+                <% } %>
 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
       <script>
         jQuery(document).ready(function ($) {
@@ -224,7 +260,7 @@
         });
     });
     
-      </script>
+      </script> -->
 
             <script>
                 function confirmAction(action) {

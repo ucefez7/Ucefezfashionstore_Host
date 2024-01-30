@@ -19,36 +19,112 @@ module.exports.getUserSignup = (req,res) => {
 }
 
 
+// // creating a user in usersignup
+// module.exports.postUserSignup = async (req,res) => {
+//   const email = await userCollection.findOne({ email: req.body.email });
+//   const phoneNumber = await userCollection.findOne({ phoneNumber: req.body.phoneNumber });
+
+//   //generating referral code
+//   let codeId = randomstring.generate(12);
+
+//   if(email) {
+//     res.render("user-signup", { error: "Email already exists" })
+//   } else if(phoneNumber) {
+//     res.render("user-signup", { error: "PhoneNumber already exists" })
+//   } else {
+//     await userCollection.create({
+//       username: req.body.username,
+//       email: req.body.email,
+//       password: req.body.password, 
+//       phoneNumber: req.body.phoneNumber,
+//       // otpInput:req.body.otpInput,
+//       status:"Unblock",
+//       referelId: codeId,
+//     });
+//     const currUser = await userCollection.findOne({ email: req.body.email });
+//     await walletCollection.create({
+//       userId: currUser._id,
+//       amount: 0,
+//     });
+//     res.render("user-login", {message: "User sign up successfully"});
+//   }
+// }
+
 // creating a user in usersignup
-module.exports.postUserSignup = async (req,res) => {
-  const email = await userCollection.findOne({ email: req.body.email });
-  const phoneNumber = await userCollection.findOne({ phoneNumber: req.body.phoneNumber });
+module.exports.postUserSignup = async (req, res) => {
+  try {
+    const email = await userCollection.findOne({ email: req.body.email });
+    const phoneNumber = await userCollection.findOne({ phoneNumber: req.body.phoneNumber });
 
-  //generating referral code
-  let codeId = randomstring.generate(12);
+    
+    const referralCode = req.query.referralCode;
 
-  if(email) {
-    res.render("user-signup", { error: "Email already exists" })
-  } else if(phoneNumber) {
-    res.render("user-signup", { error: "PhoneNumber already exists" })
-  } else {
-    await userCollection.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password, 
-      phoneNumber: req.body.phoneNumber,
-      // otpInput:req.body.otpInput,
-      status:"Unblock",
-      referelId: codeId,
-    });
-    const currUser = await userCollection.findOne({ email: req.body.email });
-    await walletCollection.create({
-      userId: currUser._id,
-      amount: 0,
-    });
-    res.render("user-login", {message: "User sign up successfully"});
+    console.log(req.body);
+
+    
+    // let codeId = referralCode || randomstring.generate(12);
+    let codeId =randomstring.generate(12);
+
+
+    if (email) {
+      res.render("user-signup", { error: "Email already exists" });
+    } else if (phoneNumber) {
+      res.render("user-signup", { error: "PhoneNumber already exists" });
+    } else {
+      const newUser = await userCollection.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        status: "Unblock",
+        referelId: codeId,
+      });
+
+      const currUser = await userCollection.findOne({ email: req.body.email });
+
+      
+      if (referralCode) {
+        const usedReferel = await userCollection.findOne({ referelId: referralCode });
+
+        if (usedReferel && !usedReferel.redmmedreferels.includes(newUser._id)) {
+          usedReferel.redmmedreferels.push(newUser._id);
+          await usedReferel.save();
+
+          
+          const userWallet = await walletCollection.findOne({ userId: currUser._id });
+          userWallet.amount += 200;
+          await userWallet.save();
+         
+          
+          const referedUserWallet = await walletCollection.findOne({ userId: usedReferel._id });
+          referedUserWallet.amount += 200;
+          await referedUserWallet.save();
+
+
+          
+          await userCollection.updateOne({ _id: currUser._id }, { $set: { appliedReferel: true } });
+
+          return res.render("user-login", { message: "User sign up successfully with referral" });
+        }
+      }
+
+     
+      await walletCollection.create({
+        userId: currUser._id,
+        amount: 0,
+      });
+
+      return res.render("user-login", { message: "User sign up successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
+
+
+
+
 
 // generating otp for node mailer
 let generatedOTP = null;

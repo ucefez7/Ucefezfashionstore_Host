@@ -5,16 +5,39 @@ const multer = require("multer");
 const userCollection = require("../../models/user_schema")
 
 
+// // user manage page
+// module.exports.getUsers = async(req,res,next) => {
+//   try {
+//     const usercollection = await userCollection.find()
+//     res.render("admin-usermanage", {usercollection})
+//   } catch(error) {
+//     console.error(error)
+//     next(error);
+//   }
+// }
+
 // user manage page
 module.exports.getUsers = async(req,res,next) => {
   try {
+    let perPage = 5;
+    let page = req.query.page || 1;
     const usercollection = await userCollection.find()
-    res.render("admin-usermanage", {usercollection})
+    .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .exec();
+          usercollection.reverse();
+        const count = await userCollection.countDocuments({});
+
+    res.render("admin-usermanage", {usercollection, current: page, pages: Math.ceil(count / perPage)});
   } catch(error) {
     console.error(error)
     next(error);
   }
 }
+
+
+
 
 // block user
 module.exports.blockUser = async(req,res,next) => {

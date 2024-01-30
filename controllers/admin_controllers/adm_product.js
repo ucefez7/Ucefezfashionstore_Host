@@ -5,36 +5,30 @@ const sharp = require('sharp')
 const categoryCollection = require("../../models/category");
 const productCollection = require("../../models/product");
 
-// const mongoosePaginate = require('mongoose-paginate-v2');
 
-// module.exports.getProductList = async (req, res,next) => {
+
+// module.exports.getProductList = async(req,res) => {
 //   try {
-//     const page = parseInt(req.query.page) || 1; // Get the page from the query parameters
-//     const pageSize = 5; // Set the number of items per page
-
-//     const options = {
-//       page,
-//       limit: pageSize,
-//     };
-
-//     // Use the paginate function provided by mongoose-paginate-v2
-//     const result = await productCollection.paginate({}, options);
-
-//     res.render('admin-productlist', {
-//       productdata: result.docs,
-//       currentPage: page,
-//       totalPages: result.totalPages,
-//     });
+//     const productdata = await productCollection.find()
+//     res.render("admin-productlist", {productdata});
 //   } catch (error) {
 //     console.error(error);
-//     next(error);
 //   }
-// };
+// }
 
 module.exports.getProductList = async(req,res) => {
   try {
+    let perPage = 5;
+    let page = req.query.page || 1;
     const productdata = await productCollection.find()
-    res.render("admin-productlist", {productdata});
+    .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .exec();
+          productdata.reverse();
+        const count = await productCollection.countDocuments({});
+
+    res.render("admin-productlist", {productdata, current: page, pages: Math.ceil(count / perPage)});
   } catch (error) {
     console.error(error);
   }

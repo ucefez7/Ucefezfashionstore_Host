@@ -6,11 +6,31 @@ const categoryCollection = require("../../models/category");
 const productCollection = require("../../models/product");
 
 
+// // render category page with data
+// module.exports.getCategory = async (req, res, next) => {
+//   try {
+//       const categories = await categoryCollection.find();
+//       res.render("admin-categorylist", { categories });
+//   } catch (error) {
+//       console.error(error);
+//       next(error);
+//   }
+// };
+
 // render category page with data
 module.exports.getCategory = async (req, res, next) => {
   try {
-      const categories = await categoryCollection.find();
-      res.render("admin-categorylist", { categories });
+    let perPage = 5;
+    let page = req.query.page || 1;
+      const categories = await categoryCollection.find()
+      .sort({ createdAt: -1 })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .exec();
+          categories.reverse();
+        const count = await categoryCollection.countDocuments({});
+
+      res.render("admin-categorylist", { categories, current: page, pages: Math.ceil(count / perPage)});
   } catch (error) {
       console.error(error);
       next(error);

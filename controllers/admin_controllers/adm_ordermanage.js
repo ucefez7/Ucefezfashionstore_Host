@@ -15,24 +15,32 @@ const productCollection = require("../../models/product");
 //   }
 // }
 
-module.exports.getOrderlist = async(req,res) => {
-  try{
-    const page = req.query.page ? parseInt(req.query.page, 10) : 1;
-    const limit = 9;
-    const orderDetails = await orderCollection.find().populate('products.productId').populate('userId').aggregate([
-      {
-        $skip: (page - 1) * limit,
-      },
-      {
-        $limit: limit,
-      },
-    ])
-    .exec();
-    res.render("admin-orderlist",{ orderDetails})
-  }catch (error) {
-    console.error("Error:", error)
+
+// render order manage page pagination done
+module.exports.getOrderlist = async (req, res,next) => {
+  try {
+    let perPage = 5;
+    let page = req.query.page || 1;
+
+    const orderDetails = await orderCollection
+      .find()
+      .populate('products.productId')
+      .populate('userId')
+      .sort({ createdAt: -1 })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+      orderDetails.reverse();
+
+    const count = await orderCollection.countDocuments();
+    
+
+    res.render("admin-orderlist", { orderDetails ,current: page, pages: Math.ceil(count / perPage)});
+  } catch (error) {
+    console.error("Error:", error);
+    next(error);
   }
-}
+};
 
 
 
