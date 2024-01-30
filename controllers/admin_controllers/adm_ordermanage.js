@@ -16,7 +16,7 @@ const productCollection = require("../../models/product");
 // }
 
 
-// render order manage page pagination done
+//order manage page pagination done
 module.exports.getOrderlist = async (req, res,next) => {
   try {
     let perPage = 5;
@@ -44,7 +44,7 @@ module.exports.getOrderlist = async (req, res,next) => {
 
 
 
-// render order details page
+// order details page
 module.exports.getOrdermanage = async(req,res,next) => {
   try{
     const orderId = req.params.orderId
