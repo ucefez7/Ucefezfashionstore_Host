@@ -52,7 +52,7 @@ module.exports.postCategory = async (req, res, next) => {
         categoryStatus: "Unblock",
       });
       const categories = await categoryCollection.find();
-      res.status(200).json({ success: true, message: 'Category added successfully', categories });
+      res.status(201).json({ success: true, message: 'Category added successfully', categories });
     }
   } catch (error) {
     console.error(error);
@@ -68,22 +68,58 @@ module.exports.editCategory = async (req,res) => {
   res.render("admin-editcategory",{categorydata})
 }
 
-// update category
-module.exports.updateCategory = async(req,res,next) => {
+// // update category
+// module.exports.updateCategory = async(req,res,next) => {
+//   try {
+//     const categoryId = req.params.categoryId;
+//     // console.log(categoryId)
+//     const catagory = await categoryCollection.findById(categoryId);
+
+//     const catgName = req.body.catgName;
+//     const categorydata = await categoryCollection.findOne({ catgName: catgName });
+//     if (categorydata) {
+//       res.status(409).json({ success: false, message: 'Category already exists' });
+//     } else {
+//     catagory.catgName = req.body.catgName;
+//     catagory.catgDiscription = req.body.catgDiscription;
+//     await catagory.save();
+//     }
+
+//     // res.render("admin-editcategory")
+//     res.redirect("/admin/category-list")
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// }
+
+
+module.exports.updateCategory = async (req, res, next) => {
   try {
+
+    console.log("Fetch");
     const categoryId = req.params.categoryId;
-    // console.log(categoryId)
     const catagory = await categoryCollection.findById(categoryId);
-    catagory.catgName = req.body.catgName;
-    catagory.catgDiscription = req.body.catgDiscription;
-    await catagory.save();
-    // res.render("admin-editcategory")
-    res.redirect("/admin/category-list")
+
+    const catgName = req.body.catgName;
+    const categorydata = await categoryCollection.findOne({ catgName: catgName });
+    if (categorydata) {
+      return res.status(409).json({ success: false, message: 'Category already exists' });
+    } else {
+      catagory.catgName = req.body.catgName;
+      catagory.catgDiscription = req.body.catgDiscription;
+      await catagory.save();
+      res.status(201).json({ success: true, message: 'Category edited successfully'});
+    }
+
+    res.redirect("/admin/category-list");
   } catch (error) {
     console.error(error);
     next(error);
   }
-}
+};
+
+
 
 // delete category
 // module.exports.deleteCategory = async(req,res) => {

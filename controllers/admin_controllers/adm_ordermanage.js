@@ -32,6 +32,7 @@ module.exports.getOrderlist = async (req, res,next) => {
       .exec();
       orderDetails.reverse();
 
+      // console.log(orderDetails+"orderdetailsssss")
     const count = await orderCollection.countDocuments();
     
 
@@ -91,6 +92,7 @@ module.exports.deliverOrder = async (req, res,next) => {
   try {
     const orderId = req.query.orderId;
     const orderData = await orderCollection.findById(orderId);
+console.log(orderData+"order data anne")
 
     for (const product of orderData.products) {
       if (product.status === "Shipped") {

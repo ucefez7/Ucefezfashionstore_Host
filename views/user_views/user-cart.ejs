@@ -396,6 +396,9 @@
                                         <td class="price" data-title="Price"><span><%= product.productId?.sellingPrice%> </span></td>
                                         
                                             <% } %>
+
+
+
                                         <td class="text-center" data-title="Stock">
                                             <% if (product.productId?.productStock <= 0) { %>
                                                 <span class="text-danger">Out of Stock</span>
@@ -407,6 +410,51 @@
                                             </div>
                                             <% } %>
                                         </td>
+
+
+                                        <!-- <td class="text-center" data-title="Stock">
+                                            <% if (product.productId?.productStock <= 0) { %>
+                                                <span class="text-danger">Out of Stock</span>
+                                            <% } else { %>
+                                                <div class="detail-qty border radius  m-auto" data-product-id="<%= product._id %>">
+                                                    <a href="javascript:void(0);" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                    <span class="qty-val product-quantity" data-max-quantity="<%= product.productId.productStock %>"><%= Number(product.quantity) %></span>
+                                                    <a href="javascript:void(0);" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                </div>
+                                            <% } %>
+                                        </td>
+                                        
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                const qtyUpButtons = document.querySelectorAll('.qty-up');
+                                                const qtyDownButtons = document.querySelectorAll('.qty-down');
+                                        
+                                                qtyUpButtons.forEach(button => {
+                                                    button.addEventListener('click', function () {
+                                                        updateQuantity(this, 1);
+                                                    });
+                                                });
+                                        
+                                                qtyDownButtons.forEach(button => {
+                                                    button.addEventListener('click', function () {
+                                                        updateQuantity(this, -1);
+                                                    });
+                                                });
+                                        
+                                                function updateQuantity(button, change) {
+                                                    const quantityElement = button.parentElement.querySelector('.qty-val');
+                                                    const maxQuantity = parseInt(quantityElement.dataset.maxQuantity, 10);
+                                                    let newQuantity = parseInt(quantityElement.textContent, 10) + change;
+                                        
+                                                    // Limit the new quantity to the available product stock
+                                                    newQuantity = Math.max(1, Math.min(newQuantity, maxQuantity));
+                                        
+                                                    // Update the displayed quantity
+                                                    quantityElement.textContent = newQuantity;
+                                                }
+                                            });
+                                        </script> -->
+                                        
 
 
                                         <td class="text-right" data-title="Cart">
@@ -489,7 +537,10 @@
             </div>
         </section>
     </main>
-    <script>
+
+
+    
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             var checkoutButton = document.querySelector('#checkoutButton');
     
@@ -668,7 +719,192 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+        </script> -->
+
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var checkoutButton = document.querySelector('#checkoutButton');
+        
+                if (checkoutButton) {
+                    console.log('Found the "Proceed To Checkout" button:', checkoutButton);
+        
+                    checkoutButton.addEventListener('click', async function (event) {
+                        event.preventDefault();
+        
+                        try {
+                            const response = await fetch('/stockchecking', {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            });
+        
+                            if (response.ok) {
+                                window.location.href = '/checkout';
+                            } else {
+                                const data = await response.json();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Out of Stock',
+                                    text: data.message || 'An error occurred.',
+                                    timer: 1000,  
+                                    showConfirmButton: false,
+                                });
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred.',
+                            });
+                        }
+                    });
+                } else {
+                    console.error('Error: Could not find the "Proceed To Checkout" button.');
+                }
+            });
         </script>
+        
+    
+            <script>
+     document.addEventListener("DOMContentLoaded", () => {
+    
+    const quantityButtons = document.querySelectorAll(".detail-qty");
+    quantityButtons.forEach(qty => {
+      const qtyval = qty.querySelector(".qty-val");
+      const qtyup = qty.querySelector(".qty-up");
+      const qtydown = qty.querySelector(".qty-down");
+      const productId = qty.getAttribute("data-product-id");
+      const subtotal = qty.closest("tr").querySelector(".cart-total");
+      const grandTotal = document.querySelector("#grandTotal");
+    
+      qtyup.addEventListener("click", (event) => {
+        event.preventDefault();
+        const newQuantity = parseInt(qtyval.textContent, 10) + 1;
+        qtyval.textContent = newQuantity;
+    
+        fetch(`/update-quantity`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ quantity: newQuantity, productId }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.stock < data.newQuantity || data.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops!",
+                text: "Sorry, only " + data.stock + " items are available.",
+            });
+            qtyval.textContent = data.stock;
+            
+        }else if(data.newQuantity !== undefined && data.subTotal !== undefined && data.stock !== undefined && data.totalPrice !== undefined) {
+              qtyval.textContent = data.newQuantity;
+              subtotal.textContent = data.subTotal;
+              grandTotal.textContent = `₹${data.totalPrice}`;
+            } else {
+              console.error("Error updating quantity", data);
+            }
+    
+            
+          })
+          
+          .catch(error => {
+            console.error("Error updating quantity:", error);
+          });
+      });
+    
+      qtydown.addEventListener("click", (event) => {
+        event.preventDefault();
+        const newQuantity = Math.max(1, parseInt(qtyval.textContent, 10) - 1);
+        qtyval.textContent = newQuantity;
+    
+        fetch(`/update-quantity`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ quantity: newQuantity, productId }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.newQuantity !== undefined && data.subTotal !== undefined && data.stock !== undefined && data.totalPrice !== undefined) {
+              qtyval.textContent = data.newQuantity;
+              subtotal.textContent = data.subTotal;
+              grandTotal.textContent = `₹${data.totalPrice}`;
+            } else {
+              console.error("Error updating quantity", data);
+            }
+          })
+          .catch(error => {
+            console.error("Error updating quantity:", error);
+          });
+      });
+    });
+    
+    });
+    
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        const removeButtons = document.querySelectorAll(".remove-item");
+    
+        removeButtons.forEach(removeButton => {
+          removeButton.addEventListener("click", (event) => {
+            event.preventDefault();
+    
+            const productId = removeButton.getAttribute("data-product-id");
+    
+            fetch(`/remove-from-cart/${productId}`, {
+              method: "POST", 
+              headers: {
+                'Content-Type': 'application/json'
+              }
+              
+            })
+       
+              .then(data => {
+                if (data.error) {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: data.error,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        
+                    }else {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: "Removed from cart",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            text: data.message,
+                        });
+                       
+                        
+                        setTimeout(() => {
+                            window.location.href = "/cart";
+                        }, 1500);
+                    }
+                
+                 
+              })
+              .catch(error => {
+                console.error("Error removing product:", error);
+              });
+          });
+        });
+      });
+    
+            </script>
+            
    
     <!-- Preloader Start -->
     <!-- <div id="preloader-active">

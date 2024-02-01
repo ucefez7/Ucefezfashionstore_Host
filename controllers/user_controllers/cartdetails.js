@@ -125,6 +125,9 @@ try {
   next(error);
 } 
 }
+
+
+
 module.exports.removeFromCart = async(req,res)=>{
 try {
    const user = await userCollection.findOne({ email: req.user }); 

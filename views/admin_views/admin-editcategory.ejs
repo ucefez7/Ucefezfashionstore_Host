@@ -56,73 +56,11 @@
                     <span class="text">Offers</span>
                 </a>
             </li>
-                <!-- <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
-                        <span class="text">Orders</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-orders-1.html">Order list 1</a>
-                        <a href="page-orders-2.html">Order list 2</a>
-                        <a href="page-orders-detail.html">Order detail</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-store"></i>
-                        <span class="text">Sellers</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-sellers-cards.html">Sellers cards</a>
-                        <a href="page-sellers-list.html">Sellers list</a>
-                        <a href="page-seller-detail.html">Seller profile</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
-                        <span class="text">Add product</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-form-product-1.html">Add product 1</a>
-                        <a href="page-form-product-2.html">Add product 2</a>
-                        <a href="page-form-product-3.html">Add product 3</a>
-                        <a href="page-form-product-4.html">Add product 4</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Transactions</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-transactions-1.html">Transaction 1</a>
-                        <a href="page-transactions-2.html">Transaction 2</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
-                    </a>
-                </li> -->
+              
             </ul>
             <hr>
             <ul class="menu-aside">
-                <!-- <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                        <span class="text">Settings</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-settings-1.html">Setting sample 1</a>
-                        <a href="page-settings-2.html">Setting sample 2</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text"> Starter page </span>
-                    </a>
-                </li> -->
+              
             </ul>
             <br>
             <br>
@@ -195,7 +133,7 @@
                     <!-- <h4>Edit</h4> -->
 
                     <div class="col-md-12">
-                        <form method="post" action="/admin/postEdit-category/<%= categorydata._id %>">
+                        <form method="post" action="/admin/postEdit-category/<%= categorydata._id %>" id="category-Form">
                             <div class="form-group">
                                 <input type="text" required="" name="catgName" placeholder="Category name" value="<%= categorydata.catgName %>">
                             </div>
@@ -209,14 +147,7 @@
                     </div>
 
                 </header>
-                <!-- <div class="card-body">
-                    <h5 class="card-title">Card content</h5>
-                    <div class="mt-4">
-                        <div class="text-muted font-size-14">
-                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam enim ad minima veniam quis</p>
-                        </div>
-                    </div>
-                </div> -->
+              
             </div> 
    
 
@@ -247,7 +178,7 @@
 
             <!-- script with validation  -->
 
-            <script>
+            <!-- <script>
                 document.addEventListener("DOMContentLoaded", function () {
                   const catagoryform = document.querySelector("#category-Form");
                 
@@ -282,6 +213,7 @@
                     };
                 
                     const response = await fetch("/admin/edit-category", {
+
                       method: 'POST',
                       headers: {
                         "Content-Type": "application/json",
@@ -291,6 +223,8 @@
                 
                     const data = await response.json();
                 
+                    console.log(data)
+
                     if (response.ok) {
                       Swal.fire({
                         position: "top-center",
@@ -312,7 +246,96 @@
                     }
                   });
                 });
-            </script>
+            </script> -->
+
+        
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const catagoryform = document.querySelector("#category-Form");
+
+  catagoryform.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    // Get category ID from the URL
+    const categoryId = window.location.pathname.split('/').pop(); // Assuming the URL structure is consistent
+
+    // Get form input values
+    const catgNameInput = document.querySelector("input[name='catgName']");
+    const catgDiscriptionInput = document.querySelector("input[name='catgDiscription']");
+
+    // Trim whitespace from inputs
+    const catgName = catgNameInput.value.trim();
+    const catgDiscription = catgDiscriptionInput.value.trim();
+
+    // Validation: Avoid numbers in catgName
+    const catgNamePattern = /^[^\d\s]+$/;
+    if (!catgNamePattern.test(catgName)) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Category name should not contain numbers or spaces",
+        footer: '<a href="#">Why do I have this issue?</a>',
+      })
+      return; // Prevent further processing if validation fails
+    }
+
+    const formData = {
+      catgName: catgName,
+      catgDiscription: catgDiscription,
+    };
+
+    // Append categoryId to formData
+    formData.categoryId = categoryId;
+
+    try {
+      const response = await fetch(`/admin/postEdit-category/${categoryId}`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+        setTimeout(() => {
+            window.location.href = "/admin/category-list";
+        }, 1500);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: data.message,
+          footer: '<a href="#">Why do I have this issue?</a>'
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An error occurred while updating the category.",
+        footer: '<a href="#">Why do I have this issue?</a>'
+      });
+    }
+  });
+});
+
+</script>
+
 
 
         </section>
@@ -331,6 +354,8 @@
             </div>
         </footer>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
     <script src="/adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/adminAssets/js/vendors/select2.min.js"></script>

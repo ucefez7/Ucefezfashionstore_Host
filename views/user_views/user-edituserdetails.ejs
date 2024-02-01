@@ -661,7 +661,7 @@
         <!-- Vendor JS-->
 
 
-        <script>
+        <!-- <script>
             // edited address
             const submitButton = document.getElementById("submitButton");
 
@@ -748,9 +748,109 @@
                 const errorMessages = document.querySelectorAll('.error-message');
                 errorMessages.forEach(message => message.remove());
             }
-        </script>
+        </script> -->
 
        
+
+        <script>
+            const submitButton = document.getElementById("submitButton");
+        
+            submitButton.addEventListener("click", function (e) {
+                e.preventDefault();
+        
+                const usernameInput = document.querySelector('input[name="username"]');
+                const phoneNumberInput = document.querySelector('input[name="phoneNumber"]');
+        
+                const username = usernameInput.value.trim();
+                const phoneNumber = phoneNumberInput.value.trim();
+        
+                // Reset previous error messages
+                resetErrorMessages();
+        
+                // Validate username
+                if (!isValidUsername(username)) {
+                    displayError("Username should contain only characters", usernameInput);
+                    return;
+                }
+        
+                // Validate phoneNumber
+                if (!isValidPhoneNumber(phoneNumber)) {
+                    displayError("Invalid phone number", phoneNumberInput);
+                    return;
+                }
+        
+                fetch('/post-userupdatedetails', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ username, phoneNumber })
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.message) {
+                        swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                    window.location.href = '/account'
+                })
+                .catch(error => {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: "User already exists with this phone number",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    console.error("Error:", error);
+                });
+            });
+        
+            function isValidUsername(username) {
+                // Validate that the username contains only letters and is not empty
+                return /^[a-zA-Z]+$/.test(username);
+            }
+        
+            function isValidPhoneNumber(phoneNumber) {
+                const trimmedNumber = phoneNumber.trim();
+        
+                // Check if the entered value is numeric and has exactly 10 digits
+                if (/^\d{10}$/.test(trimmedNumber)) {
+                    // Check if the phone number is not a sequence of repeating digits, a single digit, or has three consecutive zeros
+                    if (!/(\d)\1{9}/.test(trimmedNumber) && !/000/.test(trimmedNumber)) {
+                        return true;
+                    }
+                }
+        
+                return false; // Not a valid phone number
+            }
+        
+            function displayError(message, inputElement) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message text-danger';
+                errorDiv.textContent = message;
+        
+                inputElement.parentNode.appendChild(errorDiv);
+            }
+        
+            function resetErrorMessages() {
+                const errorMessages = document.querySelectorAll('.error-message');
+                errorMessages.forEach(message => message.remove());
+            }
+        </script>
+        
+
 
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

@@ -211,14 +211,7 @@
                         console.error("Error sending OTP", error);
                     });
             } else {
-                // Form is not valid, display an error message or handle it accordingly
-                // alert('Form is not valid. Please check your inputs.');
-                // Swal.fire({
-                //     icon: "error",
-                //     title: "Oops...",
-                //     text: "Error sending OTP.",
-                //     footer: '<a href="#">Why do I have this issue?</a>'
-                //     });
+              
             }
             // enableVerifyButton(true);
         });
@@ -269,14 +262,7 @@
                         console.error("Error sending OTP", error);
                     });
             } else {
-                // Form is not valid, display an error message or handle it accordingly
-                // alert('Form is not valid. Please check your inputs.');
-                // Swal.fire({
-                //     icon: "error",
-                //     title: "Oops...",
-                //     text: "Error sending OTP.",
-                //     footer: '<a href="#">Why do I have this issue?</a>'
-                //     });
+               
             }
             // enableVerifyButton(true);
         });
@@ -325,11 +311,12 @@
                 return false;
             }
 
-            // Validate password length
-            if (password.length < 6) {
-                showError('passwordError', 'Password must be at least 6 characters');
-                return false;
-            }
+           // Validate password length and uniqueness
+if (password.length < 6 || /^(.)\1+$/.test(password)) {
+    showError('passwordError', 'Password must be at least 6 characters and should be strong');
+    return false;
+}
+
 
             // Validate password confirmation
             if (password !== confirmPassword) {
@@ -338,7 +325,7 @@
             }
 
             // Validate phoneNumber (should be a number with exactly 10 digits)
-            if (isNaN(phoneNumber) || phoneNumber.length !== 10) {
+            if (isNaN(phoneNumber) || phoneNumber.length !== 10 || phoneNumber.startsWith("000")) {
                 showError('phoneNumberError', 'Phone number must be a number with exactly 10 digits');
                 return false;
             }

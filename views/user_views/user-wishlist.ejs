@@ -648,14 +648,27 @@
                                             <% } %>
                                         </td>
 
-                                        <td class="text-center" data-title="Stock">
+                                        <!-- <td class="text-center" data-title="Stock">
                                             <% if(product.productId.productStock <= 0) {%>
                                                 <h6 style="color: red;">Out of stock</h6>
                                                 <%} else {%>
                                                     <span class="color3 font-weight-bold">In Stock</span>
                                                     <%} %>
                                             
+                                        </td> -->
+
+
+                                        <td class="text-right" data-title="Cart">
+                                            <% if(product.productId.productStock <= 0) {%>
+                                                <h6 style="color: red;">Out of stock</h6>
+                                                <%} else {%>
+                                                    <span class="color3 font-weight-bold">In Stock</span>
+                                                    </a>
+                                                    <%} %>
+                                            
                                         </td>
+
+
                                         <td class="text-right" data-title="Cart">
                                             <% if(product.productId.productStock <= 0) {%>
                                                 <button class="btn btn-sm btn-danger" disabled><i class="fi-rs-shopping-bag mr-5 disabled"></i>Out of Stock</button>
@@ -679,6 +692,8 @@
         </section>
     </main>
 
+
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const addingcartButtons = document.querySelectorAll(".addingcart-btn");
@@ -718,6 +733,9 @@
             });
         });
     </script>
+
+    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <footer class="main">

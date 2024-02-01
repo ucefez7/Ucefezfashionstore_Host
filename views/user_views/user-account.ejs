@@ -662,7 +662,13 @@
 
     // Your existing script here
 </script>
-  <script>
+
+
+
+
+
+
+  <!-- <script>
     // adding address
 
 const validateForm = () => {
@@ -747,7 +753,111 @@ submitButton.addEventListener("click", function (e) {
           console.error("Error:", error);
       });
 });
+</script> -->
+
+
+
+<script>
+    // adding address
+
+const validateForm = () => {
+  const fields = ['username', 'address', 'city', 'landmark', 'state', 'postcode', 'phoneNumber', 'altphone'];
+  let isValid = true;
+
+  fields.forEach(field => {
+      const inputElement = document.querySelector(`input[name="${field}"]`);
+      const value = inputElement.value.trim();
+      const errorElement = document.getElementById(`${field}Error`);
+
+      if (value === '') {
+          isValid = false;
+          errorElement.textContent = `${field.charAt(0).toUpperCase() + field.slice(1)} cannot be empty`;
+      } else if ((field === 'phoneNumber' || field === 'altphone') && !validatePhoneNumber(value)) {
+          isValid = false;
+          errorElement.textContent = `${field.charAt(0).toUpperCase() + field.slice(1)} must be exactly 10 digits and not b 0`;
+      } else {
+          errorElement.textContent = ''; // Clear error message
+      }
+  });
+
+  return isValid;
+};
+
+// Function to validate a 10-digit number with non-zero first 3 digits
+const validatePhoneNumber = (phoneNumber) => {
+    const trimmedNumber = phoneNumber.trim();
+
+    // Check if the entered value is numeric and has exactly 10 digits
+    if (/^\d{10}$/.test(trimmedNumber)) {
+        // Check if the first 3 digits are not all zeros
+        const firstThreeDigits = trimmedNumber.substring(0, 3);
+        return firstThreeDigits !== '000';
+    } else {
+        return false; // Not a 10-digit number
+    }
+};
+
+const submitButton = document.getElementById("submitButton");
+
+submitButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (!validateForm()) {
+      return; // Do not proceed if the form is not valid
+  }
+
+  const username = document.querySelector('input[name="username"]').value;
+  const address = document.querySelector('input[name="address"]').value;
+  const city = document.querySelector('input[name="city"]').value;
+  const landmark = document.querySelector('input[name="landmark"]').value;
+  const state = document.querySelector('input[name="state"]').value;
+  const postcode = document.querySelector('input[name="postcode"]').value;
+  const phoneNumber = document.querySelector('input[name="phoneNumber"]').value;
+  const altphone = document.querySelector('input[name="altphone"]').value;
+
+  console.log('Sending request with data:', { username, address, city, landmark, state, postcode, phoneNumber, altphone });
+
+  fetch('/post-address', {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, address, city, landmark, state, postcode, phoneNumber, altphone })
+  })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log('Response from server:', data);
+          if (data.message) {
+              swal.fire({
+                  position: 'top-center',
+                  icon: 'success',
+                  title: data.message,
+                  showConfirmButton: false,
+                  timer: 1500
+              });
+          }
+          document.getElementById("myForm").reset();
+          window.location.reload();
+          window.location.href = '/account';
+      })
+      .catch(error => {
+          Swal.fire({
+              position: 'top-center',
+              icon: 'error',
+              title: error.message,
+              showConfirmButton: false,
+              timer: 1500
+          });
+          console.error("Error:", error);
+      });
+});
 </script>
+
 
 
 
@@ -1073,8 +1183,7 @@ submitButton.addEventListener("click", function (e) {
                 </div>
             </div>
         </div>
-    </div> -->
-    <!-- Vendor JS-->
+    </div> --> -->
 
     
 

@@ -77,45 +77,11 @@
                         <span class="text">Offers</span>
                     </a>
                 </li>
-                <!-- <li class="menu-item">
-                    <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
-                        <span class="text">Add product</span>
-                    </a>
-                </li> -->
-                <!-- <li class="menu-item">
-                    <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Transactions</span>
-                    </a>
-                </li> -->
-                
-                <!-- <li class="menu-item">
-                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li> -->
-                
-                <!-- <li class="menu-item">
-                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
-                        <span class="text">Statistics</span>
-                    </a>
-                </li> -->
+              
             </ul>
             <hr>
             <ul class="menu-aside">
-                <!-- <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
-                        <span class="text">Settings</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="page-settings-1.html">Setting sample 1</a>
-                        <a href="page-settings-2.html">Setting sample 2</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text"> Starter page </span>
-                    </a>
-                </li> -->
+               
             </ul>
             <br>
             <br>
@@ -196,6 +162,7 @@
                                             <div class="row gx-2">
                                                 <input placeholder="₹" type="number" class="form-control" name="discountAmount" id="discountAmount">
                                                 <div id="form-errors" class="text-danger"></div>
+                                                <div id="discountAmount-error" class="text-danger"></div>
                                                 <!-- Add an error container for discountAmount if needed -->
                                                 <!--<div id="discountAmount-error" class="text-danger"></div>-->
                                             </div>
@@ -206,7 +173,7 @@
                                             <label class="form-label">Minimum purchase</label>
                                             <input placeholder="₹" type="number" class="form-control" name="minimumPurchase" id="minimumPurchase">
                                             <div id="form-errors" class="text-danger"></div>
-                                            <!-- Add an error container for minimumPurchase if needed -->
+                                            <div id="minimumPurchase-error" class="text-danger"></div>
                                             <!--<div id="minimumPurchase-error" class="text-danger"></div>-->
                                         </div>
                                     </div>
@@ -257,16 +224,7 @@
         </footer>
     </main>
 
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            const formsubmit = document.getElementById('coupon-form');
-            formsubmit.addEventListener('submit',function(event){
-                event.preventDefault();
-
-                
-            })
-        })
-    </script> -->
+ 
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -390,16 +348,26 @@
             function validateFutureDate(field) {
                 const currentDate = new Date();
                 const selectedDate = new Date(field.value);
-                if (isNaN(selectedDate.getTime()) || selectedDate <= currentDate) {
-                    displayError(field, 'Expiry Date must be in the future');
+                // if (isNaN(selectedDate.getTime()) || selectedDate <= currentDate) {
+                    if (selectedDate <= currentDate) {
+                    displayError(field, 'Expiry Date must be future');
                 }
             }
+
+
+
 
             // Function to validate discount amount less than minimum purchase
             function validateDiscountAmount(discountAmountField, minimumPurchaseField) {
                 const discountAmount = parseFloat(discountAmountField.value);
                 const minimumPurchase = parseFloat(minimumPurchaseField.value);
-                if (!isNaN(discountAmount) && !isNaN(minimumPurchase) && discountAmount >= minimumPurchase) {
+        //         if (discountAmount < 0) {
+        //             displayError(discountAmountField, 'Discount Amount must be greater than zero');
+        // }
+        // else if (minimumPurchase < 0) {
+        //             displayError(minimumPurchaseField, 'Minimum purchase Amount must be greater than zero');
+        // }
+                 if (!isNaN(discountAmount) && !isNaN(minimumPurchase) && discountAmount >= minimumPurchase) {
                     displayError(discountAmountField, 'Discount Amount must be less than Minimum Purchase');
                 }
             }
@@ -411,6 +379,8 @@
                 });
             }
 
+             
+
             function displayError(element, message) {
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'text-danger';
@@ -421,19 +391,22 @@
 
     </script>
 
-    <!-- <script>
+
+
+
+
+
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
     var form = document.getElementById('coupon-form');
     form.addEventListener('submit', function (event) {
         var errors = [];
 
-        errors.push(validateField('couponCode', 'Coupon Code is required'));
-        errors.push(validateField('description', 'Coupon Description is required'));
+        
         errors.push(validateNumberField('discountAmount', 'Discount Amount must be a non-negative number'));
         errors.push(validateNumberField('minimumPurchase', 'Minimum Purchase must be a non-negative number'));
         errors.push(validateStatusField('status', 'Please select a valid Status'));
-        errors.push(validateDateField('expiryDate', 'Expiry Date must be in the future'));
-        errors.push(validateDiscountAmount('discountAmount', 'Discount Amount must be less than Minimum Purchase'));
+       
 
         // Remove empty error messages
         errors = errors.filter(function (error) {
@@ -447,19 +420,12 @@
         }
     });
 
-    // Function to validate non-empty fields
-    function validateField(fieldId, errorMessage) {
-        var value = document.getElementById(fieldId).value.trim();
-        if (value === '') {
-            return fieldId + '|' + errorMessage;
-        }
-        return null;
-    }
+   
 
     // Function to validate non-negative numbers
     function validateNumberField(fieldId, errorMessage) {
         var value = parseFloat(document.getElementById(fieldId).value);
-        if (isNaN(value) || value < 0) {
+        if (value < 0) {
             return fieldId + '|' + errorMessage;
         }
         return null;
@@ -512,7 +478,7 @@
         });
 
         // Clear previous errors for fields without errors
-        var formElements = ['couponCode', 'description', 'discountAmount', 'minimumPurchase', 'status', 'expiryDate'];
+        var formElements = [ 'discountAmount', 'minimumPurchase', 'status'];
         formElements.forEach(function (fieldId) {
             if (!errors.some(function (error) {
                 return error.startsWith(fieldId);
@@ -525,8 +491,12 @@
         });
     }
 });
-    </script> -->
-    
+    </script>
+   
+
+
+
+   
     
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
