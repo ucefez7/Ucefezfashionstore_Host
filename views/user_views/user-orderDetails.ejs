@@ -401,7 +401,8 @@
                                             <td><%= orderDetails.paymentMethod %></td>
                                             
                                             
-                                            <td>₹<%= item.orderPrice.toFixed(0) %> for <%= item.quantity%> item</td>
+                                            <td>₹<%= item.price.toFixed(0) %> for <%= item.quantity%> item</td>
+                                            <!-- <td>₹<%= item.orderPrice %> for <%= item.quantity%> item</td> -->
                                             <td>₹<%= orderDetails.totalAmount * item.quantity %> for <%= item.quantity%> item</td>
                                             
                                            
