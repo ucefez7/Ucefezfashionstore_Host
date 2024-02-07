@@ -11,6 +11,7 @@ const secretkey = process.env.JWT_SECRET_KEY
 
 module.exports.gettocart = async(req,res)=>{
   try{
+    
       const userData = await userCollection.findOne({email : req.user})   
       const userId = userData.id;
       const { productId, quantity } = req.query; 

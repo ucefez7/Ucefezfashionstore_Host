@@ -286,17 +286,39 @@ module.exports.newVerifyotp = async (req, res,next) => {
   }
 }
 
-// render add address form page
-module.exports.addAddress = async(req,res,next) => {
-  try{
+
+
+
+// // render add address form page
+// module.exports.addAddress = async(req,res,next) => {
+//   try{
+//     const loggedIn = req.cookies.loggedIn;
+//     const username = req.cookies.username;
+//     res.render("user-address",{ loggedIn,username })
+//   } catch(error){
+//     console.error("error: ", error)
+//     next(error);
+//   }
+// }
+
+
+module.exports.addAddress = async (req, res, next) => {
+  try {
     const loggedIn = req.cookies.loggedIn;
     const username = req.cookies.username;
-    res.render("user-address",{ loggedIn,username })
-  } catch(error){
-    console.error("error: ", error)
+
+    const userData = await userCollection.findOne({ email: req.user });
+    const userId = userData._id;
+    const userAddresses = await addressCollection.find({ userId });
+
+    res.render("user-address", { loggedIn, username, userAddresses });
+  } catch (error) {
+    console.error("error: ", error);
     next(error);
   }
-}
+};
+
+
 
 
 // add address
